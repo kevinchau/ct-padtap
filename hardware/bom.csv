@@ -1,0 +1,24 @@
+group,item,pn,qty,source,cost,why
+Harness,Tesla WPC donor,1877045-00-C,1,eBay / Tesla parts,$80-180,Harvest OEM connector pair
+Harness,16 AWG GXL red+black,GXL-16,3m,Waytek,$12,48 V tap
+Harness,22 AWG GXL green,GXL-22,1m,Waytek,$6,LIN listen tap
+Harness,Adhesive heat-shrink + cloth tape,3:1 dual-wall,1 kit,Amazon,$14,Tesla DIY insulation spec
+Harness,Aptiv GT150 4-way (if photo matches),15326820 / 15326821,1 pair,Waytek,$18,Confirm against YOUR plug
+Board,ESP32-C3 SuperMini,ESP32-C3-FH4,1,LCSC / Amazon,$8,MCU
+Board,LIN transceiver,TLIN2029A-Q1,1,Mouser,$6,Listen-only PHY
+Board,60 V-in 5 A buck set to 36 V,DROK 8-60V to 1-36V 5A,1,Amazon,$18,Starlink rail
+Board,7-60 V to 5 V 2 A buck,XL7015 class,1,Amazon,$8,MCU rail — not MP1584
+Board,Logic-level N-FET 60 V,FQP30N06L,1,Digi-Key,$2,Low-side Starlink switch
+Board,Mini blade fuse holder + 3 A,ATC-3,2,Waytek,$8,In and out
+Board,TVS 58 V,SMBJ58A,1,Digi-Key,$1,VIN clamp
+Board,TVS 40 V,SMBJ40A,1,Digi-Key,$1,V36 clamp
+Board,Schottky 100 V 5 A,SS510,1,Digi-Key,$1,Reverse protect
+Board,Barrel 5.5x2.1 center +,DC5521 male,1,Amazon / Starlink DC extension,$9,Confirm polarity on official PSU
+Board,Divider 100k/10k 1%,0805,1,Digi-Key,$1,VIN sense
+Board,3.3 V zener + gate R,MMSZ5226B,1,Digi-Key,$2,ADC clamp
+Board,LEDs amber/green,3mm,2,Digi-Key,$1,Status
+Board,Enclosure,Hammond 1551K,1,Digi-Key,$12,Under-console
+Tools,Torx T20,T20,1,any,$8,5 N·m WPC screws
+Tools,Plastic pry set,—,1,any,$10,Console panel
+Tools,DMM 60 V DC,—,1,own,own,Pin ID — LV assumed live
+Tools,Logic analyzer 24 MHz,Saleae or 8-ch,1,Amazon,$15,Optional LIN capture
