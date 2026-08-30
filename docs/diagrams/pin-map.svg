@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="720" height="300" viewBox="0 0 720 300" role="img" aria-label="4-pin connector map">
-<rect width="720" height="300" fill="#0B0C0E"/>
-<text x="200" y="28" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">HYPOTHESIZED 4-PIN MAP  ·  CONFIRM IN SERVICE MODE PLUS</text>
-<rect x="20" y="50" width="160" height="230" rx="16" fill="#1C1E22" stroke="#C5C8CE" stroke-width="2"/>
-<rect x="78" y="50" width="24" height="10" rx="2" fill="#C5C8CE" stroke="none" stroke-width="1.5"/>
-<text x="100" y="82" fill="#8B9098" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">FACE · LATCH UP</text>
-<circle cx="58" cy="110" r="18" fill="#141518" stroke="#E8A317" stroke-width="2"/>
-<text x="58" y="115" fill="#E8EAED" font-size="14" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">1</text>
-<circle cx="122" cy="110" r="18" fill="#141518" stroke="#E8A317" stroke-width="2"/>
-<text x="122" y="115" fill="#E8EAED" font-size="14" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">2</text>
-<circle cx="58" cy="174" r="18" fill="#141518" stroke="#E8A317" stroke-width="2"/>
-<text x="58" y="179" fill="#E8EAED" font-size="14" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">3</text>
-<circle cx="122" cy="174" r="18" fill="#141518" stroke="#E8A317" stroke-width="2"/>
-<text x="122" y="179" fill="#E8EAED" font-size="14" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">4</text>
-<rect x="200" y="50" width="500" height="230" rx="8" fill="#141518" stroke="#2A2D32" stroke-width="1.5"/>
-<text x="220" y="70" fill="#E8A317" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">PIN 1</text>
-<text x="290" y="70" fill="#E8EAED" font-size="14" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">48 V+</text>
-<text x="220" y="88" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Highest DC vs chassis. Blue tape. TAP.</text>
-<text x="220" y="122" fill="#E8A317" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">PIN 2</text>
-<text x="290" y="122" fill="#E8EAED" font-size="14" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">GND</text>
-<text x="220" y="140" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Continuity to chassis. TAP.</text>
-<text x="220" y="174" fill="#E8A317" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">PIN 3</text>
-<text x="290" y="174" fill="#E8EAED" font-size="14" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">LIN</text>
-<text x="220" y="192" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Listen-only. Parallel tap, do not break.</text>
-<text x="220" y="226" fill="#E8A317" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">PIN 4</text>
-<text x="290" y="226" fill="#E8EAED" font-size="14" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Wake / NFC / NC</text>
-<text x="220" y="244" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Pass-through until the probe log says otherwise.</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="390" viewBox="0 0 720 390" role="img" aria-label="X0648 pin map">
+<rect width="720" height="390" fill="#0B0C0E"/>
+<text x="360" y="28" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">C X0648  ·  WIRELESS PHONE CHARGER + NFC READER  ·  12-WAY</text>
+<rect x="20" y="48" width="680" height="330" rx="8" fill="#141518" stroke="#2A2D32" stroke-width="1.5"/>
+<text x="40" y="78" fill="#8B9098" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">PIN</text>
+<text x="90" y="78" fill="#8B9098" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">NET</text>
+<text x="250" y="78" fill="#8B9098" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">COLOR / SOURCE</text>
+<text x="40" y="100" fill="#E8A317" font-size="14" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">1</text>
+<text x="90" y="100" fill="#E8EAED" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">48 V+ HSD</text>
+<text x="250" y="100" fill="#8B9098" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">YE/BU 1.00  ·  X0034-91  ·  TAP + pass-through</text>
+<text x="40" y="138" fill="#E8A317" font-size="14" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">3</text>
+<text x="90" y="138" fill="#E8EAED" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">USB GND thru</text>
+<text x="250" y="138" fill="#8B9098" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">WH/BU 1.00  ·  rear USB  ·  pass-through only</text>
+<text x="40" y="176" fill="#E8A317" font-size="14" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">4</text>
+<text x="90" y="176" fill="#E8EAED" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">LIN in</text>
+<text x="250" y="176" fill="#8B9098" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">GY 0.35  ·  X0034-75  ·  listen, do not break</text>
+<text x="40" y="214" fill="#E8A317" font-size="14" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">9</text>
+<text x="90" y="214" fill="#E8EAED" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">WPC GND</text>
+<text x="250" y="214" fill="#8B9098" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">BN/BU 1.00  ·  X0034-17  ·  TAP</text>
+<text x="40" y="252" fill="#E8A317" font-size="14" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">10</text>
+<text x="90" y="252" fill="#E8EAED" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">LIN out</text>
+<text x="250" y="252" fill="#8B9098" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">GY 0.35  ·  X0644-16 HVAC  ·  never break</text>
+<text x="40" y="290" fill="#E8A317" font-size="14" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">11</text>
+<text x="90" y="290" fill="#E8EAED" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">CANH</text>
+<text x="250" y="290" fill="#8B9098" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">PK/WH 0.35  ·  X0010-84 auth  ·  no tap</text>
+<text x="40" y="328" fill="#E8A317" font-size="14" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">12</text>
+<text x="90" y="328" fill="#E8EAED" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">CANL</text>
+<text x="250" y="328" fill="#8B9098" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">BU/WH 0.35  ·  X0010-85 auth  ·  no tap</text>
+<text x="40" y="360" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Sheet 46, prog-242 rev 1.11. Harvest the 12-way from a donor 1877045. Do not buy GT150 4-way.</text>
 </svg>

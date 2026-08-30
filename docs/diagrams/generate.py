@@ -91,68 +91,64 @@ def system(direct=True):
 
 
 def pin_map():
-    pins = [
-        (58, 110, "1", "48 V+", "Blue tape / blue housing"),
-        (122, 110, "2", "GND", "Chassis continuity"),
-        (58, 174, "3", "LIN", "~12 V idle, 19.2 kbps"),
-        (122, 174, "4", "P4", "Wake / NFC / NC — log it"),
+    rows = [
+        ("1", "48 V+ HSD", "YE/BU 1.00  ·  X0034-91  ·  TAP + pass-through"),
+        ("3", "USB GND thru", "WH/BU 1.00  ·  rear USB  ·  pass-through only"),
+        ("4", "LIN in", "GY 0.35  ·  X0034-75  ·  listen, do not break"),
+        ("9", "WPC GND", "BN/BU 1.00  ·  X0034-17  ·  TAP"),
+        ("10", "LIN out", "GY 0.35  ·  X0644-16 HVAC  ·  never break"),
+        ("11", "CANH", "PK/WH 0.35  ·  X0010-84 auth  ·  no tap"),
+        ("12", "CANL", "BU/WH 0.35  ·  X0010-85 auth  ·  no tap"),
     ]
     parts = [
-        t(200, 28, "HYPOTHESIZED 4-PIN MAP  ·  CONFIRM IN SERVICE MODE PLUS", fill=AMBER, size=12, family=MONO, anchor="middle"),
-        r(20, 50, 160, 230, fill=PANEL2, stroke=STEEL, rx=16, sw=2),
-        r(78, 50, 24, 10, fill=STEEL, stroke="none", rx=2),
-        t(100, 82, "FACE · LATCH UP", fill=MUTED, size=10, family=MONO, anchor="middle"),
+        t(360, 28, "C X0648  ·  WIRELESS PHONE CHARGER + NFC READER  ·  12-WAY", fill=AMBER, size=12, family=MONO, anchor="middle"),
+        r(20, 48, 680, 330, fill=PANEL),
     ]
-    for x, y, n, name, how in pins:
-        parts += [
-            circ(x, y, 18, fill=PANEL, stroke=AMBER, sw=2),
-            t(x, y + 5, n, fill=TEXT, size=14, family=MONO, anchor="middle"),
-        ]
-    rows = [
-        ("1", "48 V+", "Highest DC vs chassis. Blue tape. TAP."),
-        ("2", "GND", "Continuity to chassis. TAP."),
-        ("3", "LIN", "Listen-only. Parallel tap, do not break."),
-        ("4", "Wake / NFC / NC", "Pass-through until the probe log says otherwise."),
+    y = 78
+    parts += [
+        t(40, y, "PIN", fill=MUTED, size=11, family=MONO),
+        t(90, y, "NET", fill=MUTED, size=11, family=MONO),
+        t(250, y, "COLOR / SOURCE", fill=MUTED, size=11, family=MONO),
     ]
-    y = 70
-    parts.append(r(200, 50, 500, 230, fill=PANEL))
+    y = 100
     for n, name, how in rows:
         parts += [
-            t(220, y, f"PIN {n}", fill=AMBER, size=11, family=MONO),
-            t(290, y, name, fill=TEXT, size=14),
-            t(220, y + 18, how, fill=MUTED, size=12),
+            t(40, y, n, fill=AMBER, size=14, family=MONO),
+            t(90, y, name, fill=TEXT, size=13),
+            t(250, y, how, fill=MUTED, size=12, family=MONO),
         ]
-        y += 52
-    (OUT / "pin-map.svg").write_text(svg(720, 300, "\n".join(parts), "4-pin connector map"), encoding="utf-8")
+        y += 38
+    parts.append(t(40, 360, "Sheet 46, prog-242 rev 1.11. Harvest the 12-way from a donor 1877045. Do not buy GT150 4-way.", fill=MUTED, size=12))
+    (OUT / "pin-map.svg").write_text(svg(720, 390, "\n".join(parts), "X0648 pin map"), encoding="utf-8")
 
 
 def harness():
     parts = [
-        t(20, 28, "Y-HARNESS  ·  1:1 PASS-THROUGH  ·  TAP 48V / GND / LIN", fill=AMBER, size=12, family=MONO),
+        t(20, 28, "Y-HARNESS  ·  C X0648 12-WAY  ·  TAP PINS 1 / 9 / 4", fill=AMBER, size=12, family=MONO),
         r(20, 60, 200, 160),
         t(120, 100, "VEHICLE", anchor="middle", fill=STEEL),
         t(120, 122, "HARNESS", anchor="middle", fill=STEEL),
-        t(120, 150, "48V+  GND", anchor="middle", fill=AMBER, size=12, family=MONO),
-        t(120, 170, "LIN   P4", anchor="middle", fill=AMBER, size=12, family=MONO),
+        t(120, 150, "pin 1  YE/BU", anchor="middle", fill=AMBER, size=12, family=MONO),
+        t(120, 170, "pin 9  BN/BU", anchor="middle", fill=AMBER, size=12, family=MONO),
         line(220, 140, 280, 140),
         r(280, 70, 170, 140, fill=PANEL2, stroke=AMBER),
         t(365, 108, "Y FEMALE", anchor="middle", fill=AMBER, size=13, family=MONO),
         t(365, 132, "to vehicle plug", anchor="middle", fill=MUTED, size=12),
-        t(365, 168, "all 4 pins 1:1", anchor="middle", size=12),
+        t(365, 168, "all 12 pins 1:1", anchor="middle", size=12),
         line(450, 110, 510, 110, stroke=STEEL),
         path("M365 210 V250 H510"),
         r(510, 50, 190, 120),
         t(605, 90, "Y MALE", anchor="middle", fill=STEEL, size=13, family=MONO),
         t(605, 112, "→ WPC 1877045", anchor="middle", size=12),
-        t(605, 134, "Qi + key-card NFC", anchor="middle", fill=MUTED, size=12),
+        t(605, 134, "Qi + NFC + CAN", anchor="middle", fill=MUTED, size=12),
         r(510, 210, 190, 130, stroke=AMBER),
         t(605, 248, "PADTAP TAP", anchor="middle", fill=AMBER, size=13, family=MONO),
-        t(605, 272, "16 AWG  48V+ / GND", anchor="middle", size=12),
-        t(605, 292, "22 AWG  LIN listen", anchor="middle", size=12),
-        t(605, 312, "P4 not tapped", anchor="middle", fill=MUTED, size=12),
-        t(20, 250, "Do not unplug the pad. Dead NFC, Service Mode fault.", fill=DANGER, size=13),
-        t(20, 272, "LIN is high-Z listen. No extra pull-up. No TX.", fill=MUTED, size=13),
-        t(20, 294, "Adhesive shrink, then cloth tape. Strain-relief for seat travel.", fill=MUTED, size=13),
+        t(605, 272, "1  YE/BU  48 V HSD", anchor="middle", size=12),
+        t(605, 292, "9  BN/BU  GND", anchor="middle", size=12),
+        t(605, 312, "4  GY  LIN listen", anchor="middle", fill=MUTED, size=12),
+        t(20, 250, "Never break pin 10 (LIN to HVAC switchpack) or 11/12 (key-card CAN).", fill=DANGER, size=13),
+        t(20, 272, "Pin 3 is USB GND pass-through — not PadTap return.", fill=MUTED, size=13),
+        t(20, 294, "HSD X0034-91 is shared with USB. NTC + 80 ms ramp. Strain-relief.", fill=MUTED, size=13),
     ]
     (OUT / "harness.svg").write_text(svg(720, 360, "\n".join(parts), "Y-harness"), encoding="utf-8")
 

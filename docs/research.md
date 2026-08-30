@@ -30,6 +30,18 @@ Do not substitute a signal thermistor (10 k NTC). It has to be a power ICL.
 
 ## Wireless charger
 
+Tesla Electrical Reference, **Console – Phone and USB Charging**, sheet 46, prog-242 rev 1.11:
+
+https://service.tesla.com/docs/Cybertruck/ElectricalReference/prog-242/interactive/pdf/console_phone_and_usb_charging_print.pdf
+
+Module: **Wireless Phone Charger + NFC Reader**, connector **C X0648**, 12-way (pins 1, 3, 4, 9, 10, 11, 12 used). PN 1877045. Dual 15 W Qi.
+
+48 V is a **Right Controller high-side drive** X0034-91, net `WIRELESS_PHONE_CHARGER_AND_VCUSB` (YE/BU 1.00 mm² into pin 1). Shared with the USB hub — the pad toggle is not going to drop this rail. LIN in on pin 4 (`LIN_1_WIRELESS_PHONE_CHARGER_AND_VCUSB`), LIN out on pin 10 (`LIN_INDUCTIVE_CHARGER`) to the HVAC switchpack / touchpad. CAN auth on 11/12 to the Left Controller.
+
+Do not put Tesla’s PDF in a public fork. Transcribe pin facts; do not republish the sheet.
+
+Tesla R&R: [Wireless Charger - Center Console](https://service.tesla.com/docs/Cybertruck/ServiceManual/en-us/GUID-8B81665F-D4DC-4DED-B787-45A957056FF9.html) — one electrical connector, harness clip, T20 ×4 at 5 N·m.
+
 - Tesla PN **1877045-00-A / 00-C** Gen 5.0, dual 15 W Qi, center console
 - R&R: [GUID-8B81665F-D4DC-4DED-B787-45A957056FF9](https://service.tesla.com/docs/Cybertruck/ServiceManual/en-us/GUID-8B81665F-D4DC-4DED-B787-45A957056FF9.html) — connector + clip, T20 ×4, 5 N·m
 - Same location as **key-card NFC**. Unplug → Service Mode error, NFC dead, sometimes ambient light dead ([CTOC](https://www.cybertruckownersclub.com/forum/threads/disable-wireless-charging-pad.15032/page-2), Facebook: “the plug has 4 pins”)

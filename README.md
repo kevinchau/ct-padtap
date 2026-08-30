@@ -45,7 +45,7 @@ Same Y-harness and sled. A 60 V → 36 V module sits between the TVS and the FET
 
 ![Y-harness](docs/diagrams/harness.svg)
 
-![Hypothesized 4-pin map](docs/diagrams/pin-map.svg)
+![X0648 pin map](docs/diagrams/pin-map.svg)
 
 ### Enclosure
 
@@ -88,7 +88,7 @@ Three facts get in the way:
 | --- | --- |
 | [docs/diagrams/](docs/diagrams/) | Schematics, harness, pin map, enclosure drawings, renders |
 | [docs/research.md](docs/research.md) | Sources: Tesla DIY 48 V, WPC R&R, Mini teardown, Starlink spec |
-| [hardware/harness.md](hardware/harness.md) | Y-harness, connector hunt, hypothesized 4-pin map |
+| [hardware/harness.md](hardware/harness.md) | Y-harness, C X0648 12-way pinout |
 | [hardware/schematic-direct.md](hardware/schematic-direct.md) | **Direct 48 V** — FET, LM393 OVLO, no buck |
 | [hardware/schematic.md](hardware/schematic.md) | **Buck 36 V** — 60 V → 36 V module |
 | [hardware/bom.csv](hardware/bom.csv) | Order list, `rev` column = `all` / `direct` / `buck` |
@@ -110,18 +110,20 @@ OVLO overrides every mode: VIN ≥ 56.0 V → FET off. Clears at 54.0 V. Serial 
 
 ## Probe first
 
-Tesla’s connector pinout lives in **Service Mode Plus → Low Voltage → Wiring / Connector diagram** (the Cybertruck wiring guide). Search `wireless charger`, `WPC`, `1877045`, `NFC`. Screenshot ID, pins, colors, fuse.
+Electrical Reference sheet 46 (Console – Phone and USB Charging) names the module **C X0648**, 12-way, not 4-pin.
 
-Until that page is in-hand:
+| Pin | | Tap |
+| --- | --- | --- |
+| 1 | 48 V+ YE/BU 1.00 mm² from Right Controller HSD X0034-91 (`WIRELESS_PHONE_CHARGER_AND_VCUSB`) | Yes |
+| 3 | USB GND pass-through WH/BU | No |
+| 4 | LIN in GY 0.35 from X0034-75 | Listen only |
+| 9 | WPC GND BN/BU 1.00 from X0034-17 | Yes |
+| 10 | LIN out to HVAC switchpack / touchpad | **Never break** |
+| 11 / 12 | CAN auth to Left Controller (key card) | No |
 
-- Pin 1 ≈ 48 V+ (blue tape, blue housing)
-- Pin 2 ≈ GND
-- Pin 3 ≈ LIN (~12 V idle, 19.2 kbps)
-- Pin 4 ≈ unknown — pass through
+Harvest the housing from a donor **1877045**. Do not crimp a GT150 4-way.
 
-Owner reports say **four pins**. Do not crimp a GT150 (or anything else) until a photo of *your* plug matches.
-
-Measure idle WPC current. If Tesla’s fuse cannot take pad + 60 W, **stop** and use the 400 W roof/frunk feed.
+The HSD is shared with USB, so the pad toggle is LIN (Mode B). Firmware still detects a power cut (Mode A). Measure idle current on pin 1 — this channel already feeds WPC + VCUSB. If it cannot take +60 W, use the 400 W roof/frunk feed.
 
 ## Board
 

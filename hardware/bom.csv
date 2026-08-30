@@ -1,9 +1,8 @@
 group,item,pn,qty,source,cost,why,rev
-Harness,Tesla WPC donor,1877045-00-C,1,eBay / Tesla parts,$80-180,Harvest OEM connector pair,all
-Harness,16 AWG GXL red+black,GXL-16,3m,Waytek,$12,48 V tap — 60 W is 1.25 A at 48 V / 1.7 A at 36 V,all
+Harness,Tesla WPC donor (harvest X0648 12-way),1877045-00-C,1,eBay / Tesla parts,$80-180,C X0648 is 12-way — do not order GT150 4-way,all
+Harness,16 AWG GXL red+black,GXL-16,3m,Waytek,$12,Tap pin 1 YE/BU and pin 9 BN/BU (1.00 mm²),all
 Harness,22 AWG GXL green,GXL-22,1m,Waytek,$6,LIN listen tap,all
 Harness,Adhesive heat-shrink + cloth tape,3:1 dual-wall,1 kit,Amazon,$14,Tesla DIY insulation spec,all
-Harness,Aptiv GT150 4-way (if photo matches),15326820 / 15326821,1 pair,Waytek,$18,Confirm against YOUR plug,all
 Board,ESP32-C3 SuperMini,ESP32-C3-FH4,1,LCSC / Amazon,$8,MCU,all
 Board,LIN transceiver,TLIN2029A-Q1,1,Mouser,$6,Listen-only PHY,all
 Board,7-60 V to 5 V 2 A buck,XL7015 class,1,Amazon,$8,MCU rail — not MP1584,all
