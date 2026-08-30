@@ -1,7 +1,11 @@
 group,item,pn,qty,source,cost,why,rev
-Harness,Tesla WPC donor (harvest X0648 12-way),1877045-00-C,1,eBay / Tesla parts,$80-180,C X0648 is 12-way — do not order GT150 4-way,all
-Harness,16 AWG GXL red+black,GXL-16,3m,Waytek,$12,Tap pin 1 YE/BU and pin 9 BN/BU (1.00 mm²),all
-Harness,22 AWG GXL green,GXL-22,1m,Waytek,$6,LIN listen tap,all
+Harness,Tesla WPC donor (optional harvest),1877045-00-C,1,eBay / Tesla parts,$80-180,Only if you would rather steal a 6210 header than solder one,all
+Harness,Sumitomo 12-way female grey,6098-5718,1,eBay / Nexelec / AliExpress,$8-12,Plugs into the charger 6210. Tesla 1042593-03-A / X0648,all
+Harness,Sumitomo 12-way male PCB header,6098-6210,1,Eleocean / auto-electron,$3-8,Vehicle 5718 plugs onto this. DL TH header — solder a pigtail do not expect a wire housing,all
+Harness,Female terminal 1.00 mm2,8240-0213,10,Nexelec / AliExpress,$5,TS 1.5mm 0.75-1.25 mm2 tin. Cavities 1 3 9. Not for 16 AWG GXL,all
+Harness,Female terminal 0.35 mm2,8240-0215,10,TTI / AliExpress,$5,TS 1.5mm 0.3-0.5 mm2 tin. Cavities 4 10 11 12,all
+Harness,18 AWG GXL red+black,GXL-18,3m,Waytek,$10,Power tap into 8240-0213 (16 AWG is out of spec),all
+Harness,22 AWG GXL green,GXL-22,1m,Waytek,$6,LIN listen on pin 4 into 8240-0215,all
 Harness,Adhesive heat-shrink + cloth tape,3:1 dual-wall,1 kit,Amazon,$14,Tesla DIY insulation spec,all
 Board,ESP32-C3 SuperMini,ESP32-C3-FH4,1,LCSC / Amazon,$8,MCU,all
 Board,LIN transceiver,TLIN2029A-Q1,1,Mouser,$6,Listen-only PHY,all

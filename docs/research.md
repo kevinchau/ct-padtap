@@ -34,9 +34,16 @@ Tesla Electrical Reference, **Console – Phone and USB Charging**, sheet 46, pr
 
 https://service.tesla.com/docs/Cybertruck/ElectricalReference/prog-242/interactive/pdf/console_phone_and_usb_charging_print.pdf
 
-Module: **Wireless Phone Charger + NFC Reader**, connector **C X0648**, 12-way (pins 1, 3, 4, 9, 10, 11, 12 used). PN 1877045. Dual 15 W Qi.
+Module: **Wireless Phone Charger + NFC Reader**, connector **C X0648**. Tesla housing PN **1042593-03-A**.
 
-48 V is a **Right Controller high-side drive** X0034-91, net `WIRELESS_PHONE_CHARGER_AND_VCUSB` (YE/BU 1.00 mm² into pin 1). Shared with the USB hub — the pad toggle is not going to drop this rail. LIN in on pin 4 (`LIN_1_WIRELESS_PHONE_CHARGER_AND_VCUSB`), LIN out on pin 10 (`LIN_INDUCTIVE_CHARGER`) to the HVAC switchpack / touchpad. CAN auth on 11/12 to the Left Controller.
+Plastics (confirmed against the X0648 connector page and the user’s identification):
+
+- Vehicle plug: Sumitomo **6098-5718** grey 12-way female, TS/DL 1.5 mm unsealed
+- Charger: Sumitomo **6098-6210** 12-way male DL PCB header (wire-to-board)
+- Female terminals: **8240-0213** (0.75–1.25 mm²) on 1/3/9, **8240-0215** (0.3–0.5 mm²) on 4/10/11/12
+- Cavity table: 1 RD/BU 1.00, 3 WH/BU 1.00, 4 GN 0.35, 9 BN/BU 1.00, 10 GY 0.35, 11 PK/WH 0.35, 12 BU/WH 0.35. Unused: 2, 5, 6, 7, 8
+
+48 V is a **Right Controller high-side drive** X0034-91, net `WIRELESS_PHONE_CHARGER_AND_VCUSB` (RD/BU 1.00 mm² into pin 1). Shared with the USB hub — the pad toggle is not going to drop this rail. LIN in on pin 4 (GN), LIN out on pin 10 (GY, `LIN_INDUCTIVE_CHARGER`) to the HVAC switchpack / touchpad. CAN auth on 11/12 to the Left Controller.
 
 Do not put Tesla’s PDF in a public fork. Transcribe pin facts; do not republish the sheet.
 

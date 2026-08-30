@@ -1,56 +1,74 @@
 # Y-harness
 
-Sits between the Cybertruck center-console wireless charger (Tesla PN **1877045-00-C**, connector **C X0648**) and the vehicle plug.
+Sits between the Cybertruck center-console wireless charger (Tesla PN **1877045**, connector **C X0648**) and the vehicle plug.
 
-Source: [Electrical Reference — Console Phone and USB Charging](https://service.tesla.com/docs/Cybertruck/ElectricalReference/prog-242/interactive/pdf/console_phone_and_usb_charging_print.pdf), sheet 46, prog-242 rev 1.11.
+Sources:
+- [Electrical Reference sheet 46](https://service.tesla.com/docs/Cybertruck/ElectricalReference/prog-242/interactive/pdf/console_phone_and_usb_charging_print.pdf)
+- [X0648 connector page](https://service.tesla.com/docs/Cybertruck/ElectricalReference/prog-242/connector/x0648/) — Tesla PN **1042593-03-A**
 
 ```
-VEHICLE ──► [Y female]─┬─ all X0648 pins 1:1 ─► [Y male] ──► WPC 1877045
-                       │
-                       ├─ pin 1  YE/BU  16 AWG  ─► PadTap VIN  (3 A + NTC)
-                       ├─ pin 9  BN/BU  16 AWG  ─► PadTap GND
-                       └─ pin 4  GY     22 AWG  ─► TLIN2029 RX only
+VEHICLE 5718 ──► [our 6210 male]─┬─ 1:1 ─► [our 5718 female] ──► CHARGER 6210
+                                 │
+                                 ├─ pin 1  RD/BU  18 AWG  ─► PadTap VIN  (3 A + NTC)
+                                 ├─ pin 9  BN/BU  18 AWG  ─► PadTap GND
+                                 └─ pin 4  GN     22 AWG  ─► TLIN2029 RX only
 ```
+
+## Plastics
+
+This is **wire-to-board**, not a sealed 4-pin GT150.
+
+| Side | Sumitomo | Tesla | What it is |
+| --- | --- | --- | --- |
+| Vehicle harness (unplugs from the charger) | **6098-5718** grey 12-way **female** | 1042593-03-A / X0648 | TS/DL 1.5 mm (060), unsealed |
+| Charger module | **6098-6210** 12-way **male** | on 1877045 | DL series PCB header, grey, TH, horizontal mate |
+
+5718 plugs onto 6210. Confirmed: [Nexelec](https://nexelec.com/products/sumitomo-60985718) lists 6210 as the mate; Sumitomo’s PCB catalogue lists 6210 as a 12-way DL header.
+
+**Y-harness buy list**
+
+1. **6098-5718** female — plugs into the charger. Crimp terminals below.
+2. **6098-6210** male PCB header — the vehicle 5718 plugs onto this. 6210 is a through-hole header, not a wire housing. Solder a pigtail to the pins (or a 25 mm breakout) and strain-relief / pot it. Do not expect a free-hanging male 6210.
+
+Do not substitute 6098-5704 / 6098-5713 (TS natural pair). Different color/keying; Tesla’s plug is grey 5718 onto 6210.
+
+## Terminals (into 5718 only)
+
+Tesla cavity table, X0648:
+
+| Cavity | Terminal | Size | Color | mm² | Dest | Tap? |
+| --- | --- | --- | --- | --- | --- | --- |
+| **1** | 8240-0213 | 1.5×0.64 F | **RD/BU** | 1.00 | X0644-20 (Console VBATT) | **Yes** |
+| 2 | unused | | | | | empty |
+| **3** | 8240-0213 | 1.5×0.64 F | WH/BU | 1.00 | X0644-1 | Pass-through (USB GND) |
+| **4** | 8240-0215 | 1.5×0.64 F | **GN** | 0.35 | X0944M-5 (LIN in) | **Listen only** |
+| 5–8 | unused | | | | | empty |
+| **9** | 8240-0213 | 1.5×0.64 F | BN/BU | 1.00 | X0944M-6 (WPC GND) | **Yes** |
+| **10** | 8240-0215 | 1.5×0.64 F | GY | 0.35 | X0644-16 (LIN out / HVAC) | **Never break** |
+| **11** | 8240-0215 | 1.5×0.64 F | PK/WH | 0.35 | X0944M-11 CANH | No tap |
+| **12** | 8240-0215 | 1.5×0.64 F | BU/WH | 0.35 | X0944M-12 CANL | No tap |
+
+**8240-0213** — female, tin, TS 1.5 mm, **0.75–1.25 mm²** (16–18 AWG), insulation 1.4–2.3 mm. Use on cavities 1, 3, 9. Tesla’s 1.00 mm² sits in the middle. **Do not crimp 16 AWG GXL** (1.31 mm², fat insulation) — it is out of spec. Tap pigtails: **18 AWG GXL** or 1.00 mm² FLRY.
+
+**8240-0215** — female, tin, TS 1.5 mm, **0.3–0.5 mm²**, insulation 1.1–1.7 mm. Use on 4, 10, 11, 12. LIN tap: **22 AWG**.
+
+Male tabs are part of the 6210 header. No crimp males unless you change architecture.
+
+Crimp: open-barrel Sumitomo TS 1.5 mm die (Rennsteig lists 8240-0213). A random SN-28B will smash these.
 
 ## Why a Y, not an unplug
 
-Unplugging X0648 kills **NFC / key card** (CAN auth to Left Controller X0010-84/85), throws a Service Mode error, and **breaks LIN to the HVAC switchpack / touchpad** (pin 10 daisy-chain). USB pass-through on pins 1 and 3 also rides through this connector.
+Unplugging X0648 kills NFC (CAN 11/12), HVAC switchpack LIN (pin 10), and USB pass-through (1/3).
 
-Tesla R&R: [Wireless Charger - Center Console](https://service.tesla.com/docs/Cybertruck/ServiceManual/en-us/GUID-8B81665F-D4DC-4DED-B787-45A957056FF9.html) — disconnect the electrical connector, release the harness clip, T20 ×4 at **5 N·m**.
+Tesla R&R: disconnect, harness clip, T20 ×4 at **5 N·m**.
 
-## C X0648 pinout
+## Power
 
-12-way. Seven pins used. Owner 4-pin reports were wrong.
-
-| Pin | Net | Color / gauge | From / to | Tap? |
-| --- | --- | --- | --- | --- |
-| **1** | 48 V+ HSD `WIRELESS_PHONE_CHARGER_AND_VCUSB` | YE/BU 1.00 mm² · 446(C) / 1924(V) | Right Controller **X0034-91** high-side drive. Internally pass-through to Console VBATT (USB03-A RD/BU 401) / rear USB | **Yes** (pass-through + tap) |
-| **3** | USB GND pass-through | WH/BU 1.00 mm² · 401(C) | Rear USB ground | Pass-through only |
-| **4** | LIN in `LIN_1_WIRELESS_PHONE_CHARGER_AND_VCUSB` | GY 0.35 mm² · 649(C) / 1924(V) | Right Controller **X0034-75** | **Listen only**, parallel. Do not break |
-| **9** | WPC GND return `WIRELESS_PHONE_CHARGER_AND_VCUSB_GND_RETURN` | BN/BU 1.00 mm² · 649(C) / 1924(V) | Right Controller **X0034-17** | **Yes** |
-| **10** | LIN out `LIN_INDUCTIVE_CHARGER` | GY 0.35 mm² · 401(C) | Console Controller **X0644-16** → HVAC switchpack / touchpad | Pass-through. **Never break** |
-| **11** | CANH `CAN_AUTHENTICATION_CONSOLE_P` | PK/WH 0.35 mm² · 682(C) / 2543(V) | Left Controller **X0010-84** | Pass-through. No tap |
-| **12** | CANL `CAN_AUTHENTICATION_CONSOLE_N` | BU/WH 0.35 mm² · 682(C) / 2543(V) | Left Controller **X0010-85** | Pass-through. No tap |
-
-1.00 mm² ≈ 17 AWG. Tap with 16 AWG. LIN/CAN stay 22 AWG.
-
-## Power: switched, but shared with USB
-
-Pin 1 is a **high-side drive** from the Right Controller, not an unfused always-hot. The net name includes **VCUSB**. Tesla is not going to drop that rail to turn Qi off — the USB hub would die. The pad toggle is the LIN net `LIN_INDUCTIVE_CHARGER`. Firmware still watches for a power cut (Mode A).
-
-This HSD already feeds WPC + USB. Console USB-C is 65 W per port. Measure idle current on pin 1 before you add 60 W of Starlink. Digital fuse: NTC on VIN + 80 ms FET ramp.
-
-## Connector plastic
-
-Highest pin number is 12 — this is a **12-way**, not GT150 4-way. Harvest pigtails from a donor **1877045-00-C**. Photograph the latch and cavity map on *your* truck before ordering terminals.
-
-X0944 (in-line, between Right Controller and X0648) carries the same 48 V / GND / LIN / CAN trio (pins 1, 6, 5, 11, 12 on that connector). Do not tap there unless you like working behind the Right Controller.
+Pin 1 is Right Controller high-side **X0034-91** `WIRELESS_PHONE_CHARGER_AND_VCUSB`, shared with USB. Pad toggle is LIN (`LIN_INDUCTIVE_CHARGER` on pin 10). Mode B expected. NTC + 80 ms ramp on the tap.
 
 ## Rules
 
-- 1:1 pass-through on **every** pin, including unused cavities.
-- Tap only **1, 9, 4**. Pin 4 is high-Z listen. No extra pull-up. No TX.
-- Never open pin 10 (HVAC LIN) or 11/12 (key-card CAN).
-- Do not use pin 3 as PadTap ground.
-- Adhesive-lined heat-shrink, then cloth tape.
-- Strain-relief so seat travel cannot yank X0648.
+- 1:1 on cavities 1, 3, 4, 9, 10, 11, 12. Leave 2, 5–8 empty.
+- Tap only **1, 9, 4**. Pin 4 parallel, no extra pull-up, no TX.
+- Never open 10 or 11/12. Do not use pin 3 as PadTap ground.
+- Adhesive shrink, cloth tape, strain-relief so seat travel cannot yank 5718 off 6210.

@@ -110,20 +110,23 @@ OVLO overrides every mode: VIN ≥ 56.0 V → FET off. Clears at 54.0 V. Serial 
 
 ## Probe first
 
-Electrical Reference sheet 46 (Console – Phone and USB Charging) names the module **C X0648**, 12-way, not 4-pin.
+Electrical Reference sheet 46 + the [X0648 connector page](https://service.tesla.com/docs/Cybertruck/ElectricalReference/prog-242/connector/x0648/). Tesla PN **1042593-03-A**.
 
-| Pin | | Tap |
+| | Sumitomo | |
 | --- | --- | --- |
-| 1 | 48 V+ YE/BU 1.00 mm² from Right Controller HSD X0034-91 (`WIRELESS_PHONE_CHARGER_AND_VCUSB`) | Yes |
-| 3 | USB GND pass-through WH/BU | No |
-| 4 | LIN in GY 0.35 from X0034-75 | Listen only |
-| 9 | WPC GND BN/BU 1.00 from X0034-17 | Yes |
-| 10 | LIN out to HVAC switchpack / touchpad | **Never break** |
-| 11 / 12 | CAN auth to Left Controller (key card) | No |
+| Vehicle plug (unplugs from the charger) | **6098-5718** grey 12-way female | Wire housing |
+| Charger | **6098-6210** 12-way male | DL PCB header. Solder a pigtail for the Y |
 
-Harvest the housing from a donor **1877045**. Do not crimp a GT150 4-way.
+| Pin | Color | Terminal | Tap |
+| --- | --- | --- | --- |
+| 1 | RD/BU 1.00 | 8240-0213 | 48 V HSD X0034-91 |
+| 3 | WH/BU 1.00 | 8240-0213 | USB GND thru — no tap |
+| 4 | **GN** 0.35 | 8240-0215 | LIN in — listen only |
+| 9 | BN/BU 1.00 | 8240-0213 | WPC GND |
+| 10 | GY 0.35 | 8240-0215 | LIN out to HVAC — never break |
+| 11 / 12 | PK/WH, BU/WH 0.35 | 8240-0215 | CAN auth — no tap |
 
-The HSD is shared with USB, so the pad toggle is LIN (Mode B). Firmware still detects a power cut (Mode A). Measure idle current on pin 1 — this channel already feeds WPC + VCUSB. If it cannot take +60 W, use the 400 W roof/frunk feed.
+Cavities 2, 5–8 unused. **Do not crimp 16 AWG** into 8240-0213 (max 1.25 mm²) — use 18 AWG. The HSD is shared with USB, so the pad toggle is LIN (Mode B). Measure idle current on pin 1 before adding 60 W.
 
 ## Board
 
