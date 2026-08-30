@@ -30,7 +30,15 @@ This is **wire-to-board**, not a sealed 4-pin GT150.
 1. **6098-5718** female — plugs into the charger. Crimp terminals below.
 2. **6098-6210** male PCB header — the vehicle 5718 plugs onto this. 6210 is a through-hole header, not a wire housing. Solder a pigtail to the pins (or a 25 mm breakout) and strain-relief / pot it. Do not expect a free-hanging male 6210.
 
-Do not substitute 6098-5704 / 6098-5713 (TS natural pair). Different color/keying; Tesla’s plug is grey 5718 onto 6210.
+Mating face of **6098-5718**, latch up (Tesla X0648 drawing):
+
+```
+        [ latch / CPA ]
+   1    2    3    4    5    6
+   7    8    9   10   11   12
+```
+
+1 and 7 are on the latch-left. Empty: 2, 5, 6, 7, 8. Tap 1 (top-left), 9 (under 3), 4 (top row, fourth).
 
 ## Terminals (into 5718 only)
 

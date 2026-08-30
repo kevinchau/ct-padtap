@@ -126,7 +126,7 @@ Electrical Reference sheet 46 + the [X0648 connector page](https://service.tesla
 | 10 | GY 0.35 | 8240-0215 | LIN out to HVAC — never break |
 | 11 / 12 | PK/WH, BU/WH 0.35 | 8240-0215 | CAN auth — no tap |
 
-Cavities 2, 5–8 unused. **Do not crimp 16 AWG** into 8240-0213 (max 1.25 mm²) — use 18 AWG. The HSD is shared with USB, so the pad toggle is LIN (Mode B). Measure idle current on pin 1 before adding 60 W.
+Mating face of 6098-5718, latch up: cavities **1–6 over 7–12**. Empty: 2, 5–8. Tap 1 (top-left), 9 (under 3), 4 (top row, fourth).
 
 ## Board
 

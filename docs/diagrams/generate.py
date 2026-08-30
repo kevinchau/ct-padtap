@@ -91,35 +91,59 @@ def system(direct=True):
 
 
 def pin_map():
-    rows = [
-        ("1", "48 V+ HSD", "RD/BU 1.00  ·  8240-0213  ·  TAP"),
-        ("3", "USB GND thru", "WH/BU 1.00  ·  8240-0213  ·  pass-through"),
-        ("4", "LIN in", "GN 0.35  ·  8240-0215  ·  listen, do not break"),
-        ("9", "WPC GND", "BN/BU 1.00  ·  8240-0213  ·  TAP"),
-        ("10", "LIN out", "GY 0.35  ·  8240-0215  ·  HVAC  ·  never break"),
-        ("11", "CANH", "PK/WH 0.35  ·  8240-0215  ·  no tap"),
-        ("12", "CANL", "BU/WH 0.35  ·  8240-0215  ·  no tap"),
-    ]
+    used = {1, 3, 4, 9, 10, 11, 12}
+    tap = {1, 4, 9}
     parts = [
-        t(360, 28, "C X0648  ·  WIRELESS PHONE CHARGER + NFC READER  ·  12-WAY", fill=AMBER, size=12, family=MONO, anchor="middle"),
-        r(20, 48, 680, 330, fill=PANEL),
+        t(360, 22, "X0648  ·  6098-5718 FACE  ·  LATCH UP  ·  1–6 OVER 7–12", fill=AMBER, size=12, family=MONO, anchor="middle"),
+        r(16, 40, 248, 200, fill=PANEL2, stroke=STEEL, rx=22, sw=2),
+        r(100, 40, 76, 18, fill=PANEL, stroke=STEEL, rx=4),
+        t(140, 54, "LATCH", fill=MUTED, size=10, family=MONO, anchor="middle"),
     ]
-    y = 78
-    parts += [
-        t(40, y, "PIN", fill=MUTED, size=11, family=MONO),
-        t(90, y, "NET", fill=MUTED, size=11, family=MONO),
-        t(250, y, "COLOR / SOURCE", fill=MUTED, size=11, family=MONO),
+    for n in range(1, 13):
+        col = (n - 1) % 6
+        row = 0 if n <= 6 else 1
+        x = 44 + col * 38
+        y = 100 + row * 56
+        on = n in used
+        parts += [
+            r(
+                x - 14,
+                y - 14,
+                28,
+                28,
+                fill=AMBER if n in tap else (PANEL if on else PANEL2),
+                stroke=AMBER if on else LINE,
+                rx=3,
+            ),
+            t(
+                x,
+                y + 5,
+                str(n),
+                fill="#1A1303" if n in tap else (TEXT if on else MUTED),
+                size=12,
+                family=MONO,
+                anchor="middle",
+            ),
+        ]
+    rows = [
+        ("1", "48 V+ HSD", "RD/BU 1.00  8240-0213  TAP"),
+        ("3", "USB GND thru", "WH/BU 1.00  8240-0213  pass"),
+        ("4", "LIN in", "GN 0.35  8240-0215  listen"),
+        ("9", "WPC GND", "BN/BU 1.00  8240-0213  TAP"),
+        ("10", "LIN out HVAC", "GY 0.35  8240-0215  never break"),
+        ("11", "CANH", "PK/WH 0.35  8240-0215  no tap"),
+        ("12", "CANL", "BU/WH 0.35  8240-0215  no tap"),
     ]
-    y = 100
+    y = 58
+    parts.append(r(280, 40, 424, 200, fill=PANEL))
     for n, name, how in rows:
         parts += [
-            t(40, y, n, fill=AMBER, size=14, family=MONO),
-            t(90, y, name, fill=TEXT, size=13),
-            t(250, y, how, fill=MUTED, size=12, family=MONO),
+            t(300, y, n, fill=AMBER, size=13, family=MONO),
+            t(328, y, name, fill=TEXT, size=13),
+            t(300, y + 16, how, fill=MUTED, size=11, family=MONO),
         ]
-        y += 38
-    parts.append(t(40, 360, "6098-5718 female onto 6098-6210 PCB header. Tesla 1042593-03-A. Cavities 2, 5–8 empty.", fill=MUTED, size=12))
-    (OUT / "pin-map.svg").write_text(svg(720, 390, "\n".join(parts), "X0648 pin map"), encoding="utf-8")
+        y += 26
+    (OUT / "pin-map.svg").write_text(svg(720, 260, "\n".join(parts), "X0648 cavity map"), encoding="utf-8")
 
 
 def harness():
