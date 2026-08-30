@@ -331,7 +331,7 @@ def schematic_direct():
         t(420, 556, "serial  ov reset", anchor="middle", fill=MUTED, size=12, family=MONO),
         t(420, 580, "Do not clamp Tesla rail with 54 V TVS", anchor="middle", fill=DANGER, size=11),
         # ADC divider note
-        t(560, 200, "R1/R2 100k/10k → GPIO4 + 3.3 V zener", fill=MUTED, size=11, family=MONO),
+        t(560, 200, "R1/R2 215k/10k → GPIO4 + 3.3 V zener", fill=MUTED, size=11, family=MONO),
         t(24, 690, "NTC on VIN (harness) stops buck inrush into Tesla digital fuses. 80 ms FET ramp stops Mini input-cap dump. Do not skip either.", fill=AMBER, size=12),
         t(24, 710, "Low-side switch: barrel sleeve is opened. Do not low-side the WPC ground. LIN TX stays off.", fill=MUTED, size=12),
     ]
@@ -400,9 +400,9 @@ def schematic_buck():
 
 def gpio():
     rows = [
-        ("GPIO20", "UART RX", "TLIN2029 RXD", "LIN 19.2 kbps 8E1. TX pin not wired."),
+        ("GPIO20", "UART RX", "TLIN2029 RXD", "LIN 19.2 kbps 8N1. TX pin not wired."),
         ("GPIO5", "FET gate", "Q1 via 1 k", "Active high. LM393 OC can pull it down."),
-        ("GPIO4", "ADC", "VIN_48 divider", "100 k / 10 k + 3.3 V zener. 12-bit."),
+        ("GPIO4", "ADC", "VIN_48 divider", "215 k / 10 k + 3.3 V zener. 12-bit."),
         ("GPIO6", "LED amber", "Rail present", "VIN > 30 V. Lid membrane."),
         ("GPIO7", "LED green", "Output armed", "FET on. Lid membrane."),
         ("USB-C", "CDC", "ESP32-C3 SuperMini", "Flash + serial. Tape the window after."),

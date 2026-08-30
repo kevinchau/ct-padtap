@@ -44,7 +44,7 @@ Tesla 48 V digital fuses trip on buck input-cap inrush. The NTC is not optional 
 | LIN_RX | TLIN2029 RXD | ESP32 GPIO20 |
 | V5 | 5 V buck | ESP32 5V, TLIN VSUP |
 | V36 | 36 V buck | Barrel center via FET + 3 A fuse |
-| VSENSE | 100 k / 10 k on VIN_48 | ESP32 ADC, 3.3 V zener clamp |
+| VSENSE | 215 k / 10 k on VIN_48 | ESP32 ADC, 3.3 V zener backstop |
 | nGATE | ESP32 GPIO5 + 100 Ω | FET gate, 10 k pulldown |
 
 ## GPIO
@@ -64,7 +64,7 @@ Tesla 48 V digital fuses trip on buck input-cap inrush. The NTC is not optional 
 - SMBJ58A on VIN_48
 - SMBJ40A on V36
 - Series Schottky (100 V, 5 A) reverse protection
-- 3.3 V zener on ADC node (divider would otherwise exceed 3.3 V at 58 V)
+- 3.3 V zener on ADC node (backstop — 215 k / 10 k keeps 58 V at 2.58 V; the original 100 k / 10 k clipped at the zener near 36 V, blinding the firmware OVLO)
 
 Firmware still runs the 56 V OVLO so a mis-set 36 V pot cannot pass Tesla’s peak.
 

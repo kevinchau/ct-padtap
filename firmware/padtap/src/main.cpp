@@ -22,7 +22,10 @@ static const int PIN_LED_RAIL = 6;
 static const int PIN_LED_ARM = 7;
 static const int FET_PWM_CH = 1;
 
-static const float VIN_DIV_TOP = 100000.0f;
+// 215 k / 10 k — same values as the LM393 divider. 56 V → 2.49 V at the pin,
+// inside the C3's 11 dB range. 100 k / 10 k would put 48 V at 4.4 V: the zener
+// clamps, the ADC saturates near 36 V, and this OVLO latch could never trip.
+static const float VIN_DIV_TOP = 215000.0f;
 static const float VIN_DIV_BOT = 10000.0f;
 static const float VIN_RAIL_V = 30.0f;
 static const float VIN_OVLO_V = 56.0f;
@@ -47,8 +50,9 @@ static uint8_t linLen = 0;
 static uint32_t linLastMs = 0;
 
 float readVin() {
-  const int raw = analogRead(PIN_VIN_ADC);
-  const float vAdc = (raw / 4095.0f) * 3.3f;
+  // eFuse-calibrated millivolts — raw/4095*3.3 is off by up to ~10 % on the C3,
+  // too coarse for a 56.0 V trip decision.
+  const float vAdc = analogReadMilliVolts(PIN_VIN_ADC) / 1000.0f;
   return vAdc * ((VIN_DIV_TOP + VIN_DIV_BOT) / VIN_DIV_BOT);
 }
 
@@ -63,9 +67,12 @@ void parseLinByte(uint8_t b) {
   uint32_t now = millis();
   if (now - linLastMs > 8) linLen = 0;
   linLastMs = now;
+  // The break lands as a 0x00 with framing error before sync — drop leading
+  // bytes until 0x55 so the PID always sits at linBuf[1].
+  if (linLen == 0 && b != 0x55) return;
   if (linLen < sizeof(linBuf)) linBuf[linLen++] = b;
 
-  if (linLen >= 3 && linBuf[0] == 0x55) {
+  if (linLen >= 3) {
     uint8_t pid = linBuf[1] & 0x3F;
     if (LIN_ENABLE_PID != 0 && pid == LIN_ENABLE_PID) {
       bool en = linEnableBit(&linBuf[2], linLen - 2);
@@ -73,7 +80,7 @@ void parseLinByte(uint8_t b) {
       lastLinEn = en;
       haveLin = true;
     }
-    Serial.printf("LIN pid=0x%02X n=%u\n", pid, linLen);
+    if (linLen == 3) Serial.printf("LIN pid=0x%02X\n", pid);
   }
 }
 
@@ -128,7 +135,7 @@ void setup() {
   pinMode(PIN_LED_ARM, OUTPUT);
   analogReadResolution(12);
   Serial.begin(115200);
-  Serial1.begin(LIN_BAUD, SERIAL_8E1, PIN_LIN_RX, -1);
+  Serial1.begin(LIN_BAUD, SERIAL_8N1, PIN_LIN_RX, -1);  // LIN is 8N1, not 8E1
   delay(300);
   Serial.printf("PadTap boot  build=%s  mode=AUTO  LIN RX only  OVLO=%.0f V  ramp=%u ms\n",
                 PADTAP_DIRECT ? "DIRECT48" : "BUCK36", VIN_OVLO_V, (unsigned)RAMP_MS);
@@ -149,7 +156,9 @@ void loop() {
     Serial.printf("mode=%d ov=%d\n", (int)mode, ovlatched);
   }
 
-  static bool lastRail = true;
+  // Start false: on a USB bench boot vin reads 0, and a true seed would count
+  // that as a rail drop and mis-latch AUTO into Mode A.
+  static bool lastRail = false;
   float vin = readVin();
   bool rail = vin > VIN_RAIL_V;
   if (lastRail && !rail) sawVinDropOnToggle = true;

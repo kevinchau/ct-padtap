@@ -61,7 +61,7 @@ FQP13N10L is obsolete. IRL540NPBF is the 100 V logic-level stand-in. Lay the TO-
 | Item | PN | Qty | Buy | ~$ |
 | --- | --- | --- | --- | --- |
 | PETG black 1.75 mm | — | 1 kg (~20 g used) | [Amazon](https://www.amazon.com/s?k=PETG+filament+black+1.75mm) | 20 |
-| M2.5 heat-set + 8 mm screws | M2.5 | 1 kit | [Amazon](https://www.amazon.com/s?k=M2.5+heat+set+inserts+kit) | 10 |
+| M2.5 heat-set + 6 mm screws | M2.5 | 1 kit | [Amazon](https://www.amazon.com/s?k=M2.5+heat+set+inserts+kit) | 10 |
 | 3M VHB 5952 1/2 in | 5952 | 1 roll | [Amazon](https://www.amazon.com/s?k=3M+VHB+5952+1%2F2+inch) | 18 |
 
 ## Tools

@@ -11,7 +11,7 @@
 <text x="40" y="128" fill="#E8A317" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">GPIO20</text>
 <text x="140" y="128" fill="#E8EAED" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">UART RX</text>
 <text x="280" y="128" fill="#C5C8CE" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">TLIN2029 RXD</text>
-<text x="430" y="128" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">LIN 19.2 kbps 8E1. TX pin not wired.</text>
+<text x="430" y="128" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">LIN 19.2 kbps 8N1. TX pin not wired.</text>
 <rect x="20" y="148" width="760" height="44" rx="4" fill="#1C1E22" stroke="none" stroke-width="1.5"/>
 <text x="40" y="176" fill="#E8A317" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">GPIO5</text>
 <text x="140" y="176" fill="#E8EAED" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">FET gate</text>
@@ -21,7 +21,7 @@
 <text x="40" y="224" fill="#E8A317" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">GPIO4</text>
 <text x="140" y="224" fill="#E8EAED" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">ADC</text>
 <text x="280" y="224" fill="#C5C8CE" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">VIN_48 divider</text>
-<text x="430" y="224" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">100 k / 10 k + 3.3 V zener. 12-bit.</text>
+<text x="430" y="224" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">215 k / 10 k + 3.3 V zener. 12-bit.</text>
 <rect x="20" y="244" width="760" height="44" rx="4" fill="#1C1E22" stroke="none" stroke-width="1.5"/>
 <text x="40" y="272" fill="#E8A317" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">GPIO6</text>
 <text x="140" y="272" fill="#E8EAED" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">LED amber</text>
