@@ -45,7 +45,15 @@ Same Y-harness and sled. A 60 V → 36 V module sits between the TVS and the FET
 
 ![Y-harness](docs/diagrams/harness.svg)
 
+![5718 mates 6210](docs/diagrams/mating.svg)
+
 ![X0648 pin map](docs/diagrams/pin-map.svg)
+
+![Concept — 5718 face, latch up](docs/diagrams/connector-face.jpg)
+
+![Concept — 5718 onto 6210 header](docs/diagrams/mating-render.jpg)
+
+![Concept — Y-harness](docs/diagrams/harness-render.jpg)
 
 ### Enclosure
 
@@ -91,7 +99,7 @@ Three facts get in the way:
 | [hardware/harness.md](hardware/harness.md) | Y-harness, C X0648 12-way pinout |
 | [hardware/schematic-direct.md](hardware/schematic-direct.md) | **Direct 48 V** — FET, LM393 OVLO, no buck |
 | [hardware/schematic.md](hardware/schematic.md) | **Buck 36 V** — 60 V → 36 V module |
-| [hardware/bom.csv](hardware/bom.csv) | Order list, `rev` column = `all` / `direct` / `buck` |
+| [hardware/shop.md](hardware/shop.md) | Buy links — housings, terminals, 58 V fuses, tools |
 | [hardware/enclosure](hardware/enclosure) | Under-panel PETG sled — OpenSCAD + STL |
 | [firmware/padtap](firmware/padtap) | ESP32-C3 PlatformIO. Env `direct` (default) or `buck` |
 
@@ -135,11 +143,11 @@ Mating face of 6098-5718, latch up: cavities **1–6 over 7–12**. Empty: 2, 5�
 - ESP32-C3 SuperMini
 - TLIN2029A-Q1 or equivalent, **TX disconnected**
 - 7–60 V → 5 V 2 A buck (not LM2596, not MP1584)
-- **FQP13N10L** 100 V logic-level, laid flat (not the 60 V FQP30N06L)
+- **IRL540NPBF** 100 V logic-level, laid flat (FQP13N10L is obsolete; not the 60 V FQP30N06L)
 - LM393 + TL431 OVLO at 56.14 V, open-collector on the gate
 - **NTC 10 Ω ≥3 A ICL on VIN** (harness, next to the fuses — Tesla digital fuses trip on buck inrush; this is what stops a frunk 48 V tap from erroring)
 - **80 ms FET ramp** (firmware PWM + 47 k / 1 µF) so Mini input caps don’t dump the pad circuit
-- ATC 3 A in and out (on the harness, outside the box), SMBJ58A on VIN only
+- Littelfuse **0997003.WXN MINI 3 A 58 V** in and out (on the harness, outside the box), SMBJ58A on VIN only
 
 **Buck 36 V** (`pio run -e buck`)
 

@@ -49,8 +49,8 @@ Tesla 48 V digital fuses trip on buck input-cap inrush. The NTC is not optional 
 
 ## Protection (buck)
 
-- ATC 3 A on VIN_48
-- ATC 3 A on V36
+- Littelfuse 0997003.WXN MINI 3 A **58 V** on VIN_48 (not a 32 V mini)
+- Same 3 A 58 V on V36
 - SMBJ58A on VIN_48
 - SMBJ40A on V36
 - Series Schottky (100 V, 5 A) reverse protection

@@ -4,22 +4,22 @@
 <rect x="8" y="70" width="170" height="220" rx="8" fill="#141518" stroke="#2A2D32" stroke-width="1.5"/>
 <text x="93" y="108" fill="#C5C8CE" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">Cybertruck</text>
 <text x="93" y="128" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">console harness</text>
-<text x="93" y="168" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">48V+  GND</text>
-<text x="93" y="188" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">LIN   P4</text>
-<text x="93" y="240" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">28–58 V</text>
-<text x="93" y="258" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">NFC + Qi module</text>
+<text x="93" y="168" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">RD/BU  BN/BU</text>
+<text x="93" y="188" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">GN LIN  P4</text>
+<text x="93" y="240" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">X0648  12-way</text>
+<text x="93" y="258" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">6098-5718</text>
 <line x1="178" y1="180" x2="250" y2="180" stroke="#E8A317" stroke-width="2"/>
 <rect x="250" y="90" width="150" height="180" rx="8" fill="#1C1E22" stroke="#E8A317" stroke-width="1.5"/>
 <text x="325" y="128" fill="#E8A317" font-size="14" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">Y-HARNESS</text>
-<text x="325" y="152" fill="#E8EAED" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">all 4 pins</text>
-<text x="325" y="170" fill="#E8EAED" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">1:1 pass-through</text>
-<text x="325" y="210" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">tap 48V / GND / LIN</text>
+<text x="325" y="152" fill="#E8EAED" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">12-way 1:1</text>
+<text x="325" y="170" fill="#E8EAED" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">5718 + 6210</text>
+<text x="325" y="210" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">tap 1 / 9 / 4</text>
 <line x1="400" y1="150" x2="470" y2="150" stroke="#C5C8CE" stroke-width="2"/>
 <path d="M325 270 V320 H470" fill="none" stroke="#E8A317" stroke-width="2"/>
 <rect x="470" y="70" width="170" height="140" rx="8" fill="#141518" stroke="#2A2D32" stroke-width="1.5"/>
-<text x="555" y="112" fill="#C5C8CE" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">WPC 1877045</text>
-<text x="555" y="136" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">dual 15 W Qi</text>
-<text x="555" y="156" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">key-card NFC</text>
+<text x="555" y="112" fill="#C5C8CE" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">CHARGER 6210</text>
+<text x="555" y="136" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">1877045 Qi+NFC</text>
+<text x="555" y="156" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">PCB header</text>
 <rect x="470" y="250" width="170" height="140" rx="8" fill="#141518" stroke="#E8A317" stroke-width="1.5"/>
 <text x="555" y="292" fill="#E8A317" font-size="14" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">DIRECT 48 V</text>
 <text x="555" y="316" fill="#E8EAED" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">LIN sniffer</text>

@@ -10,7 +10,7 @@ Harness,Adhesive heat-shrink + cloth tape,3:1 dual-wall,1 kit,Amazon,$14,Tesla D
 Board,ESP32-C3 SuperMini,ESP32-C3-FH4,1,LCSC / Amazon,$8,MCU,all
 Board,LIN transceiver,TLIN2029A-Q1,1,Mouser,$6,Listen-only PHY,all
 Board,7-60 V to 5 V 2 A buck,XL7015 class,1,Amazon,$8,MCU rail — not MP1584,all
-Board,Mini blade fuse holder + 3 A,ATC-3,2,Waytek,$8,In and out — stay on harness outside box,all
+Board,MINI fuse 3 A 58 V + in-line holder,0997003.WXN,5,Digi-Key / Waytek,$10,Do not use 32 V mini — Tesla LV is 48 V allowed to 58 V,all
 Board,NTC inrush limiter 10 ohm ≥3 A,B57237S0100M000 / MF72-10D13,1,Digi-Key / Amazon,$2,Tesla digital fuses trip on buck inrush — series on VIN after F1 on the harness not in the sled,all
 Board,Gate soft-start 47k + 1uF + 1N4148,47k+1uF+1N4148,1,Digi-Key,$1,80 ms FET ramp so Mini input caps do not dump the pad circuit,all
 Board,TVS 58 V,SMBJ58A,1,Digi-Key,$1,VIN clamp,all
@@ -19,7 +19,7 @@ Board,Barrel 5.5x2.1 center +,DC5521 male,1,Amazon / Starlink DC extension,$9,Co
 Board,Divider 100k/10k 1%,0805,1,Digi-Key,$1,VIN sense into ESP32 ADC,all
 Board,3.3 V zener + gate R,MMSZ5226B,1,Digi-Key,$2,ADC clamp,all
 Board,LEDs amber/green,3mm,2,Digi-Key,$1,Status through lid membranes,all
-Direct 48 V,Logic-level N-FET 100 V,FQP13N10L,1,Digi-Key 671-FQP13N10L,$3,Low-side Mini switch — 60 V FET is too close to Tesla 58 V,direct
+Direct 48 V,Logic-level N-FET 100 V,IRL540NPBF,1,Digi-Key,$3,FQP13N10L is obsolete. 100 V logic-level low-side. Lay TO-220 flat,direct
 Direct 48 V,LM393 dual comparator,LM393P,1,Digi-Key,$1,Hardware OVLO open-collector on FET gate,direct
 Direct 48 V,TL431 2.495 V ref,TL431ACP,1,Digi-Key,$1,LM393 IN+ reference,direct
 Direct 48 V,OVLO divider 215k / 10k 1%,215k+10k,1,Digi-Key,$1,Trip 2.495 × 225/10 = 56.14 V,direct

@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="720" height="360" viewBox="0 0 720 360" role="img" aria-label="Y-harness">
-<rect width="720" height="360" fill="#0B0C0E"/>
-<text x="20" y="28" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">Y-HARNESS  ·  5718 FEMALE + 6210 HEADER  ·  TAP 1 / 9 / 4</text>
-<rect x="20" y="60" width="200" height="160" rx="8" fill="#141518" stroke="#2A2D32" stroke-width="1.5"/>
-<text x="120" y="100" fill="#C5C8CE" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">VEHICLE</text>
-<text x="120" y="122" fill="#C5C8CE" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">HARNESS</text>
-<text x="120" y="150" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">5718 female</text>
-<text x="120" y="170" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">vehicle plug</text>
-<line x1="220" y1="140" x2="280" y2="140" stroke="#E8A317" stroke-width="2"/>
-<rect x="280" y="70" width="170" height="140" rx="8" fill="#1C1E22" stroke="#E8A317" stroke-width="1.5"/>
-<text x="365" y="108" fill="#E8A317" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">Y FEMALE</text>
-<text x="365" y="132" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">to vehicle plug</text>
-<text x="365" y="168" fill="#E8EAED" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">all 12 pins 1:1</text>
-<line x1="450" y1="110" x2="510" y2="110" stroke="#C5C8CE" stroke-width="2"/>
-<path d="M365 210 V250 H510" fill="none" stroke="#E8A317" stroke-width="2"/>
-<rect x="510" y="50" width="190" height="120" rx="8" fill="#141518" stroke="#2A2D32" stroke-width="1.5"/>
-<text x="605" y="90" fill="#C5C8CE" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">Y MALE</text>
-<text x="605" y="112" fill="#E8EAED" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">→ 6210 on charger</text>
-<text x="605" y="134" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">6098-5718 female</text>
-<rect x="510" y="210" width="190" height="130" rx="8" fill="#141518" stroke="#E8A317" stroke-width="1.5"/>
-<text x="605" y="248" fill="#E8A317" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">PADTAP TAP</text>
-<text x="605" y="272" fill="#E8EAED" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">1  RD/BU  8240-0213</text>
-<text x="605" y="292" fill="#E8EAED" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">9  BN/BU  8240-0213</text>
-<text x="605" y="312" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">4  GN  8240-0215</text>
-<text x="20" y="250" fill="#C45C4A" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Never break pin 10 (LIN to HVAC switchpack) or 11/12 (key-card CAN).</text>
-<text x="20" y="272" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Pin 3 is USB GND pass-through — not PadTap return.</text>
-<text x="20" y="294" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">HSD X0034-91 is shared with USB. NTC + 80 ms ramp. Strain-relief.</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="370" viewBox="0 0 820 370" role="img" aria-label="Y-harness 5718/6210">
+<rect width="820" height="370" fill="#0B0C0E"/>
+<text x="20" y="28" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">Y-HARNESS  ·  WIRE-TO-BOARD  ·  VEHICLE 5718 ONTO OUR 6210  ·  OUR 5718 INTO CHARGER</text>
+<rect x="20" y="56" width="160" height="150" rx="8" fill="#141518" stroke="#2A2D32" stroke-width="1.5"/>
+<text x="100" y="88" fill="#C5C8CE" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">VEHICLE</text>
+<text x="100" y="110" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">5718 FEMALE</text>
+<text x="100" y="132" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">grey 12-way</text>
+<text x="100" y="152" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">unplugs from</text>
+<text x="100" y="170" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">the charger</text>
+<line x1="180" y1="130" x2="220" y2="130" stroke="#E8A317" stroke-width="2"/>
+<rect x="220" y="56" width="170" height="150" rx="8" fill="#1C1E22" stroke="#E8A317" stroke-width="1.5"/>
+<text x="305" y="88" fill="#E8A317" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">OUR 6210</text>
+<text x="305" y="110" fill="#E8EAED" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">DL PCB HEADER</text>
+<text x="305" y="132" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">solder pigtail</text>
+<text x="305" y="152" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">pot the joints</text>
+<text x="305" y="174" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">TH, not wire hsg</text>
+<line x1="390" y1="100" x2="430" y2="100" stroke="#C5C8CE" stroke-width="2"/>
+<path d="M305 206 V250 H430" fill="none" stroke="#E8A317" stroke-width="2"/>
+<rect x="430" y="50" width="160" height="110" rx="8" fill="#141518" stroke="#2A2D32" stroke-width="1.5"/>
+<text x="510" y="82" fill="#C5C8CE" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">OUR 5718</text>
+<text x="510" y="104" fill="#E8EAED" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">FEMALE</text>
+<text x="510" y="126" fill="#8B9098" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">8240-0213 / 0215</text>
+<line x1="590" y1="100" x2="630" y2="100" stroke="#C5C8CE" stroke-width="2"/>
+<rect x="630" y="50" width="170" height="110" rx="8" fill="#141518" stroke="#2A2D32" stroke-width="1.5"/>
+<text x="715" y="82" fill="#C5C8CE" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">CHARGER</text>
+<text x="715" y="104" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">6210 HEADER</text>
+<text x="715" y="126" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">on 1877045</text>
+<text x="715" y="148" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">Qi + NFC + CAN</text>
+<rect x="430" y="210" width="370" height="130" rx="8" fill="#141518" stroke="#E8A317" stroke-width="1.5"/>
+<text x="615" y="242" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">TAP  ·  18 AWG INTO 0213  ·  22 AWG INTO 0215</text>
+<text x="615" y="268" fill="#E8EAED" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">1  RD/BU  8240-0213  → VIN  + NTC + 58 V MINI 3 A</text>
+<text x="615" y="290" fill="#E8EAED" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">9  BN/BU  8240-0213  → GND</text>
+<text x="615" y="312" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">4  GN     8240-0215  → TLIN2029 RX only</text>
+<text x="20" y="250" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">1:1 on 1, 3, 4, 9, 10, 11, 12. Empty 2, 5–8.</text>
+<text x="20" y="274" fill="#C45C4A" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Never break 10 (LIN to HVAC) or 11/12 (key-card CAN).</text>
+<text x="20" y="298" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Pin 3 WH/BU is USB GND thru — not PadTap return. 16 AWG will not crimp in 0213.</text>
 </svg>

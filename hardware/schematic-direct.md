@@ -7,7 +7,7 @@ Tesla’s published accessory range is **28 V min / 44–50 V nominal / 58 V max
 Double-converting (our buck, then Mini’s buck) wastes 4–8 W at cruise. Direct FET loss at 40 W / 48 V is ~0.2 W.
 
 ```
-VIN_48 ── ATC 3 A ── NTC 10 Ω ── Schottky SS510 ──┬── SMBJ58A ── GND
+VIN_48 ── MINI 3 A 58 V ── NTC 10 Ω ── Schottky SS510 ──┬── SMBJ58A ── GND
                                       │
                                       ├── 5 V buck (7–60 V) ── ESP32-C3 + TLIN2029 VSUP
                                       │
@@ -18,7 +18,7 @@ VIN_48 ── ATC 3 A ── NTC 10 Ω ── Schottky SS510 ──┬── SMB
                                       │                              OC output ── FET gate
                                       │
                                       └── F2 3 A ── barrel center +
-                                                    barrel sleeve ── Q1 drain (FQP13N10L, 100 V)
+                                                    barrel sleeve ── Q1 drain (IRL540NPBF, 100 V)
                                                                      Q1 source ── GND
                                                                      Q1 gate ← GPIO5 + LM393 OC
 ```
@@ -65,7 +65,7 @@ Firmware is the second gate: latches `ov` at 56.0 V, clears at 54.0 V, serial `o
 | VOUT+ | F2 3 A after VIN | Barrel center + (unswitched) |
 | VOUT− | Barrel sleeve | Q1 drain (switched low-side) |
 | VSENSE | 100 k / 10 k on VIN_48 | ESP32 ADC, 3.3 V zener |
-| nGATE | ESP32 GPIO5 + 1 k, LM393 OC | FQP13N10L gate, 10 k pulldown |
+| nGATE | ESP32 GPIO5 + 1 k, LM393 OC | IRL540NPBF gate, 10 k pulldown |
 
 ## GPIO
 
@@ -81,13 +81,13 @@ Same map as the 36 V build.
 
 ## Protection
 
-- ATC 3 A on VIN_48
-- ATC 3 A on barrel (Starlink 60 W / 48 V ≈ 1.25 A; 60 W / 28 V ≈ 2.1 A)
+- Littelfuse **0997003.WXN** MINI 3 A **58 V** on VIN_48
+- Same 3 A 58 V on barrel (Starlink 60 W / 48 V ≈ 1.25 A; 60 W / 28 V ≈ 2.1 A)
 - SMBJ58A on VIN_48 only
 - Series Schottky 100 V 5 A reverse protection
 - 3.3 V zener on ADC node
 - LM393 OVLO + firmware latch at 56.0 V
-- 100 V logic-level FET (FQP13N10L) — 60 V FQP30N06L is too close to Tesla max
+- 100 V logic-level FET (**IRL540NPBF**) — FQP13N10L is obsolete; 60 V FQP30N06L is too close to Tesla max
 
 ## Current
 
@@ -97,7 +97,7 @@ Same map as the 36 V build.
 | 40 W typical | 1.11 A | 0.83 A |
 | 60 W peak | 1.67 A | 1.25 A |
 
-3 A fuse still the right ceiling. 16 AWG still conservative.
+3 A fuse still the right ceiling. Tap pigtails are **18 AWG GXL** into 8240-0213 (16 AWG is out of spec).
 
 ## Forbidden
 

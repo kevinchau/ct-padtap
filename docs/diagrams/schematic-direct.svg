@@ -7,7 +7,7 @@
 <text x="89" y="128" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">28–58 V</text>
 <line x1="154" y1="115" x2="190" y2="115" stroke="#E8A317" stroke-width="2"/>
 <rect x="190" y="98" width="58" height="34" rx="4" fill="#1C1E22" stroke="#C5C8CE" stroke-width="1.5"/>
-<text x="219" y="120" fill="#E8EAED" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">F1 3A</text>
+<text x="219" y="120" fill="#E8EAED" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">F1 58V</text>
 <line x1="248" y1="115" x2="262" y2="115" stroke="#E8A317" stroke-width="2"/>
 <rect x="262" y="98" width="70" height="34" rx="4" fill="#1C1E22" stroke="#E8A317" stroke-width="1.5"/>
 <text x="297" y="120" fill="#E8A317" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">NTC 10Ω</text>
@@ -54,7 +54,7 @@
 <text x="99" y="442" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">sleeve     = switched</text>
 <line x1="99" y1="460" x2="99" y2="520" stroke="#C5C8CE" stroke-width="2"/>
 <rect x="40" y="520" width="160" height="80" rx="8" fill="#1C1E22" stroke="#E8A317" stroke-width="1.5"/>
-<text x="120" y="548" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">Q1 FQP13N10L</text>
+<text x="120" y="548" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">Q1 IRL540N</text>
 <text x="120" y="568" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">N-FET 100 V  low-side</text>
 <text x="120" y="586" fill="#8B9098" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">D ← sleeve   S → GND</text>
 <line x1="120" y1="600" x2="120" y2="640" stroke="#C5C8CE" stroke-width="2"/>

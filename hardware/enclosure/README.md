@@ -45,7 +45,7 @@ Inline ATC fuses and the **10 Ω NTC inrush limiter** stay on the harness, outsi
 1. Flash firmware, confirm LEDs. Direct: ramp a current-limited supply through 56 V and watch the FET drop.
 2. Stick 3M VHB 5952 squares in the four lid pockets.
 3. Offer the sled under the console panel with the comb facing the WPC connector and the barrel facing the rear of the console (or wherever the Mini cable wants to go).
-4. Press 10 seconds. Route 16 AWG so seat travel cannot snag it.
+4. Press 10 seconds. Route 18 AWG so seat travel cannot snag it.
 5. Keep the box off HVAC condensate and carpet.
 
 Assembled height below the panel is **18 mm**. Confirm clearance on your truck before you glue.

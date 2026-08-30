@@ -57,22 +57,22 @@ def system(direct=True):
         r(8, 70, 170, 220),
         t(93, 108, "Cybertruck", anchor="middle", fill=STEEL),
         t(93, 128, "console harness", anchor="middle", fill=MUTED, size=12),
-        t(93, 168, "48V+  GND", anchor="middle", fill=AMBER, size=12, family=MONO),
-        t(93, 188, "LIN   P4", anchor="middle", fill=AMBER, size=12, family=MONO),
-        t(93, 240, "28–58 V", anchor="middle", fill=MUTED, size=11),
-        t(93, 258, "NFC + Qi module", anchor="middle", fill=MUTED, size=11),
+        t(93, 168, "RD/BU  BN/BU", anchor="middle", fill=AMBER, size=12, family=MONO),
+        t(93, 188, "GN LIN  P4", anchor="middle", fill=AMBER, size=12, family=MONO),
+        t(93, 240, "X0648  12-way", anchor="middle", fill=MUTED, size=11),
+        t(93, 258, "6098-5718", anchor="middle", fill=MUTED, size=11),
         line(178, 180, 250, 180),
         r(250, 90, 150, 180, fill=PANEL2, stroke=AMBER),
         t(325, 128, "Y-HARNESS", anchor="middle", fill=AMBER, size=14, family=MONO),
-        t(325, 152, "all 4 pins", anchor="middle", size=12),
-        t(325, 170, "1:1 pass-through", anchor="middle", size=12),
-        t(325, 210, "tap 48V / GND / LIN", anchor="middle", fill=MUTED, size=11),
+        t(325, 152, "12-way 1:1", anchor="middle", size=12),
+        t(325, 170, "5718 + 6210", anchor="middle", size=12),
+        t(325, 210, "tap 1 / 9 / 4", anchor="middle", fill=MUTED, size=11),
         line(400, 150, 470, 150, stroke=STEEL),
         path("M325 270 V320 H470"),
         r(470, 70, 170, 140),
-        t(555, 112, "WPC 1877045", anchor="middle", fill=STEEL),
-        t(555, 136, "dual 15 W Qi", anchor="middle", fill=MUTED, size=12),
-        t(555, 156, "key-card NFC", anchor="middle", fill=MUTED, size=12),
+        t(555, 112, "CHARGER 6210", anchor="middle", fill=STEEL),
+        t(555, 136, "1877045 Qi+NFC", anchor="middle", fill=MUTED, size=12),
+        t(555, 156, "PCB header", anchor="middle", fill=MUTED, size=12),
         r(470, 250, 170, 140, stroke=AMBER),
         t(555, 292, board, anchor="middle", fill=AMBER, size=14, family=MONO),
         t(555, 316, "LIN sniffer", anchor="middle", size=12),
@@ -148,33 +148,72 @@ def pin_map():
 
 def harness():
     parts = [
-        t(20, 28, "Y-HARNESS  ·  5718 FEMALE + 6210 HEADER  ·  TAP 1 / 9 / 4", fill=AMBER, size=12, family=MONO),
-        r(20, 60, 200, 160),
-        t(120, 100, "VEHICLE", anchor="middle", fill=STEEL),
-        t(120, 122, "HARNESS", anchor="middle", fill=STEEL),
-        t(120, 150, "5718 female", anchor="middle", fill=AMBER, size=12, family=MONO),
-        t(120, 170, "vehicle plug", anchor="middle", fill=MUTED, size=12),
-        line(220, 140, 280, 140),
-        r(280, 70, 170, 140, fill=PANEL2, stroke=AMBER),
-        t(365, 108, "Y FEMALE", anchor="middle", fill=AMBER, size=13, family=MONO),
-        t(365, 132, "to vehicle plug", anchor="middle", fill=MUTED, size=12),
-        t(365, 168, "all 12 pins 1:1", anchor="middle", size=12),
-        line(450, 110, 510, 110, stroke=STEEL),
-        path("M365 210 V250 H510"),
-        r(510, 50, 190, 120),
-        t(605, 90, "Y MALE", anchor="middle", fill=STEEL, size=13, family=MONO),
-        t(605, 112, "→ 6210 on charger", anchor="middle", size=12),
-        t(605, 134, "6098-5718 female", anchor="middle", fill=MUTED, size=12),
-        r(510, 210, 190, 130, stroke=AMBER),
-        t(605, 248, "PADTAP TAP", anchor="middle", fill=AMBER, size=13, family=MONO),
-        t(605, 272, "1  RD/BU  8240-0213", anchor="middle", size=12),
-        t(605, 292, "9  BN/BU  8240-0213", anchor="middle", size=12),
-        t(605, 312, "4  GN  8240-0215", anchor="middle", fill=MUTED, size=12),
-        t(20, 250, "Never break pin 10 (LIN to HVAC switchpack) or 11/12 (key-card CAN).", fill=DANGER, size=13),
-        t(20, 272, "Pin 3 is USB GND pass-through — not PadTap return.", fill=MUTED, size=13),
-        t(20, 294, "HSD X0034-91 is shared with USB. NTC + 80 ms ramp. Strain-relief.", fill=MUTED, size=13),
+        t(20, 28, "Y-HARNESS  ·  WIRE-TO-BOARD  ·  VEHICLE 5718 ONTO OUR 6210  ·  OUR 5718 INTO CHARGER", fill=AMBER, size=12, family=MONO),
+        r(20, 56, 160, 150),
+        t(100, 88, "VEHICLE", anchor="middle", fill=STEEL),
+        t(100, 110, "5718 FEMALE", anchor="middle", fill=AMBER, size=12, family=MONO),
+        t(100, 132, "grey 12-way", anchor="middle", fill=MUTED, size=12),
+        t(100, 152, "unplugs from", anchor="middle", fill=MUTED, size=11),
+        t(100, 170, "the charger", anchor="middle", fill=MUTED, size=11),
+        line(180, 130, 220, 130),
+        r(220, 56, 170, 150, fill=PANEL2, stroke=AMBER),
+        t(305, 88, "OUR 6210", anchor="middle", fill=AMBER, size=13, family=MONO),
+        t(305, 110, "DL PCB HEADER", anchor="middle", fill=TEXT, size=12),
+        t(305, 132, "solder pigtail", anchor="middle", fill=MUTED, size=12),
+        t(305, 152, "pot the joints", anchor="middle", fill=MUTED, size=12),
+        t(305, 174, "TH, not wire hsg", anchor="middle", fill=MUTED, size=11),
+        line(390, 100, 430, 100, stroke=STEEL),
+        path("M305 206 V250 H430"),
+        r(430, 50, 160, 110),
+        t(510, 82, "OUR 5718", anchor="middle", fill=STEEL, size=13, family=MONO),
+        t(510, 104, "FEMALE", anchor="middle", fill=TEXT, size=12),
+        t(510, 126, "8240-0213 / 0215", anchor="middle", fill=MUTED, size=11, family=MONO),
+        line(590, 100, 630, 100, stroke=STEEL),
+        r(630, 50, 170, 110),
+        t(715, 82, "CHARGER", anchor="middle", fill=STEEL, size=13, family=MONO),
+        t(715, 104, "6210 HEADER", anchor="middle", fill=AMBER, size=12, family=MONO),
+        t(715, 126, "on 1877045", anchor="middle", fill=MUTED, size=12),
+        t(715, 148, "Qi + NFC + CAN", anchor="middle", fill=MUTED, size=12),
+        r(430, 210, 370, 130, stroke=AMBER),
+        t(615, 242, "TAP  ·  18 AWG INTO 0213  ·  22 AWG INTO 0215", anchor="middle", fill=AMBER, size=12, family=MONO),
+        t(615, 268, "1  RD/BU  8240-0213  → VIN  + NTC + 58 V MINI 3 A", anchor="middle", size=12),
+        t(615, 290, "9  BN/BU  8240-0213  → GND", anchor="middle", size=12),
+        t(615, 312, "4  GN     8240-0215  → TLIN2029 RX only", anchor="middle", fill=MUTED, size=12),
+        t(20, 250, "1:1 on 1, 3, 4, 9, 10, 11, 12. Empty 2, 5–8.", fill=MUTED, size=13),
+        t(20, 274, "Never break 10 (LIN to HVAC) or 11/12 (key-card CAN).", fill=DANGER, size=13),
+        t(20, 298, "Pin 3 WH/BU is USB GND thru — not PadTap return. 16 AWG will not crimp in 0213.", fill=MUTED, size=13),
     ]
-    (OUT / "harness.svg").write_text(svg(720, 360, "\n".join(parts), "Y-harness"), encoding="utf-8")
+    (OUT / "harness.svg").write_text(svg(820, 370, "\n".join(parts), "Y-harness 5718/6210"), encoding="utf-8")
+
+
+def mating():
+    parts = [
+        t(400, 24, "MATING  ·  6098-5718 FEMALE ONTO 6098-6210 DL HEADER  ·  LATCH UP", fill=AMBER, size=12, family=MONO, anchor="middle"),
+        # 5718 housing
+        r(80, 70, 280, 160, fill=PANEL2, stroke=STEEL, rx=18, sw=2),
+        r(160, 70, 120, 22, fill=PANEL, stroke=STEEL, rx=4),
+        t(220, 86, "LATCH / CPA", fill=MUTED, size=11, family=MONO, anchor="middle"),
+        t(220, 112, "6098-5718", fill=AMBER, size=16, family=MONO, anchor="middle"),
+        t(220, 134, "GREY 12-WAY FEMALE", fill=TEXT, size=12, anchor="middle"),
+        t(220, 156, "vehicle plug  ·  Tesla 1042593-03-A", fill=MUTED, size=11, anchor="middle"),
+        t(220, 178, "crimp 8240-0213 / 0215", fill=MUTED, size=11, family=MONO, anchor="middle"),
+        t(220, 204, "1–6 over 7–12", fill=STEEL, size=12, family=MONO, anchor="middle"),
+        # arrow
+        path("M380 150 H430"),
+        t(405, 140, "MATES", fill=AMBER, size=10, family=MONO, anchor="middle"),
+        # 6210 header
+        r(440, 90, 280, 120, fill=PANEL, stroke=AMBER, rx=8, sw=2),
+        t(580, 122, "6098-6210", fill=AMBER, size=16, family=MONO, anchor="middle"),
+        t(580, 144, "DL MALE PCB HEADER", fill=TEXT, size=12, anchor="middle"),
+        t(580, 166, "through-hole  ·  grey  ·  1.5 mm tabs", fill=MUTED, size=11, anchor="middle"),
+        t(580, 188, "on charger 1877045  —  and our Y pigtail", fill=MUTED, size=11, anchor="middle"),
+        # PCB
+        r(500, 220, 160, 28, fill=PANEL2, stroke=LINE, rx=2),
+        t(580, 239, "FR4 BREAKOUT / CHARGER PCB", fill=MUTED, size=10, family=MONO, anchor="middle"),
+        t(40, 280, "Y uses two of each gender: vehicle 5718 → our 6210. Our 5718 → charger 6210. 6210 is not a wire housing.", fill=MUTED, size=13),
+        t(40, 304, "Do not buy 6098-5704 / 5713 (TS natural pair). Different keying.", fill=DANGER, size=13),
+    ]
+    (OUT / "mating.svg").write_text(svg(800, 330, "\n".join(parts), "5718 mates 6210"), encoding="utf-8")
 
 
 def voltage():
@@ -220,7 +259,7 @@ def schematic_direct():
         t(89, 128, "28–58 V", anchor="middle", fill=MUTED, size=11),
         line(154, 115, 190, 115),
         r(190, 98, 58, 34, fill=PANEL2, stroke=STEEL, rx=4),
-        t(219, 120, "F1 3A", anchor="middle", fill=TEXT, size=11, family=MONO),
+        t(219, 120, "F1 58V", anchor="middle", fill=TEXT, size=11, family=MONO),
         line(248, 115, 262, 115),
         r(262, 98, 70, 34, fill=PANEL2, stroke=AMBER, rx=4),
         t(297, 120, "NTC 10Ω", anchor="middle", fill=AMBER, size=11, family=MONO),
@@ -273,7 +312,7 @@ def schematic_direct():
         # FET low side
         line(99, 460, 99, 520, stroke=STEEL),
         r(40, 520, 160, 80, fill=PANEL2, stroke=AMBER),
-        t(120, 548, "Q1 FQP13N10L", anchor="middle", fill=AMBER, size=12, family=MONO),
+        t(120, 548, "Q1 IRL540N", anchor="middle", fill=AMBER, size=12, family=MONO),
         t(120, 568, "N-FET 100 V  low-side", anchor="middle", fill=MUTED, size=11),
         t(120, 586, "D ← sleeve   S → GND", anchor="middle", fill=MUTED, size=11, family=MONO),
         line(120, 600, 120, 640, stroke=STEEL),
@@ -308,7 +347,7 @@ def schematic_buck():
         t(89, 128, "28–58 V", anchor="middle", fill=MUTED, size=11),
         line(154, 115, 190, 115),
         r(190, 98, 58, 34, fill=PANEL2, stroke=STEEL, rx=4),
-        t(219, 120, "F1 3A", anchor="middle", fill=TEXT, size=11, family=MONO),
+        t(219, 120, "F1 58V", anchor="middle", fill=TEXT, size=11, family=MONO),
         line(248, 115, 262, 115),
         r(262, 98, 70, 34, fill=PANEL2, stroke=AMBER, rx=4),
         t(297, 120, "NTC 10Ω", anchor="middle", fill=AMBER, size=11, family=MONO),
@@ -545,6 +584,7 @@ if __name__ == "__main__":
     system(False)
     pin_map()
     harness()
+    mating()
     voltage()
     schematic_direct()
     schematic_buck()
