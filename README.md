@@ -46,7 +46,8 @@ Direct 48 V (`pio run -e direct`):
 
 - ESP32-C3 SuperMini, TLIN2029 **RX only** (TX not wired)
 - IRL540NPBF 100 V FET, low-side on the barrel sleeve
-- LM393 + TL431 OVLO, trips **56.14 V**
+- LM393 + TL431 OVLO, trips **56.14 V** · VIN sense **215 k / 10 k** into GPIO4 (56 V → 2.49 V)
+- Gate: 1 k from GPIO5, 10 k pulldown, 47 k + 1 µF smooth the ramp PWM, 1N4148 for fast turn-off
 - Littelfuse **0997003.WXN** MINI 3 A **58 V** in and out — not a 32 V blade
 - NTC + 80 ms ramp on the harness, outside the box
 
