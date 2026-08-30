@@ -15,4 +15,4 @@ python3 generate.py
 | `schematic-direct.svg` / `schematic-buck.svg` | Controller |
 | `ovlo.svg` | 56.14 V trip |
 | `enclosure-iso.svg` / `enclosure-section.svg` / `enclosure-pack-*.svg` | 108 × 56 × 18 mm sled |
-| `voltage.svg` / `modes.svg` / `gpio.svg` | Limits, modes, GPIO |
+| `pcb-top.svg` | Rev A board, 104.8 × 52.8 mm |

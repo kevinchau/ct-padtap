@@ -75,6 +75,23 @@ pio device monitor -b 115200
 
 OVLO wins: VIN ≥ 56.0 V → FET off.
 
+## PCB — Rev A
+
+2-layer, **104.8 × 52.8 mm**, fits the sled cavity. Gerbers + JLCPCB BOM/CPL: [hardware/pcb/reva](hardware/pcb/reva).
+
+![PadTap Rev A](docs/diagrams/pcb-top.svg)
+
+| Edge | |
+| --- | --- |
+| West | J1 VIN / GND / LIN — 18 AWG, lines up with the comb |
+| East | J2 5.5 mm barrel, center + |
+| South | J3 USB-C, lines up with the window |
+| Lid | Amber + green under the membranes |
+
+Q1 is **IRLR3110 DPAK** (100 V logic-level) so it can be assembled. Fuses and the NTC stay on the harness. TLIN2029 TXD is pulled high — no track to the ESP32.
+
+Upload [`PadTap-RevA-gerbers.zip`](hardware/pcb/reva/PadTap-RevA-gerbers.zip) to JLCPCB: 2-layer, 1.6 mm, black, HASL. First spin — check U2 (XL7015) pinout against the datasheet before paying for SMT.
+
 ## Case
 
 108 × 56 × 18 mm PETG. VHB the lid under a console panel. Comb west, barrel east, USB-C south. Print [hardware/enclosure](hardware/enclosure) (0.2 mm, 4 perimeters). Confirm 18 mm of clearance.
@@ -91,7 +108,7 @@ T20 at **5 N·m**. Meter the official Mini PSU: barrel is 5.5 mm, **center +**. 
 | --- | --- |
 | [hardware/shop.md](hardware/shop.md) | Housings, terminals, 58 V fuses, tools |
 | [hardware/harness.md](hardware/harness.md) | Pin rules |
-| [hardware/schematic-direct.md](hardware/schematic-direct.md) | Direct nets |
+| [hardware/pcb/reva](hardware/pcb/reva) | Rev A Gerbers, BOM, CPL |
 | [firmware/padtap](firmware/padtap) | ESP32-C3 |
 
 MIT. 48 V is live. That is on you.
