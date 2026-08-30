@@ -1,8 +1,17 @@
 # PadTap
 
-Cybertruck center-console **wireless-charger tap** → regulated **36 V** barrel for **Starlink Mini**.
+Cybertruck center-console **wireless-charger tap** → **Starlink Mini**.
 
-The Y-harness sits between Tesla PN **1877045** and the vehicle plug so the pad and the **key-card NFC reader stay alive**. A small board listens to the on-screen pad enable (almost certainly LIN, not a 48 V cut), bucks Tesla’s 28–58 V rail down to 36 V, and switches a 5.5 mm barrel.
+Two controller builds, one Y-harness:
+
+| | **Direct 48 V** (default) | **Buck 36 V** (conservative) |
+| --- | --- | --- |
+| Mini sees | Raw Tesla rail, typically 44–50 V | Regulated 36.00 V |
+| Extra DC-DC | None — FET + OVLO only | 60 V → 36 V buck |
+| 58 V Tesla peak | FET opens at **56.0 V** | Buck absorbs it |
+| Why | Mini input is 60 V-class silicon; skipping the buck saves 4–8 W | Stays inside the printed 12–48 V rating |
+
+The Y-harness sits between Tesla PN **1877045** and the vehicle plug so the pad and the **key-card NFC reader stay alive**. A small board listens to the on-screen pad enable (almost certainly LIN, not a 48 V cut) and switches a 5.5 mm barrel.
 
 This is **not** a Tesla-approved accessory point. Tesla’s approved 48 V taps are the roof and frunk feeds (400 W). Read [SAFETY.md](SAFETY.md) before you open the console.
 
@@ -14,20 +23,21 @@ Three facts get in the way:
 
 1. **Unplugging the pad kills NFC.** Same module. The tap must be a pass-through Y.
 2. **The screen toggle is almost certainly LIN**, not a power cut. Tesla would not drop 48 V to this module just to disable Qi — that would kill the key card. Predecessor Model Y pads already talk LIN (NXP TJA1021). Firmware still auto-detects if Tesla *does* cut 48 V (Mode A).
-3. **Raw Cybertruck 48 V can be 58 V.** Starlink Mini is rated 12–48 V, 60 W. Nominal 44–50 V has worked for people on the roof feed; 58 V is out of spec. PadTap bucks to **36 V**.
+3. **Raw Cybertruck 48 V can be 58 V.** Mini is printed 12–48 V. Teardown: 100 V input FETs, 60 V TVS — hardware takes ~56 V. Direct 48 V passes the nominal 44–50 V rail and **kills the FET at 56.0 V**. Buck 36 V if you want zero overvoltage risk.
 
 ## What’s in this repo
 
 | Path | |
 | --- | --- |
-| [docs/research.md](docs/research.md) | Sources: Tesla DIY 48 V, WPC R&R, owner manual, Starlink spec, CTOC |
+| [docs/research.md](docs/research.md) | Sources: Tesla DIY 48 V, WPC R&R, Mini teardown, Starlink spec |
 | [hardware/harness.md](hardware/harness.md) | Y-harness, connector hunt, hypothesized 4-pin map |
-| [hardware/schematic.md](hardware/schematic.md) | Board nets, protection, forbidden parts |
-| [hardware/bom.csv](hardware/bom.csv) | Order list |
+| [hardware/schematic-direct.md](hardware/schematic-direct.md) | **Direct 48 V** — FET, LM393 OVLO, no buck |
+| [hardware/schematic.md](hardware/schematic.md) | **Buck 36 V** — 60 V → 36 V module |
+| [hardware/bom.csv](hardware/bom.csv) | Order list, `rev` column = `all` / `direct` / `buck` |
 | [hardware/enclosure](hardware/enclosure) | Under-panel PETG sled — OpenSCAD + STL |
-| [firmware/padtap](firmware/padtap) | ESP32-C3 PlatformIO, LIN listen-only, AUTO / A / B / C |
+| [firmware/padtap](firmware/padtap) | ESP32-C3 PlatformIO. Env `direct` (default) or `buck` |
 
-## Architecture
+## Architecture (Direct 48 V)
 
 ```
 Cybertruck console harness
@@ -37,13 +47,16 @@ Cybertruck console harness
         │
         ├ 48V+ / GND / LIN (listen)
         ▼
-     PadTap board  (in 108 × 56 × 18 mm sled)
+     PadTap Direct  (in 108 × 56 × 18 mm sled)
         │  fuse → Schottky → TVS
         ├ 5 V buck  → ESP32-C3 + TLIN2029 (RX only)
-        ├ 36 V buck → FET → 3 A fuse → 5.5×2.1 barrel, center +
+        ├ LM393 OVLO trips FET at 56.0 V
+        ├ 100 V FET → 3 A fuse → 5.5×2.1 barrel, center +
         ▼
-     Starlink Mini   25–40 W avg, 60 W peak
+     Starlink Mini   25–40 W avg, 60 W peak, ~0.8 A @ 48 V
 ```
+
+Buck 36 V inserts a 60 V → 36 V 3 A module between the TVS and the FET. Same sled, same firmware modes, same OVLO.
 
 ### Modes
 
@@ -53,6 +66,8 @@ Cybertruck console harness
 | **A** Power-follow | 48 V is cut with the pads | MOSFET follows VIN |
 | **B** LIN-follow | Expected | MOSFET follows the learned LIN enable bit |
 | **C** Awake-follow | Manual | On whenever the rail is up |
+
+OVLO overrides every mode: VIN ≥ 56.0 V → FET off. Clears at 54.0 V. Serial `ov reset` to force.
 
 ## Probe first
 
@@ -69,34 +84,42 @@ Owner reports say **four pins**. Do not crimp a GT150 (or anything else) until a
 
 Measure idle WPC current. If Tesla’s fuse cannot take pad + 60 W, **stop** and use the 400 W roof/frunk feed.
 
-## Board (Rev A)
+## Board
+
+**Direct 48 V** (`pio run -e direct`)
 
 - ESP32-C3 SuperMini
 - TLIN2029A-Q1 or equivalent, **TX disconnected**
-- Low-profile 8–60 V → 36 V **3 A** buck, **≤ 12 mm tall** (not a 5 A heatsink tower — the sled cavity is 14.6 mm; not LM2596, not MP1584)
-- 7–60 V → 5 V 2 A buck
-- FQP30N06L low-side on the Mini return, **laid flat**
-- ATC 3 A in and out (on the harness, outside the box), SMBJ58A / SMBJ40A
+- 7–60 V → 5 V 2 A buck (not LM2596, not MP1584)
+- **FQP13N10L** 100 V logic-level, laid flat (not the 60 V FQP30N06L)
+- LM393 + TL431 OVLO at 56.14 V, open-collector on the gate
+- ATC 3 A in and out (on the harness, outside the box), SMBJ58A on VIN only
 
-Flash:
+**Buck 36 V** (`pio run -e buck`)
+
+- Same MCU / LIN / 5 V rail
+- Low-profile 8–60 V → 36 V **3 A** buck, **≤ 12 mm tall**
+- FQP30N06L + SMBJ40A on the 36 V output
 
 ```
 cd firmware/padtap
-pio run -t upload
+pio run -e direct -t upload
 pio device monitor -b 115200
 ```
 
-Serial: `mode a` / `mode b` / `mode c` / `mode auto`. First capture fills `firmware/padtap/src/lin_map.h`.
+Serial: `mode a` / `mode b` / `mode c` / `mode auto` / `ov reset`. First capture fills `firmware/padtap/src/lin_map.h`.
 
 ## Enclosure
 
 108 × 56 × 18 mm two-piece PETG. VHB the lid to the underside of a console panel. Wires drop into a west **cable comb** (U-slots, no threading connectors through holes); the Starlink barrel leaves the east; USB-C window on the south for flashing.
 
+Direct 48 V has more cavity — the 36 V module is gone. Same print either way.
+
 Print `hardware/enclosure/padtap_case.scad` (PETG, 0.2 mm, 4 perimeters). Compact STLs in the same folder are slicer-legal. Confirm 18 mm of clearance before you glue.
 
 ## Install (short)
 
-Tesla torque: T20, **5 N·m**. Official access: LH center floor rail → center-console front panel. Bench-test 36.00 V and barrel polarity on the official Starlink PSU **before** the Mini sees the truck. First wake without Starlink: confirm key card and Qi. Then plug the Mini.
+Tesla torque: T20, **5 N·m**. Official access: LH center floor rail → center-console front panel. Bench-test barrel polarity on the official Starlink PSU **before** the Mini sees the truck. Direct: confirm OVLO trips on a current-limited supply ramped through 56 V. Buck: confirm 36.00 V under a dummy load. First wake without Starlink: confirm key card and Qi. Then plug the Mini.
 
 ## Starlink barrel
 

@@ -1,8 +1,17 @@
 #include <Arduino.h>
 #include "lin_map.h"
 
-// PadTap — Cybertruck WPC tap → Starlink Mini 36 V
+// PadTap — Cybertruck WPC tap → Starlink Mini
 // LIN is listen-only. Do not wire TLIN2029 TXD.
+//
+// Direct 48 V (default, -DPADTAP_DIRECT=1): switched raw Tesla rail.
+//   Hardware LM393 + firmware latch kill the FET at 56.0 V.
+// Buck 36 V (-DPADTAP_DIRECT=0): 36 V module is the Mini's supply;
+//   OVLO still trips so a mis-set pot cannot pass 58 V.
+
+#ifndef PADTAP_DIRECT
+#define PADTAP_DIRECT 1
+#endif
 
 static const int PIN_LIN_RX = 20;
 static const int PIN_FET = 5;
@@ -13,6 +22,8 @@ static const int PIN_LED_ARM = 7;
 static const float VIN_DIV_TOP = 100000.0f;
 static const float VIN_DIV_BOT = 10000.0f;
 static const float VIN_RAIL_V = 30.0f;
+static const float VIN_OVLO_V = 56.0f;        // Mini hardware ceiling
+static const float VIN_OVLO_CLEAR_V = 54.0f;  // hysteresis
 static const uint32_t LIN_BAUD = 19200;
 
 enum Mode { MODE_AUTO, MODE_A, MODE_B, MODE_C };
@@ -23,6 +34,7 @@ static bool sawLinToggle = false;
 static bool lastLinEn = false;
 static bool haveLin = false;
 static bool arm = false;
+static bool ovlatched = false;
 
 static uint8_t linBuf[10];
 static uint8_t linLen = 0;
@@ -61,6 +73,10 @@ void parseLinByte(uint8_t b) {
 }
 
 void applyMode(bool rail) {
+  if (ovlatched) {
+    arm = false;
+    return;
+  }
   if (mode == MODE_AUTO) {
     if (!rail) {
       arm = false;
@@ -84,7 +100,8 @@ void setup() {
   Serial.begin(115200);
   Serial1.begin(LIN_BAUD, SERIAL_8E1, PIN_LIN_RX, -1);
   delay(300);
-  Serial.println("PadTap boot  mode=AUTO  LIN RX only");
+  Serial.printf("PadTap boot  build=%s  mode=AUTO  LIN RX only  OVLO=%.0f V\n",
+                PADTAP_DIRECT ? "DIRECT48" : "BUCK36", VIN_OVLO_V);
 }
 
 void loop() {
@@ -98,7 +115,8 @@ void loop() {
     if (cmd == "mode b") mode = MODE_B;
     if (cmd == "mode c") mode = MODE_C;
     if (cmd == "mode auto") mode = MODE_AUTO;
-    Serial.printf("mode=%d\n", (int)mode);
+    if (cmd == "ov reset") ovlatched = false;
+    Serial.printf("mode=%d ov=%d\n", (int)mode, ovlatched);
   }
 
   static bool lastRail = true;
@@ -107,7 +125,16 @@ void loop() {
   if (lastRail && !rail) sawVinDropOnToggle = true;
   lastRail = rail;
 
+  if (vin >= VIN_OVLO_V) {
+    if (!ovlatched) Serial.printf("OVLO trip vin=%.1f\n", vin);
+    ovlatched = true;
+  } else if (ovlatched && vin <= VIN_OVLO_CLEAR_V) {
+    ovlatched = false;
+    Serial.printf("OVLO clear vin=%.1f\n", vin);
+  }
+
   applyMode(rail);
+  if (ovlatched) arm = false;
   digitalWrite(PIN_FET, arm ? HIGH : LOW);
   digitalWrite(PIN_LED_RAIL, rail ? HIGH : LOW);
   digitalWrite(PIN_LED_ARM, arm ? HIGH : LOW);
@@ -115,7 +142,7 @@ void loop() {
   static uint32_t t = 0;
   if (millis() - t > 1000) {
     t = millis();
-    Serial.printf("vin=%.1f rail=%d arm=%d mode=%d lin=%d drop=%d\n",
-                  vin, rail, arm, (int)mode, lastLinEn, sawVinDropOnToggle);
+    Serial.printf("vin=%.1f rail=%d arm=%d mode=%d lin=%d drop=%d ov=%d\n",
+                  vin, rail, arm, (int)mode, lastLinEn, sawVinDropOnToggle, ovlatched);
   }
 }

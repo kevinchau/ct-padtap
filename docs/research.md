@@ -1,6 +1,6 @@
 # Research notes
 
-Compiled 2026-08-29 for kevinchau/ct-padtap.
+Compiled 2026-08-29 for kevinchau/ct-padtap. Direct-48 V path added 2026-08-29.
 
 ## Cybertruck 48 V
 
@@ -12,6 +12,8 @@ Tesla public DIY: [Connecting Accessories to the 48V Power Feeds](https://servic
 - 48 V connectors are **blue**; 48 V wires have **blue tape** ([owner manual](https://www.tesla.com/ownersmanual/cybertruck/en_us/GUID-2233D4D1-D4E5-4897-9A41-DE8593381CAA.html))
 - LV is assumed **always energized**
 - Enable from Controls → Outlets & Mods. Keep Outlets On for after-exit power.
+
+Real-world bus sits in the nominal band. 58 V is the design maximum of the HV→LV converter, not the everyday voltage. Direct 48 V still treats 58 V as a disconnect, not an operating point.
 
 ## Wireless charger
 
@@ -33,7 +35,20 @@ Working assumption: screen toggle is a **LIN command**, not a 48 V cut — other
 
 Barrel: 5.5 mm OD. Spec drawing shows 2.5 mm pin; field reports 2.1 mm plugs working. **Confirm polarity on the official PSU** (center + expected).
 
-CTOC: people have run Mini on the **roof/frunk 48 V feeds** successfully. That is still out of spec at Tesla’s 58 V peak. PadTap bucks to **36 V**.
+### Hardware above 48 V
+
+Printed rating is 48 V. Teardown of the Mini input ([DIY Solar #86410](https://diysolarforum.com/threads/starlink-mini-dc-power-consumption.86410/), PCB photo [Oleg Kutkov](https://x.com/olegkutkov/status/1817940568304971945)):
+
+- Input DC-DC FETs: Infineon **BSZ146N10LS5**, 100 V
+- TVS across the barrel: **60 V** class, clamps ~66–73 V
+- Reverse-protect back-to-back MOSFETs on the input
+- Controller IC unpublished; 48 V-class parts imply ~60 V abs max
+
+That is why Direct 48 V is viable on a Cybertruck: nominal 44–50 V is inside both the printed spec and the silicon. The only conflict is Tesla’s **58 V** design max vs Mini’s **~56 V** comfortable hardware ceiling. PadTap Direct **opens the FET at 56.0 V** (LM393 + firmware latch, clears at 54.0 V). We do not ride the Mini’s TVS.
+
+CTOC: people have run Mini on the **roof/frunk 48 V feeds** successfully at nominal voltage. Direct on the pad tap is the same rail, plus a disconnect for the 58 V tail.
+
+Buck 36 V remains the conservative build if you want the Mini to stay inside the printed 12–48 V rating even during a 58 V excursion.
 
 ## Wiring guide
 

@@ -1,26 +1,30 @@
-group,item,pn,qty,source,cost,why
-Harness,Tesla WPC donor,1877045-00-C,1,eBay / Tesla parts,$80-180,Harvest OEM connector pair
-Harness,16 AWG GXL red+black,GXL-16,3m,Waytek,$12,48 V tap
-Harness,22 AWG GXL green,GXL-22,1m,Waytek,$6,LIN listen tap
-Harness,Adhesive heat-shrink + cloth tape,3:1 dual-wall,1 kit,Amazon,$14,Tesla DIY insulation spec
-Harness,Aptiv GT150 4-way (if photo matches),15326820 / 15326821,1 pair,Waytek,$18,Confirm against YOUR plug
-Board,ESP32-C3 SuperMini,ESP32-C3-FH4,1,LCSC / Amazon,$8,MCU
-Board,LIN transceiver,TLIN2029A-Q1,1,Mouser,$6,Listen-only PHY
-Board,Low-profile 60 V 3 A buck set to 36 V,60Vin 36Vout 3A slim ≤12mm,1,Amazon / LCSC,$12,Must fit 14.6 mm cavity — skip 5 A tower
-Board,7-60 V to 5 V 2 A buck,XL7015 class,1,Amazon,$8,MCU rail — not MP1584
-Board,Logic-level N-FET 60 V,FQP30N06L,1,Digi-Key,$2,Low-side Starlink switch — lay TO-220 flat
-Board,Mini blade fuse holder + 3 A,ATC-3,2,Waytek,$8,In and out — stay on harness outside box
-Board,TVS 58 V,SMBJ58A,1,Digi-Key,$1,VIN clamp
-Board,TVS 40 V,SMBJ40A,1,Digi-Key,$1,V36 clamp
-Board,Schottky 100 V 5 A,SS510,1,Digi-Key,$1,Reverse protect
-Board,Barrel 5.5x2.1 center +,DC5521 male,1,Amazon / Starlink DC extension,$9,Confirm polarity on official PSU
-Board,Divider 100k/10k 1%,0805,1,Digi-Key,$1,VIN sense
-Board,3.3 V zener + gate R,MMSZ5226B,1,Digi-Key,$2,ADC clamp
-Board,LEDs amber/green,3mm,2,Digi-Key,$1,Status through lid membranes
-Case,Printed under-panel sled PETG,hardware/enclosure/,1,Print the STLs / OpenSCAD,~$2 filament,108x56x18 mm VHB lid
-Case,M2.5 x 8 mm + heat-set inserts,M2.5,4,Amazon,$4,Lid screws into base bosses
-Case,3M VHB 5952 12 mm squares,5952,4,Amazon,$8,Lid bed face to panel underside
-Tools,Torx T20,T20,1,any,$8,5 N·m WPC screws
-Tools,Plastic pry set,—,1,any,$10,Console panel
-Tools,DMM 60 V DC,—,1,own,own,Pin ID — LV assumed live
-Tools,Logic analyzer 24 MHz,Saleae or 8-ch,1,Amazon,$15,Optional LIN capture
+group,item,pn,qty,source,cost,why,rev
+Harness,Tesla WPC donor,1877045-00-C,1,eBay / Tesla parts,$80-180,Harvest OEM connector pair,all
+Harness,16 AWG GXL red+black,GXL-16,3m,Waytek,$12,48 V tap — 60 W is 1.25 A at 48 V / 1.7 A at 36 V,all
+Harness,22 AWG GXL green,GXL-22,1m,Waytek,$6,LIN listen tap,all
+Harness,Adhesive heat-shrink + cloth tape,3:1 dual-wall,1 kit,Amazon,$14,Tesla DIY insulation spec,all
+Harness,Aptiv GT150 4-way (if photo matches),15326820 / 15326821,1 pair,Waytek,$18,Confirm against YOUR plug,all
+Board,ESP32-C3 SuperMini,ESP32-C3-FH4,1,LCSC / Amazon,$8,MCU,all
+Board,LIN transceiver,TLIN2029A-Q1,1,Mouser,$6,Listen-only PHY,all
+Board,7-60 V to 5 V 2 A buck,XL7015 class,1,Amazon,$8,MCU rail — not MP1584,all
+Board,Mini blade fuse holder + 3 A,ATC-3,2,Waytek,$8,In and out — stay on harness outside box,all
+Board,TVS 58 V,SMBJ58A,1,Digi-Key,$1,VIN clamp,all
+Board,Schottky 100 V 5 A,SS510,1,Digi-Key,$1,Reverse protect,all
+Board,Barrel 5.5x2.1 center +,DC5521 male,1,Amazon / Starlink DC extension,$9,Confirm polarity on official PSU,all
+Board,Divider 100k/10k 1%,0805,1,Digi-Key,$1,VIN sense into ESP32 ADC,all
+Board,3.3 V zener + gate R,MMSZ5226B,1,Digi-Key,$2,ADC clamp,all
+Board,LEDs amber/green,3mm,2,Digi-Key,$1,Status through lid membranes,all
+Direct 48 V,Logic-level N-FET 100 V,FQP13N10L,1,Digi-Key 671-FQP13N10L,$3,Low-side Mini switch — 60 V FET is too close to Tesla 58 V,direct
+Direct 48 V,LM393 dual comparator,LM393P,1,Digi-Key,$1,Hardware OVLO open-collector on FET gate,direct
+Direct 48 V,TL431 2.495 V ref,TL431ACP,1,Digi-Key,$1,LM393 IN+ reference,direct
+Direct 48 V,OVLO divider 215k / 10k 1%,215k+10k,1,Digi-Key,$1,Trip 2.495 × 225/10 = 56.14 V,direct
+Buck 36 V,Low-profile 60 V 3 A buck set to 36 V,60Vin 36Vout 3A slim ≤12mm,1,Amazon / LCSC,$12,Must fit 14.6 mm cavity — skip 5 A tower,buck
+Buck 36 V,Logic-level N-FET 60 V,FQP30N06L,1,Digi-Key 671-FQP30N06L,$2,Low-side Starlink switch on 36 V — lay TO-220 flat,buck
+Buck 36 V,TVS 40 V,SMBJ40A,1,Digi-Key,$1,V36 clamp,buck
+Case,Printed under-panel sled PETG,hardware/enclosure/,1,Print the STLs / OpenSCAD,~$2 filament,108x56x18 mm VHB lid,all
+Case,M2.5 x 8 mm + heat-set inserts,M2.5,4,Amazon,$4,Lid screws into base bosses,all
+Case,3M VHB 5952 12 mm squares,5952,4,Amazon,$8,Lid bed face to panel underside,all
+Tools,Torx T20,T20,1,any,$8,5 N·m WPC screws,all
+Tools,Plastic pry set,—,1,any,$10,Console panel,all
+Tools,DMM 60 V DC,—,1,own,own,Pin ID — LV assumed live,all
+Tools,Logic analyzer 24 MHz,Saleae or 8-ch,1,Amazon,$15,Optional LIN capture,all
