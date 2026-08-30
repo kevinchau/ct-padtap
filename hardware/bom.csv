@@ -6,18 +6,20 @@ Harness,Adhesive heat-shrink + cloth tape,3:1 dual-wall,1 kit,Amazon,$14,Tesla D
 Harness,Aptiv GT150 4-way (if photo matches),15326820 / 15326821,1 pair,Waytek,$18,Confirm against YOUR plug
 Board,ESP32-C3 SuperMini,ESP32-C3-FH4,1,LCSC / Amazon,$8,MCU
 Board,LIN transceiver,TLIN2029A-Q1,1,Mouser,$6,Listen-only PHY
-Board,60 V-in 5 A buck set to 36 V,DROK 8-60V to 1-36V 5A,1,Amazon,$18,Starlink rail
+Board,Low-profile 60 V 3 A buck set to 36 V,60Vin 36Vout 3A slim ≤12mm,1,Amazon / LCSC,$12,Must fit 14.6 mm cavity — skip 5 A tower
 Board,7-60 V to 5 V 2 A buck,XL7015 class,1,Amazon,$8,MCU rail — not MP1584
-Board,Logic-level N-FET 60 V,FQP30N06L,1,Digi-Key,$2,Low-side Starlink switch
-Board,Mini blade fuse holder + 3 A,ATC-3,2,Waytek,$8,In and out
+Board,Logic-level N-FET 60 V,FQP30N06L,1,Digi-Key,$2,Low-side Starlink switch — lay TO-220 flat
+Board,Mini blade fuse holder + 3 A,ATC-3,2,Waytek,$8,In and out — stay on harness outside box
 Board,TVS 58 V,SMBJ58A,1,Digi-Key,$1,VIN clamp
 Board,TVS 40 V,SMBJ40A,1,Digi-Key,$1,V36 clamp
 Board,Schottky 100 V 5 A,SS510,1,Digi-Key,$1,Reverse protect
 Board,Barrel 5.5x2.1 center +,DC5521 male,1,Amazon / Starlink DC extension,$9,Confirm polarity on official PSU
 Board,Divider 100k/10k 1%,0805,1,Digi-Key,$1,VIN sense
 Board,3.3 V zener + gate R,MMSZ5226B,1,Digi-Key,$2,ADC clamp
-Board,LEDs amber/green,3mm,2,Digi-Key,$1,Status
-Board,Enclosure,Hammond 1551K,1,Digi-Key,$12,Under-console
+Board,LEDs amber/green,3mm,2,Digi-Key,$1,Status through lid membranes
+Case,Printed under-panel sled PETG,hardware/enclosure/,1,Print the STLs / OpenSCAD,~$2 filament,108x56x18 mm VHB lid
+Case,M2.5 x 8 mm + heat-set inserts,M2.5,4,Amazon,$4,Lid screws into base bosses
+Case,3M VHB 5952 12 mm squares,5952,4,Amazon,$8,Lid bed face to panel underside
 Tools,Torx T20,T20,1,any,$8,5 N·m WPC screws
 Tools,Plastic pry set,—,1,any,$10,Console panel
 Tools,DMM 60 V DC,—,1,own,own,Pin ID — LV assumed live

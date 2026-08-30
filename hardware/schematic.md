@@ -3,7 +3,7 @@
 48 V in (Tesla 28–58 V) → fused → reverse Schottky → TVS → two bucks.
 
 - **5 V buck** (7–60 V in): ESP32-C3 + TLIN2029A-Q1 VSUP
-- **36 V buck** (8–60 V in, 5 A): Starlink Mini sweet spot
+- **36 V buck** (8–60 V in, 3 A, ≤12 mm tall): Starlink Mini sweet spot. Must fit the 14.6 mm sled cavity.
 - **FQP30N06L** low-side switch on Starlink return
 - **LIN RX only** — TX pin not wired
 

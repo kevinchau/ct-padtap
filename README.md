@@ -24,6 +24,7 @@ Three facts get in the way:
 | [hardware/harness.md](hardware/harness.md) | Y-harness, connector hunt, hypothesized 4-pin map |
 | [hardware/schematic.md](hardware/schematic.md) | Board nets, protection, forbidden parts |
 | [hardware/bom.csv](hardware/bom.csv) | Order list |
+| [hardware/enclosure](hardware/enclosure) | Under-panel PETG sled — OpenSCAD + STL |
 | [firmware/padtap](firmware/padtap) | ESP32-C3 PlatformIO, LIN listen-only, AUTO / A / B / C |
 
 ## Architecture
@@ -36,7 +37,7 @@ Cybertruck console harness
         │
         ├ 48V+ / GND / LIN (listen)
         ▼
-     PadTap board
+     PadTap board  (in 108 × 56 × 18 mm sled)
         │  fuse → Schottky → TVS
         ├ 5 V buck  → ESP32-C3 + TLIN2029 (RX only)
         ├ 36 V buck → FET → 3 A fuse → 5.5×2.1 barrel, center +
@@ -72,10 +73,10 @@ Measure idle WPC current. If Tesla’s fuse cannot take pad + 60 W, **stop** and
 
 - ESP32-C3 SuperMini
 - TLIN2029A-Q1 or equivalent, **TX disconnected**
-- 8–60 V → 36 V 5 A buck (not LM2596, not MP1584)
+- Low-profile 8–60 V → 36 V **3 A** buck, **≤ 12 mm tall** (not a 5 A heatsink tower — the sled cavity is 14.6 mm; not LM2596, not MP1584)
 - 7–60 V → 5 V 2 A buck
-- FQP30N06L low-side on the Mini return
-- ATC 3 A in and out, SMBJ58A / SMBJ40A
+- FQP30N06L low-side on the Mini return, **laid flat**
+- ATC 3 A in and out (on the harness, outside the box), SMBJ58A / SMBJ40A
 
 Flash:
 
@@ -86,6 +87,12 @@ pio device monitor -b 115200
 ```
 
 Serial: `mode a` / `mode b` / `mode c` / `mode auto`. First capture fills `firmware/padtap/src/lin_map.h`.
+
+## Enclosure
+
+108 × 56 × 18 mm two-piece PETG. VHB the lid to the underside of a console panel. Wires drop into a west **cable comb** (U-slots, no threading connectors through holes); the Starlink barrel leaves the east; USB-C window on the south for flashing.
+
+Print `hardware/enclosure/padtap_case.scad` (PETG, 0.2 mm, 4 perimeters). Compact STLs in the same folder are slicer-legal. Confirm 18 mm of clearance before you glue.
 
 ## Install (short)
 
