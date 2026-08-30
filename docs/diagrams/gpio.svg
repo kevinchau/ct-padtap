@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="408" viewBox="0 0 800 408" role="img" aria-label="GPIO map">
+<rect width="800" height="408" fill="#0B0C0E"/>
+<text x="24" y="32" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">GPIO MAP  ·  ESP32-C3 SUPERMINI  ·  SAME FOR DIRECT AND BUCK</text>
+<rect x="20" y="48" width="760" height="46" rx="4" fill="#1C1E22" stroke="none" stroke-width="1.5"/>
+<text x="40" y="76" fill="#8B9098" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">PIN</text>
+<text x="140" y="76" fill="#8B9098" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">FN</text>
+<text x="280" y="76" fill="#8B9098" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">NET</text>
+<text x="430" y="76" fill="#8B9098" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">NOTES</text>
+<rect x="20" y="100" width="760" height="44" rx="4" fill="#1C1E22" stroke="none" stroke-width="1.5"/>
+<text x="40" y="128" fill="#E8A317" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">GPIO20</text>
+<text x="140" y="128" fill="#E8EAED" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">UART RX</text>
+<text x="280" y="128" fill="#C5C8CE" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">TLIN2029 RXD</text>
+<text x="430" y="128" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">LIN 19.2 kbps 8E1. TX pin not wired.</text>
+<rect x="20" y="148" width="760" height="44" rx="4" fill="#1C1E22" stroke="none" stroke-width="1.5"/>
+<text x="40" y="176" fill="#E8A317" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">GPIO5</text>
+<text x="140" y="176" fill="#E8EAED" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">FET gate</text>
+<text x="280" y="176" fill="#C5C8CE" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">Q1 via 1 k</text>
+<text x="430" y="176" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Active high. LM393 OC can pull it down.</text>
+<rect x="20" y="196" width="760" height="44" rx="4" fill="#1C1E22" stroke="none" stroke-width="1.5"/>
+<text x="40" y="224" fill="#E8A317" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">GPIO4</text>
+<text x="140" y="224" fill="#E8EAED" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">ADC</text>
+<text x="280" y="224" fill="#C5C8CE" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">VIN_48 divider</text>
+<text x="430" y="224" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">100 k / 10 k + 3.3 V zener. 12-bit.</text>
+<rect x="20" y="244" width="760" height="44" rx="4" fill="#1C1E22" stroke="none" stroke-width="1.5"/>
+<text x="40" y="272" fill="#E8A317" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">GPIO6</text>
+<text x="140" y="272" fill="#E8EAED" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">LED amber</text>
+<text x="280" y="272" fill="#C5C8CE" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">Rail present</text>
+<text x="430" y="272" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">VIN &gt; 30 V. Lid membrane.</text>
+<rect x="20" y="292" width="760" height="44" rx="4" fill="#1C1E22" stroke="none" stroke-width="1.5"/>
+<text x="40" y="320" fill="#E8A317" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">GPIO7</text>
+<text x="140" y="320" fill="#E8EAED" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">LED green</text>
+<text x="280" y="320" fill="#C5C8CE" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">Output armed</text>
+<text x="430" y="320" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">FET on. Lid membrane.</text>
+<rect x="20" y="340" width="760" height="44" rx="4" fill="#1C1E22" stroke="none" stroke-width="1.5"/>
+<text x="40" y="368" fill="#E8A317" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">USB-C</text>
+<text x="140" y="368" fill="#E8EAED" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">CDC</text>
+<text x="280" y="368" fill="#C5C8CE" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">ESP32-C3 SuperMini</text>
+<text x="430" y="368" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Flash + serial. Tape the window after.</text>
+</svg>

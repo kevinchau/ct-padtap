@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="370" viewBox="0 0 800 370" role="img" aria-label="OVLO detail">
+<rect width="800" height="370" fill="#0B0C0E"/>
+<text x="24" y="28" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">OVLO DETAIL  ·  HARDWARE WINS OVER A WEDGED MCU</text>
+<rect x="20" y="48" width="760" height="300" rx="8" fill="#141518" stroke="#2A2D32" stroke-width="1.5"/>
+<text x="48" y="84" fill="#E8A317" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">VIN_48</text>
+<path d="M110 78 H200" fill="none" stroke="#E8A317" stroke-width="2"/>
+<text x="210" y="70" fill="#C5C8CE" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">215 k 1%</text>
+<line x1="200" y1="78" x2="360" y2="78" stroke="#E8A317" stroke-width="2"/>
+<circle cx="360" cy="78" r="3" fill="#E8A317" stroke="#E8A317" stroke-width="1.5"/>
+<text x="372" y="70" fill="#6AA6C9" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">IN−</text>
+<line x1="360" y1="78" x2="360" y2="140" stroke="#C5C8CE" stroke-width="2"/>
+<text x="210" y="160" fill="#C5C8CE" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">10 k 1%</text>
+<line x1="360" y1="140" x2="360" y2="200" stroke="#C5C8CE" stroke-width="2"/>
+<text x="372" y="200" fill="#8B9098" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">GND</text>
+<rect x="500" y="56" width="240" height="120" rx="8" fill="#1C1E22" stroke="#E8A317" stroke-width="1.5"/>
+<text x="620" y="88" fill="#E8A317" font-size="14" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">U1 LM393</text>
+<text x="620" y="110" fill="#E8EAED" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">IN+ = TL431 2.495 V</text>
+<text x="620" y="130" fill="#8B9098" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">VCC = 5 V from U2</text>
+<text x="620" y="150" fill="#E8EAED" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">OC to Q1 gate</text>
+<text x="48" y="230" fill="#E8A317" font-size="14" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">Trip  2.495 × (215k+10k)/10k  =  56.14 V</text>
+<text x="48" y="256" fill="#C45C4A" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Do not substitute 200 k — that trips at 52 V, inside Tesla nominal.</text>
+<text x="48" y="282" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Firmware latches at 56.0 V, clears at 54.0 V. Serial: ov reset.</text>
+<text x="48" y="308" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">1 k between GPIO5 and gate so a comparator fight is 3.3 mA, not 33 mA.</text>
+<text x="48" y="332" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">A 54 V TVS across the barrel would dump a legal 50 V Tesla rail. Disconnect, don’t clamp.</text>
+</svg>

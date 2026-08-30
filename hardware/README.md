@@ -1,6 +1,6 @@
 # Hardware
 
-See [../README.md](../README.md) for the full design.
+See [../README.md](../README.md) for the full design. Drawings: [../docs/diagrams/](../docs/diagrams/).
 
 | Path | What |
 | --- | --- |

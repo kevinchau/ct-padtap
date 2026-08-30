@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="220" viewBox="0 0 800 220" role="img" aria-label="Firmware modes">
+<rect width="800" height="220" fill="#0B0C0E"/>
+<text x="24" y="28" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">MODES  ·  OVLO AT 56.0 V OVERRIDES EVERY ONE</text>
+<rect x="20" y="50" width="185" height="150" rx="8" fill="#141518" stroke="#2A2D32" stroke-width="1.5"/>
+<text x="36" y="78" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">MODE AUTO</text>
+<text x="36" y="104" fill="#E8EAED" font-size="15" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">First boot</text>
+<text x="36" y="132" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Latches A if 48 V drops</text>
+<text x="36" y="150" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">on toggle; B if LIN flips.</text>
+<rect x="215" y="50" width="185" height="150" rx="8" fill="#141518" stroke="#2A2D32" stroke-width="1.5"/>
+<text x="231" y="78" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">MODE A</text>
+<text x="231" y="104" fill="#E8EAED" font-size="15" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Power-follow</text>
+<text x="231" y="132" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">48 V is cut with the pads.</text>
+<text x="231" y="150" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">MOSFET follows VIN.</text>
+<rect x="410" y="50" width="185" height="150" rx="8" fill="#141518" stroke="#E8A317" stroke-width="1.5"/>
+<text x="426" y="78" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">MODE B</text>
+<text x="426" y="104" fill="#E8EAED" font-size="15" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">LIN-follow</text>
+<text x="426" y="132" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Expected. MOSFET follows</text>
+<text x="426" y="150" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">the learned enable bit.</text>
+<text x="426" y="168" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">NFC stays up.</text>
+<rect x="605" y="50" width="185" height="150" rx="8" fill="#141518" stroke="#2A2D32" stroke-width="1.5"/>
+<text x="621" y="78" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">MODE C</text>
+<text x="621" y="104" fill="#E8EAED" font-size="15" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Awake-follow</text>
+<text x="621" y="132" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">On whenever the rail is up.</text>
+<text x="621" y="150" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Keep Outlets On / Camp.</text>
+</svg>

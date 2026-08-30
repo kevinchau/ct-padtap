@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="340" viewBox="0 0 720 340" role="img" aria-label="Interior packing OVLO 56 V">
+<rect width="720" height="340" fill="#0B0C0E"/>
+<text x="360" y="22" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">TOP  ·  LID OFF  ·  DIRECT 48 V  ·  104.8 × 52.8 × 14.6 mm</text>
+<rect x="48" y="48" width="624" height="248" rx="10" fill="#141518" stroke="#C5C8CE" stroke-width="1.5"/>
+<rect x="48" y="88" width="14" height="22" rx="1" fill="#0B0C0E" stroke="#E8A317" stroke-width="1.5"/>
+<rect x="48" y="124" width="14" height="22" rx="1" fill="#0B0C0E" stroke="#E8A317" stroke-width="1.5"/>
+<rect x="48" y="160" width="14" height="22" rx="1" fill="#0B0C0E" stroke="#E8A317" stroke-width="1.5"/>
+<text x="36" y="178" fill="#E8A317" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="end">COMB</text>
+<rect x="86" y="64" width="250" height="88" rx="4" fill="#1C1E22" stroke="#E8A317" stroke-width="1.5"/>
+<text x="211" y="102" fill="#E8A317" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">OVLO 56 V</text>
+<text x="211" y="122" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">LM393 + TL431 + 215 k</text>
+<rect x="86" y="168" width="168" height="80" rx="4" fill="#1C1E22" stroke="#2A2D32" stroke-width="1.5"/>
+<text x="170" y="204" fill="#C5C8CE" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">LIN PHY</text>
+<text x="170" y="222" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">TX off</text>
+<rect x="266" y="168" width="110" height="80" rx="4" fill="#1C1E22" stroke="#2A2D32" stroke-width="1.5"/>
+<text x="321" y="204" fill="#C5C8CE" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">5 V</text>
+<text x="321" y="222" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">22 × 17</text>
+<rect x="390" y="168" width="140" height="80" rx="4" fill="#1C1E22" stroke="#E8A317" stroke-width="1.5"/>
+<text x="460" y="204" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">ESP32-C3</text>
+<text x="460" y="222" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">USB → south</text>
+<rect x="546" y="64" width="70" height="184" rx="4" fill="#1C1E22" stroke="#2A2D32" stroke-width="1.5"/>
+<text x="581" y="150" fill="#C5C8CE" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">FET</text>
+<text x="581" y="168" fill="#8B9098" font-size="10" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">100 V</text>
+<circle cx="672" cy="172" r="16" fill="#0B0C0E" stroke="#E8A317" stroke-width="1.5"/>
+<text x="704" y="168" fill="#E8A317" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">Ø8.2</text>
+<rect x="422" y="288" width="76" height="8" rx="1" fill="#0B0C0E" stroke="#E8A317" stroke-width="1.5"/>
+<text x="460" y="322" fill="#E8A317" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">USB-C</text>
+</svg>

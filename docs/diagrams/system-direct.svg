@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="430" viewBox="0 0 920 430" role="img" aria-label="PadTap system DIRECT 48 V">
+<rect width="920" height="430" fill="#0B0C0E"/>
+<rect x="8" y="70" width="170" height="220" rx="8" fill="#141518" stroke="#2A2D32" stroke-width="1.5"/>
+<text x="93" y="108" fill="#C5C8CE" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">Cybertruck</text>
+<text x="93" y="128" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">console harness</text>
+<text x="93" y="168" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">48V+  GND</text>
+<text x="93" y="188" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">LIN   P4</text>
+<text x="93" y="240" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">28–58 V</text>
+<text x="93" y="258" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">NFC + Qi module</text>
+<line x1="178" y1="180" x2="250" y2="180" stroke="#E8A317" stroke-width="2"/>
+<rect x="250" y="90" width="150" height="180" rx="8" fill="#1C1E22" stroke="#E8A317" stroke-width="1.5"/>
+<text x="325" y="128" fill="#E8A317" font-size="14" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">Y-HARNESS</text>
+<text x="325" y="152" fill="#E8EAED" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">all 4 pins</text>
+<text x="325" y="170" fill="#E8EAED" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">1:1 pass-through</text>
+<text x="325" y="210" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">tap 48V / GND / LIN</text>
+<line x1="400" y1="150" x2="470" y2="150" stroke="#C5C8CE" stroke-width="2"/>
+<path d="M325 270 V320 H470" fill="none" stroke="#E8A317" stroke-width="2"/>
+<rect x="470" y="70" width="170" height="140" rx="8" fill="#141518" stroke="#2A2D32" stroke-width="1.5"/>
+<text x="555" y="112" fill="#C5C8CE" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">WPC 1877045</text>
+<text x="555" y="136" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">dual 15 W Qi</text>
+<text x="555" y="156" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">key-card NFC</text>
+<rect x="470" y="250" width="170" height="140" rx="8" fill="#141518" stroke="#E8A317" stroke-width="1.5"/>
+<text x="555" y="292" fill="#E8A317" font-size="14" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">DIRECT 48 V</text>
+<text x="555" y="316" fill="#E8EAED" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">LIN sniffer</text>
+<text x="555" y="334" fill="#E8EAED" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">OVLO kills FET at 56 V</text>
+<text x="555" y="352" fill="#E8EAED" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">100 V FET + 3 A fuse</text>
+<line x1="640" y1="320" x2="710" y2="320" stroke="#E8A317" stroke-width="2"/>
+<rect x="710" y="250" width="190" height="140" rx="8" fill="#141518" stroke="#2A2D32" stroke-width="1.5"/>
+<text x="805" y="300" fill="#C5C8CE" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">Starlink Mini</text>
+<text x="805" y="324" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">44–50 V  ·  5.5 mm</text>
+<text x="805" y="344" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">25–40 W avg · 60 W pk</text>
+<text x="20" y="28" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">PADTAP  ·  SYSTEM  ·  DIRECT 48 V</text>
+</svg>

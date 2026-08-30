@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-label="Buck 36 V schematic">
+<rect width="1280" height="640" fill="#0B0C0E"/>
+<text x="24" y="32" fill="#E8A317" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">SCHEMATIC  ·  PADTAP BUCK 36 V  ·  CONSERVATIVE  ·  STAYS IN 12–48 V PRINT</text>
+<rect x="24" y="80" width="130" height="70" rx="8" fill="#1C1E22" stroke="#E8A317" stroke-width="1.5"/>
+<text x="89" y="108" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">TESLA 48 V</text>
+<text x="89" y="128" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">28–58 V</text>
+<line x1="154" y1="115" x2="200" y2="115" stroke="#E8A317" stroke-width="2"/>
+<rect x="200" y="98" width="70" height="34" rx="4" fill="#1C1E22" stroke="#C5C8CE" stroke-width="1.5"/>
+<text x="235" y="120" fill="#E8EAED" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">F1 3 A</text>
+<line x1="270" y1="115" x2="310" y2="115" stroke="#E8A317" stroke-width="2"/>
+<rect x="310" y="98" width="90" height="34" rx="4" fill="#1C1E22" stroke="#C5C8CE" stroke-width="1.5"/>
+<text x="355" y="120" fill="#E8EAED" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">D1 SS510</text>
+<line x1="400" y1="115" x2="455" y2="115" stroke="#E8A317" stroke-width="2"/>
+<circle cx="455" cy="115" r="4" fill="#E8A317" stroke="#E8A317" stroke-width="1.5"/>
+<text x="455" y="90" fill="#E8A317" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">VIN_48</text>
+<line x1="455" y1="115" x2="455" y2="170" stroke="#C5C8CE" stroke-width="2"/>
+<rect x="410" y="170" width="90" height="36" rx="4" fill="#1C1E22" stroke="#C5C8CE" stroke-width="1.5"/>
+<text x="455" y="193" fill="#E8EAED" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">D2 SMBJ58A</text>
+<line x1="455" y1="115" x2="560" y2="80" stroke="#E8A317" stroke-width="2"/>
+<rect x="560" y="50" width="200" height="80" rx="8" fill="#1C1E22" stroke="#E8A317" stroke-width="1.5"/>
+<text x="660" y="80" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">U5  36 V BUCK  3 A</text>
+<text x="660" y="100" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">≤12 mm tall  ·  60 V in</text>
+<text x="660" y="118" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">set 36.00 V  ·  Loctite pot</text>
+<line x1="455" y1="115" x2="560" y2="175" stroke="#E8A317" stroke-width="2"/>
+<rect x="560" y="150" width="200" height="70" rx="8" fill="#1C1E22" stroke="#2A2D32" stroke-width="1.5"/>
+<text x="660" y="178" fill="#C5C8CE" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">U2  5 V BUCK</text>
+<text x="660" y="198" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">ESP32 + TLIN VSUP</text>
+<line x1="760" y1="90" x2="820" y2="90" stroke="#E8A317" stroke-width="2"/>
+<rect x="820" y="50" width="160" height="70" rx="4" fill="#1C1E22" stroke="#C5C8CE" stroke-width="1.5"/>
+<text x="900" y="78" fill="#E8EAED" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">D3 SMBJ40A</text>
+<text x="900" y="98" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">across 36 V</text>
+<line x1="900" y1="120" x2="900" y2="200" stroke="#C5C8CE" stroke-width="2"/>
+<rect x="820" y="200" width="160" height="80" rx="8" fill="#1C1E22" stroke="#E8A317" stroke-width="1.5"/>
+<text x="900" y="232" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">Q1 FQP30N06L</text>
+<text x="900" y="252" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">low-side on 36 V return</text>
+<text x="900" y="270" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">60 V OK here</text>
+<line x1="900" y1="280" x2="900" y2="340" stroke="#C5C8CE" stroke-width="2"/>
+<rect x="820" y="340" width="200" height="80" rx="8" fill="#141518" stroke="#E8A317" stroke-width="1.5"/>
+<text x="920" y="372" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">BARREL 5.5 mm</text>
+<text x="920" y="394" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">center +  = 36.00 V</text>
+<text x="920" y="412" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">F2 3 A on 36 V out</text>
+<rect x="560" y="250" width="200" height="170" rx="8" fill="#1C1E22" stroke="#E8A317" stroke-width="1.5"/>
+<text x="660" y="284" fill="#E8A317" font-size="13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">U3 ESP32-C3</text>
+<text x="660" y="308" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">same GPIO map</text>
+<text x="660" y="328" fill="#8B9098" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">U4 TLIN2029  RX only</text>
+<text x="660" y="352" fill="#E8A317" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">OVLO still in firmware</text>
+<text x="660" y="374" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">mis-set pot cannot pass 58 V</text>
+<text x="660" y="396" fill="#C5C8CE" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">pio run -e buck</text>
+<text x="24" y="500" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Use this build if you want the Mini inside its printed 12–48 V rating during a 58 V Tesla peak.</text>
+<text x="24" y="524" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Same Y-harness, same sled, same modes. Extra parts: 36 V module, FQP30N06L, SMBJ40A.</text>
+<text x="24" y="560" fill="#C45C4A" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Forbidden: LM2596 (40 V), MP1584 (28 V), driving LIN TX, low-siding the WPC ground.</text>
+</svg>

@@ -17,9 +17,10 @@ VIN_48 ── ATC 3 A ── Schottky SS510 ──┬── SMBJ58A ── GND
                                       │                              IN+ = 2.495 V (TL431)
                                       │                              OC output ── FET gate
                                       │
-                                      └── FQP13N10L drain
-                                              source ── ATC 3 A ── barrel center +
-                                              gate ← ESP32 GPIO5 via 1 k, 10 k pulldown
+                                      └── F2 3 A ── barrel center +
+                                                    barrel sleeve ── Q1 drain (FQP13N10L, 100 V)
+                                                                     Q1 source ── GND
+                                                                     Q1 gate ← GPIO5 + LM393 OC
 ```
 
 Low-side switch on the Mini return, same as the 36 V build. Do **not** low-side the WPC ground.
@@ -54,12 +55,13 @@ Firmware is the second gate: latches `ov` at 56.0 V, clears at 54.0 V, serial `o
 
 | Net | From | To |
 | --- | --- | --- |
-| VIN_48 | Y-harness 48 V+ via 3 A fuse | Schottky → SMBJ58A → 5 V buck + FET drain |
-| GND | Y-harness GND | Board GND, FET source via output fuse to barrel sleeve |
+| VIN_48 | Y-harness 48 V+ via 3 A fuse | Schottky → SMBJ58A → 5 V buck + barrel center via F2 |
+| GND | Y-harness GND | Board GND, Q1 source |
 | LIN_BUS | Y-harness LIN (parallel) | TLIN2029 LIN pin |
 | LIN_RX | TLIN2029 RXD | ESP32 GPIO20 |
 | V5 | 5 V buck | ESP32 5V, TLIN VSUP, LM393 VCC, TL431 bias |
-| VOUT | FET source via 3 A fuse | Barrel center + |
+| VOUT+ | F2 3 A after VIN | Barrel center + (unswitched) |
+| VOUT− | Barrel sleeve | Q1 drain (switched low-side) |
 | VSENSE | 100 k / 10 k on VIN_48 | ESP32 ADC, 3.3 V zener |
 | nGATE | ESP32 GPIO5 + 1 k, LM393 OC | FQP13N10L gate, 10 k pulldown |
 

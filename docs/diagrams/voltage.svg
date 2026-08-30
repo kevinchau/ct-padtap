@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="270" viewBox="0 0 720 270" role="img" aria-label="Voltage overlap">
+<rect width="720" height="270" fill="#0B0C0E"/>
+<text x="20" y="28" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">VOLTAGE OVERLAP  ·  TESLA 48 V vs STARLINK MINI</text>
+<rect x="20" y="50" width="680" height="200" rx="8" fill="#141518" stroke="#2A2D32" stroke-width="1.5"/>
+<line x1="40" y1="110" x2="680" y2="110" stroke="#2A2D32" stroke-width="4"/>
+<rect x="149.7" y="98" width="329.1" height="12" rx="2" fill="#7DAE74" opacity="0.45"/>
+<rect x="478.9" y="98" width="73.1" height="12" rx="2" fill="#E8A317" opacity="0.55"/>
+<rect x="296.0" y="118" width="201.1" height="8" rx="2" fill="#E8A317" opacity="0.85"/>
+<rect x="552.0" y="98" width="18.3" height="12" rx="2" fill="#C45C4A"/>
+<line x1="149.71428571428572" y1="88" x2="149.71428571428572" y2="132" stroke="#8B9098" stroke-width="1"/>
+<text x="149.71428571428572" y="84" fill="#8B9098" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">12</text>
+<line x1="296.0" y1="88" x2="296.0" y2="132" stroke="#8B9098" stroke-width="1"/>
+<text x="296.0" y="84" fill="#8B9098" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">28</text>
+<line x1="478.8571428571429" y1="88" x2="478.8571428571429" y2="132" stroke="#E8EAED" stroke-width="1"/>
+<text x="478.8571428571429" y="84" fill="#E8EAED" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">48</text>
+<line x1="552.0" y1="88" x2="552.0" y2="132" stroke="#E8A317" stroke-width="1"/>
+<text x="552.0" y="84" fill="#E8A317" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">56 OVLO</text>
+<line x1="570.2857142857143" y1="88" x2="570.2857142857143" y2="132" stroke="#C45C4A" stroke-width="1"/>
+<text x="570.2857142857143" y="84" fill="#C45C4A" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">58</text>
+<text x="40" y="168" fill="#7DAE74" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Mini printed 12–48 V</text>
+<text x="40" y="190" fill="#E8A317" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Mini hardware ~56 V  ·  Direct FET opens here</text>
+<text x="40" y="212" fill="#C45C4A" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Tesla accessory max 58 V  ·  Direct disconnects, Buck absorbs</text>
+<text x="40" y="234" fill="#8B9098" font-size="13" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="start">Nominal Cybertruck rail 44–50 V — both builds pass this</text>
+</svg>
