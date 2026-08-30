@@ -1,10 +1,9 @@
 # PCB
 
-[**Rev A — Direct 48 V**](reva/) is the board that fits the sled.
+[**Rev A.1 — Direct 48 V**](reva/) — **58 × 34 mm**, 2-layer.
 
-- 104.8 × 52.8 mm, 2-layer, 1.6 mm
 - [`reva/PadTap-RevA-gerbers.zip`](reva/PadTap-RevA-gerbers.zip) → JLCPCB
-- [`reva/pcb-top.svg`](reva/pcb-top.svg) — top copper + parts
-- `python3 reva/generate.py` regenerates everything
+- [`reva/pcb-top.svg`](reva/pcb-top.svg)
+- `python3 reva/generate.py` regenerates
 
-Fuses and the NTC are not on this board.
+Sits on the sled floor against the south wall. J1 pigtail to the comb. Fuses and NTC are not on this board.

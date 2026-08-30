@@ -75,22 +75,21 @@ pio device monitor -b 115200
 
 OVLO wins: VIN ≥ 56.0 V → FET off.
 
-## PCB — Rev A
+## PCB — Rev A.1
 
-2-layer, **104.8 × 52.8 mm**, fits the sled cavity. Gerbers + JLCPCB BOM/CPL: [hardware/pcb/reva](hardware/pcb/reva).
+**58 × 34 mm**, 2-layer — about 45 % of the sled floor. USB-C on the south window, barrel on the east hole, 40 mm pigtail from J1 to the comb.
 
-![PadTap Rev A](docs/diagrams/pcb-top.svg)
+![PadTap Rev A.1](docs/diagrams/pcb-top.svg)
 
-| Edge | |
+| Zone | |
 | --- | --- |
-| West | J1 VIN / GND / LIN — 18 AWG, lines up with the comb |
-| East | J2 5.5 mm barrel, center + |
-| South | J3 USB-C, lines up with the window |
-| Lid | Amber + green under the membranes |
+| West | 48 V island: TVS + Schottky + 10 µF/100 V. 1.6 mm rail to the barrel along the south edge, not under the MCU |
+| Buck | XL7015, short SW node, catch diode on that pin only |
+| North | OVLO (LM393 + TL431), away from SW |
+| LIN | 1 k + 220 pF + PESD. TXD **10 k to 5 V** (internal pulldown would dominate the bus) |
+| East | IRLR3110 DPAK, 9 thermal vias on the tab |
 
-Q1 is **IRLR3110 DPAK** (100 V logic-level) so it can be assembled. Fuses and the NTC stay on the harness. TLIN2029 TXD is pulled high — no track to the ESP32.
-
-Upload [`PadTap-RevA-gerbers.zip`](hardware/pcb/reva/PadTap-RevA-gerbers.zip) to JLCPCB: 2-layer, 1.6 mm, black, HASL. First spin — check U2 (XL7015) pinout against the datasheet before paying for SMT.
+Gerbers: [hardware/pcb/reva/PadTap-RevA-gerbers.zip](hardware/pcb/reva/PadTap-RevA-gerbers.zip). Fuses and NTC stay on the harness. Confirm XL7015 pinout before SMT.
 
 ## Case
 

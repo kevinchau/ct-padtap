@@ -1,32 +1,24 @@
-# PadTap Direct 48 V — Rev A PCB
+# PadTap Direct 48 V — Rev A.1
 
-2-layer, **104.8 × 52.8 mm**, 1.6 mm FR4. Drops into the PETG sled (inner cavity). Black mask, white silk, HASL, 1 oz.
+**58 × 34 mm**, 2-layer, 1.6 mm FR4. ~45 % of the sled cavity. Sits on the floor against the south wall.
 
 ![Top](pcb-top.svg)
 
-## Edge map
-
-| Edge | What |
+| | |
 | --- | --- |
-| West | J1 VIN / GND / LIN — 18 AWG into Ø1.3 mm pads, lines up with the cable comb |
-| East | J2 5.5 mm barrel, center + |
-| South | J3 USB-C, lines up with the 9.6 × 3.8 mm window |
-| Lid | Amber + green 0805 under the membranes |
+| West | J1 VIN / GND / LIN — 18 AWG, ~40 mm pigtail to the comb |
+| East | J2 barrel through the sled hole, center + |
+| South | USB-C through the window |
+| 48 V | West island: TVS + Schottky + 10 µF/100 V. 1.6 mm rail to the barrel along the **south**, not under the MCU |
+| SW | XL7015 pin 2 to L1, catch diode on that node only |
+| OVLO | North, away from SW. LM393 OC on nGATE |
+| Q1 | IRLR3110 DPAK, 9 thermal vias on the tab, source to GND pour |
+| LIN | 1 k series + 220 pF + PESD. TXD **10 k to 5 V** (internal pulldown would dominate the bus). RXD 4.7 k to 3V3 |
 
-Fuses (MINI 3 A **58 V**) and the **10 Ω NTC** stay on the harness. This board assumes VIN is already fused.
+Fuses and the NTC stay on the harness.
 
-## Order (JLCPCB)
+## Order
 
-1. Upload [`PadTap-RevA-gerbers.zip`](PadTap-RevA-gerbers.zip)
-2. 2-layer, 1.6 mm, 1 oz, black, HASL, 100 × 50 class (board is 104.8 × 52.8)
-3. Optional SMT: [`bom-jlc.csv`](bom-jlc.csv) + [`cpl-jlc.csv`](cpl-jlc.csv). Confirm LCSC numbers before paying — they drift.
-4. Q1 is **IRLR3110TRPBF DPAK** (100 V logic-level). IRL540N TO-220 will not assemble.
+[`PadTap-RevA-gerbers.zip`](PadTap-RevA-gerbers.zip) → JLCPCB, 2-layer, 1.6 mm, black, HASL. SMT optional: `bom-jlc.csv` + `cpl-jlc.csv`. Confirm LCSC C-numbers.
 
-## Rules the layout keeps
-
-- TLIN2029 **TXD pulled high**, no track to the ESP32
-- Low-side FET on barrel **sleeve** only — WPC ground is not switched
-- OVLO (LM393 + TL431) open-collector on the gate, wins over GPIO5
-- USB-C native D+/D− on GPIO19/18; Serial is USB-CDC, LIN is Serial1 on GPIO20
-
-`python3 generate.py` regenerates Gerbers and this drawing.
+Place the board so USB-C (30 mm from the west edge) lines up with the 9.6 mm window (outer x = 72).

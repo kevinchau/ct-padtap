@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-"""PadTap Direct 48 V Rev A — 2-layer board that fits the 108×56 sled.
+"""PadTap Direct 48 V Rev A.1 — compact 58 × 34 mm 2-layer board.
 
-Emits Gerbers (JLCPCB names), Excellon drill, BOM, CPL, and README SVGs.
-Board is 104.8 × 52.8 mm (inner cavity). Fuses + NTC stay on the harness.
+Sits on the sled floor against the south wall:
+  USB-C through the south window, barrel through the east hole,
+  40 mm pigtail from J1 to the west comb.
+
+48 V island is west (entry + TVS + Schottky + bulk). Switch-node is short.
+Analog OVLO sits north of the buck, away from SW. FET + thermal vias hug the barrel.
 """
 from __future__ import annotations
 
-import math
 import zipfile
 from pathlib import Path
 
@@ -14,36 +17,16 @@ OUT = Path(__file__).parent
 GERBER = OUT / "gerber"
 DOCS = Path(__file__).resolve().parents[3] / "docs" / "diagrams"
 
-BOARD_W, BOARD_H = 104.8, 52.8
-EDGE = 0.15  # copper-to-edge
-
-# Case: wall 1.6, bosses at 5.5 from outer → 3.9 on this board
-HOLES = [(3.9, 3.9), (100.9, 3.9), (3.9, 48.9), (100.9, 48.9)]
+BOARD_W, BOARD_H = 58.0, 34.0
+EDGE = 0.25
+HOLES = [(3.0, 3.0), (55.0, 3.0), (3.0, 31.0), (55.0, 31.0)]
 
 
-def r2(x, y=None):
-    if y is None:
-        return round(x, 4)
-    return (round(x, 4), round(y, 4))
-
-
-# ---------------------------------------------------------------------------
-# Geometry
-# ---------------------------------------------------------------------------
 class Pad:
-    def __init__(self, ref, pin, x, y, w, h, net, plated=True, drill=0.0, rot=0, shape="rect"):
+    def __init__(self, ref, pin, x, y, w, h, net, plated=True, drill=0.0, shape="rect"):
         self.ref, self.pin, self.net = ref, pin, net
         self.x, self.y, self.w, self.h = x, y, w, h
-        self.plated, self.drill, self.rot, self.shape = plated, drill, rot, shape
-
-    def corners(self):
-        ca, sa = math.cos(math.radians(self.rot)), math.sin(math.radians(self.rot))
-        hw, hh = self.w / 2, self.h / 2
-        pts = [(-hw, -hh), (hw, -hh), (hw, hh), (-hw, hh)]
-        out = []
-        for px, py in pts:
-            out.append((self.x + px * ca - py * sa, self.y + px * sa + py * ca))
-        return out
+        self.plated, self.drill, self.shape = plated, drill, shape
 
 
 class Trace:
@@ -52,33 +35,27 @@ class Trace:
 
 
 class Via:
-    def __init__(self, x, y, net, drill=0.3, od=0.6):
+    def __init__(self, x, y, net, drill=0.3, od=0.65):
         self.x, self.y, self.net, self.drill, self.od = x, y, net, drill, od
 
 
-class Silk:
-    def __init__(self, kind, **kw):
-        self.kind = kind
-        self.kw = kw
+pads, traces, vias, silk, bodies = [], [], [], [], []
 
 
-pads: list[Pad] = []
-traces: list[Trace] = []
-vias: list[Via] = []
-silk: list[Silk] = []
-courtyards: list[tuple] = []  # x,y,w,h,rot,label,fill
-
-
-def add_pad(*a, **k):
+def P(*a, **k):
     pads.append(Pad(*a, **k))
 
 
-def manhattan(net, pts, w, layer="F"):
-    """pts is a list of (x,y). Route orthogonal, prefer X then Y."""
+def body(x, y, w, h, label, fill):
+    bodies.append((x, y, w, h, label, fill))
+    silk.append(("t", x, y - h / 2 - 1.1, label, 0.7))
+
+
+def man(net, pts, w, layer="F"):
     for (x1, y1), (x2, y2) in zip(pts, pts[1:]):
-        if abs(x1 - x2) < 0.01:
+        if abs(x1 - x2) < 0.02:
             traces.append(Trace(x1, y1, x1, y2, w, net, layer))
-        elif abs(y1 - y2) < 0.01:
+        elif abs(y1 - y2) < 0.02:
             traces.append(Trace(x1, y1, x2, y1, w, net, layer))
         else:
             traces.append(Trace(x1, y1, x2, y1, w, net, layer))
@@ -86,552 +63,368 @@ def manhattan(net, pts, w, layer="F"):
 
 
 def r0805(ref, x, y, rot, n1, n2):
-    dx = 0.95 if rot == 0 else 0
-    dy = 0.95 if rot == 90 else 0
-    add_pad(ref, "1", x - dx, y - dy, 1.0, 1.3 if rot == 0 else 1.0, n1, rot=rot)
-    add_pad(ref, "2", x + dx, y + dy, 1.0, 1.3 if rot == 0 else 1.0, n2, rot=rot)
-    courtyards.append((x, y, 2.2, 1.4, rot, ref, "#2A2D32"))
-    silk.append(Silk("text", x=x, y=y - 1.6, s=ref, size=0.8))
+    dx, dy = (0.95, 0) if rot == 0 else (0, 0.95)
+    P(ref, "1", x - dx, y - dy, 1.0, 1.25 if rot == 0 else 1.0, n1)
+    P(ref, "2", x + dx, y + dy, 1.0, 1.25 if rot == 0 else 1.0, n2)
+    body(x, y, 2.0, 1.3, ref, "#2A2D32")
 
 
 def c0805(ref, x, y, rot, n1, n2):
     r0805(ref, x, y, rot, n1, n2)
 
 
-def c1210(ref, x, y, rot, n1, n2):
-    dx = 1.6 if rot == 0 else 0
-    dy = 1.6 if rot == 90 else 0
-    add_pad(ref, "1", x - dx, y - dy, 1.6, 2.4 if rot == 0 else 1.6, n1)
-    add_pad(ref, "2", x + dx, y + dy, 1.6, 2.4 if rot == 0 else 1.6, n2)
-    courtyards.append((x, y, 3.6, 2.6, rot, ref, "#1C1E22"))
-    silk.append(Silk("text", x=x, y=y - 2.0, s=ref, size=0.8))
+def c1210(ref, x, y, n1, n2):
+    P(ref, "1", x - 1.6, y, 1.5, 2.4, n1)
+    P(ref, "2", x + 1.6, y, 1.5, 2.4, n2)
+    body(x, y, 3.4, 2.6, ref, "#1C1E22")
 
 
-def sod123(ref, x, y, rot, anode, cathode):
-    # anode pad 1, cathode pad 2 (stripe)
-    dx = 1.7 if rot == 0 else 0
-    add_pad(ref, "A", x - dx, y, 1.2, 1.1, anode)
-    add_pad(ref, "K", x + dx, y, 1.2, 1.1, cathode)
-    courtyards.append((x, y, 3.9, 1.8, rot, ref, "#C5C8CE"))
-    silk.append(Silk("text", x=x, y=y - 1.6, s=ref, size=0.8))
+def sod123(ref, x, y, anode, cathode):
+    P(ref, "A", x - 1.65, y, 1.15, 1.05, anode)
+    P(ref, "K", x + 1.65, y, 1.15, 1.05, cathode)
+    body(x, y, 3.8, 1.7, ref, "#C5C8CE")
 
 
-def sma(ref, x, y, anode, cathode):
-    add_pad(ref, "A", x - 2.3, y, 1.7, 2.2, anode)
-    add_pad(ref, "K", x + 2.3, y, 1.7, 2.2, cathode)
-    courtyards.append((x, y, 5.4, 2.8, 0, ref, "#C5C8CE"))
-    silk.append(Silk("text", x=x, y=y - 2.2, s=ref, size=0.8))
+def sma(ref, x, y, a, k):
+    P(ref, "A", x - 2.25, y, 1.6, 2.1, a)
+    P(ref, "K", x + 2.25, y, 1.6, 2.1, k)
+    body(x, y, 5.2, 2.7, ref, "#C5C8CE")
 
 
 def smb(ref, x, y, n1, n2):
-    add_pad(ref, "1", x - 2.4, y, 2.0, 2.3, n1)
-    add_pad(ref, "2", x + 2.4, y, 2.0, 2.3, n2)
-    courtyards.append((x, y, 5.6, 3.6, 0, ref, "#C5C8CE"))
-    silk.append(Silk("text", x=x, y=y - 2.6, s=ref, size=0.8))
+    P(ref, "1", x - 2.35, y, 1.9, 2.2, n1)
+    P(ref, "2", x + 2.35, y, 1.9, 2.2, n2)
+    body(x, y, 5.5, 3.5, ref, "#C5C8CE")
 
 
-def soic8(ref, x, y, nets: list[str]):
-    # pin 1 SW, CCW. Body 5×4.  nets[0] is pin1
+def soic8(ref, x, y, nets):
     for i in range(4):
         py = y + 1.905 - i * 1.27
-        add_pad(ref, str(i + 1), x - 2.7, py, 1.5, 0.6, nets[i])
-        add_pad(ref, str(8 - i), x + 2.7, py, 1.5, 0.6, nets[7 - i])
-    courtyards.append((x, y, 6.2, 5.0, 0, ref, "#1A1C20"))
-    silk.append(Silk("text", x=x, y=y - 3.4, s=ref, size=0.8))
-    silk.append(Silk("dot", x=x - 2.0, y=y + 2.2))
+        P(ref, str(i + 1), x - 2.65, py, 1.45, 0.55, nets[i])
+        P(ref, str(8 - i), x + 2.65, py, 1.45, 0.55, nets[7 - i])
+    body(x, y, 6.0, 5.0, ref, "#1A1C20")
+    silk.append(("d", x - 2.0, y + 2.15))
 
 
 def sot23(ref, x, y, n1, n2, n3):
-    # 1=left bot, 2=left top, 3=right (standard SOT-23)
-    add_pad(ref, "1", x - 1.0, y - 0.95, 0.8, 0.7, n1)
-    add_pad(ref, "2", x - 1.0, y + 0.95, 0.8, 0.7, n2)
-    add_pad(ref, "3", x + 1.0, y, 0.8, 0.9, n3)
-    courtyards.append((x, y, 3.0, 2.6, 0, ref, "#1A1C20"))
-    silk.append(Silk("text", x=x, y=y - 2.0, s=ref, size=0.8))
+    P(ref, "1", x - 0.95, y - 0.95, 0.75, 0.65, n1)
+    P(ref, "2", x - 0.95, y + 0.95, 0.75, 0.65, n2)
+    P(ref, "3", x + 0.95, y, 0.75, 0.85, n3)
+    body(x, y, 2.9, 2.5, ref, "#1A1C20")
 
 
-def sot223(ref, x, y, tab, n1, n2, n3):
-    # AMS1117: pin1 GND, pin2 VOUT=tab, pin3 VIN
-    add_pad(ref, "TAB", x + 1.6, y, 3.8, 3.2, tab)
-    add_pad(ref, "1", x - 2.8, y - 2.3, 1.2, 1.0, n1)
-    add_pad(ref, "2", x - 2.8, y, 1.2, 1.0, n2)
-    add_pad(ref, "3", x - 2.8, y + 2.3, 1.2, 1.0, n3)
-    courtyards.append((x, y, 7.2, 6.6, 0, ref, "#1A1C20"))
-    silk.append(Silk("text", x=x, y=y - 4.0, s=ref, size=0.8))
+def sot223(ref, x, y):
+    P(ref, "TAB", x + 1.5, y, 3.6, 3.1, "3V3")
+    P(ref, "1", x - 2.7, y - 2.3, 1.1, 0.95, "GND")
+    P(ref, "2", x - 2.7, y, 1.1, 0.95, "3V3")
+    P(ref, "3", x - 2.7, y + 2.3, 1.1, 0.95, "5V")
+    body(x, y, 7.0, 6.5, ref, "#1A1C20")
 
 
 def dpak(ref, x, y):
-    # IRLR3110: pin1 gate, pin2 drain=tab, pin3 source. Tab to the east (barrel).
-    add_pad(ref, "TAB", x + 2.4, y, 6.5, 6.5, "VOUT-")
-    add_pad(ref, "1", x - 4.2, y + 2.3, 1.6, 1.3, "nGATE")  # gate
-    add_pad(ref, "2", x - 4.2, y, 1.6, 1.3, "VOUT-")  # drain
-    add_pad(ref, "3", x - 4.2, y - 2.3, 1.6, 1.3, "GND")  # source
-    courtyards.append((x, y, 10.2, 6.8, 0, ref, "#8B9098"))
-    silk.append(Silk("text", x=x, y=y - 4.4, s=ref + " IRLR3110", size=0.8))
+    P(ref, "TAB", x + 2.2, y, 6.4, 6.4, "VOUT-")
+    P(ref, "G", x - 4.1, y + 2.3, 1.5, 1.2, "GATE")
+    P(ref, "D", x - 4.1, y, 1.5, 1.2, "VOUT-")
+    P(ref, "S", x - 4.1, y - 2.3, 1.5, 1.2, "GND")
+    body(x, y, 10.0, 6.7, ref, "#8B9098")
+    for i in range(-1, 2):
+        for j in range(-1, 2):
+            vias.append(Via(x + 2.2 + i * 1.4, y + j * 1.4, "VOUT-", 0.3, 0.6))
 
 
-def inductor(ref, x, y, n1, n2):
-    add_pad(ref, "1", x - 2.4, y, 2.0, 3.2, n1)
-    add_pad(ref, "2", x + 2.4, y, 2.0, 3.2, n2)
-    courtyards.append((x, y, 7.0, 6.6, 0, ref, "#4A3B2A"))
-    silk.append(Silk("text", x=x, y=y - 4.0, s=ref, size=0.8))
+def inductor(ref, x, y):
+    P(ref, "1", x - 2.3, y, 1.9, 3.1, "SW")
+    P(ref, "2", x + 2.3, y, 1.9, 3.1, "5V")
+    body(x, y, 6.8, 6.5, ref, "#4A3B2A")
 
 
-def usb_c(ref, cx):
-    # Mid-mount 16P on south edge. Opening faces -Y. Center at (cx, 0.6)
-    y = 1.2
-    # shell TH pads
-    for sx in (-4.3, 4.3):
-        add_pad(ref, "SH", cx + sx, y + 2.2, 1.4, 2.2, "GND", plated=True, drill=0.9, shape="circ")
-    # SMT signal row (simplified 12 contacts we care about)
-    # A1/B12 GND, A4/A9 VBUS, A6/B6 D+, A7/B7 D-, A5 CC1, B5 CC2
-    sig = [
-        (-3.25, "GND"),
-        (-2.50, "VBUS"),
-        (-1.75, "CC1"),
-        (-1.00, "USB_D+"),
-        (-0.25, "USB_D-"),
-        (0.50, "SBU"),
-        (1.25, "USB_D-"),
-        (2.00, "USB_D+"),
-        (2.75, "CC2"),
-        (3.50, "VBUS"),
-    ]
-    for dx, net in sig:
-        add_pad(ref, net, cx + dx, y + 0.35, 0.3, 1.1, net if net != "SBU" else "NC")
-    courtyards.append((cx, 2.0, 9.2, 7.4, 0, "J3 USB-C", "#C5C8CE"))
-    silk.append(Silk("text", x=cx, y=6.2, s="J3 USB-C", size=0.9))
+def tp(ref, x, y, net):
+    P(ref, "1", x, y, 1.6, 1.6, net, plated=True, drill=0.7, shape="circ")
+    silk.append(("t", x, y + 1.5, ref, 0.6))
 
 
-def barrel(ref, x, y):
-    # PJ-002A style 5.5 mm: sleeve / center / switch. Center = VOUT+, sleeve = VOUT-
-    add_pad(ref, "TIP", x - 1.5, y, 3.2, 3.2, "VOUT+", plated=True, drill=1.2, shape="circ")
-    add_pad(ref, "SLEEVE", x - 6.5, y + 4.5, 2.4, 2.4, "VOUT-", plated=True, drill=1.0, shape="circ")
-    add_pad(ref, "SW", x - 6.5, y - 4.5, 2.4, 2.4, "VOUT-", plated=True, drill=1.0, shape="circ")
-    courtyards.append((x - 3.5, y, 11.0, 10.5, 0, "J2 BARREL", "#2A2D32"))
-    silk.append(Silk("text", x=x - 3.5, y=y - 6.6, s="J2 5.5 mm +", size=0.9))
+def place():
+    # --- J1 west, 5.08 mm, 18 AWG ---
+    for name, net, y in (("VIN", "VIN_IN", 10.0), ("GND", "GND", 16.0), ("LIN", "LIN_J", 22.0)):
+        P("J1", name, 3.8, y, 3.0, 2.4, net, plated=True, drill=1.3, shape="circ")
+        silk.append(("t", 7.6, y + 0.25, name, 0.85))
+    body(4.2, 16.0, 7.2, 16.5, "J1", "#1C1E22")
 
+    # --- 48 V island ---
+    sma("D1", 13.5, 10.0, "VIN_IN", "VIN_48")       # SS510
+    smb("D2", 13.5, 16.5, "VIN_48", "GND")          # SMBJ58A at the connector
+    c1210("C1", 13.5, 23.5, "VIN_48", "GND")        # 10u/100V
+    c0805("Cin", 19.5, 10.0, 0, "VIN_48", "GND")    # 100n 100V
 
-def terminal(ref):
-    # 3× 18 AWG solder pads on west, aligned with comb slots (outer y 11.6, 19.6, 27.6)
-    names = [("VIN", "VIN_IN", 10.0), ("GND", "GND", 18.0), ("LIN", "LIN_BUS", 26.0)]
-    for name, net, y in names:
-        add_pad(ref, name, 4.8, y, 3.2, 2.6, net, plated=True, drill=1.3, shape="circ")
-        silk.append(Silk("text", x=8.8, y=y + 0.3, s=name, size=1.0))
-    courtyards.append((5.0, 18.0, 8.0, 20.0, 0, "J1", "#1C1E22"))
-    silk.append(Silk("text", x=5.0, y=31.5, s="J1 HARNESS", size=0.9))
+    # --- XL7015: 1 VIN, 2 SW, 3 GND, 4 FB, 5 COMP, 6 EN, 7 NC, 8 VIN ---
+    soic8("U2", 27.0, 10.5, ["VIN_48", "SW", "GND", "FB", "COMP", "EN5", "NC", "VIN_48"])
+    inductor("L1", 27.0, 19.5)
+    sod123("D3", 20.5, 19.5, "GND", "SW")
+    r0805("RfbH", 33.5, 14.5, 90, "5V", "FB")
+    r0805("RfbL", 36.0, 14.5, 90, "FB", "GND")
+    c0805("Ccomp", 33.5, 10.5, 0, "COMP", "GND")
+    c0805("C5v", 33.5, 19.5, 0, "5V", "GND")
+    c0805("C5v2", 36.0, 19.5, 0, "5V", "GND")
+    r0805("Ren5", 22.0, 6.5, 0, "EN5", "VIN_48")     # EN to VIN through 100k… use 100k
+    # EN5 tied to VIN_48 via Ren5 — actually 100k. Silk note.
 
+    # --- 3V3 ---
+    sot223("U3", 27.0, 28.5)
+    c0805("C3v", 34.0, 28.5, 0, "3V3", "GND")
+    c0805("C3v2", 36.5, 28.5, 0, "3V3", "GND")
 
-def esp32(ref, x, y):
-    """ESP32-C3-MINI-1, 13.2 × 16.6, antenna to +Y (north). Pins we use."""
-    # Two side rows, 1.27 pitch. Simplified: left IO, right power/USB.
+    # --- TLIN2029 8-SOIC: 1 RXD, 2 EN, 3 NC, 4 TXD, 5 GND, 6 LIN, 7 VSUP, 8 NC ---
+    soic8("U4", 44.0, 28.5, ["LIN_RX", "5V", "NC", "TXD_PU", "GND", "LIN_BUS", "5V", "NC"])
+    r0805("Rtx", 50.5, 28.5, 0, "TXD_PU", "5V")       # MUST — internal PD would dominate LIN
+    r0805("Rrx", 50.5, 31.5, 0, "LIN_RX", "3V3")      # RXD is open-drain
+    c0805("Clin", 50.5, 25.5, 0, "LIN_BUS", "GND")    # 220 pF
+    r0805("Rlin", 39.0, 22.0, 0, "LIN_J", "LIN_BUS")  # 1 k series
+    # J1 LIN goes to LIN_J then Rlin to LIN_BUS — robustness
+    sod123("Elin", 39.0, 25.5, "GND", "LIN_BUS")      # PESD1LIN (bidirectional treated as SOD)
+
+    # --- OVLO, north of analog, away from SW ---
+    soic8("U5", 13.5, 30.0, ["1IN-", "VREF", "nGATE", "GND", "NC2", "NC3", "NC4", "5V"])
+    sot23("U6", 21.0, 30.0, "GND", "VREF", "VREF")    # TL431 anode / ref=cathode
+    r0805("R215", 8.5, 28.0, 90, "VIN_48", "1IN-")
+    r0805("R10ov", 8.5, 24.5, 90, "1IN-", "GND")
+    r0805("Rbias", 21.0, 26.5, 0, "5V", "VREF")
+    r0805("R100k", 8.5, 21.0, 90, "VIN_48", "VSENSE")
+    r0805("R10k", 8.5, 17.5, 90, "VSENSE", "GND")
+    c0805("Csense", 5.5, 19.2, 0, "VSENSE", "GND")    # 1 nF
+    sod123("Dz", 5.5, 26.5, "GND", "VSENSE")
+
+    # --- Gate: OVLO OC + GPIO 1k, 10k pd, 47k+1uF ramp, 1N4148 dump ---
+    r0805("R1k", 40.0, 22.0, 0, "GPIO5", "nGATE")
+    r0805("R10g", 40.0, 19.0, 0, "nGATE", "GND")
+    r0805("R47k", 44.5, 22.0, 0, "nGATE", "GATE")
+    c0805("Cgate", 44.5, 19.0, 0, "GATE", "GND")
+    sod123("Dg", 48.5, 22.0, "GATE", "nGATE")         # discharge when nGATE falls
+
+    # --- ESP32-C3-MINI-1, antenna north, USB south ---
+    u1x, u1y = 44.0, 12.2
     left = [
-        (y + 6.0, "3V3"),
-        (y + 4.73, "EN"),
-        (y + 3.46, "IO4"),
-        (y + 2.19, "IO5"),
-        (y + 0.92, "IO6"),
-        (y - 0.35, "IO7"),
-        (y - 1.62, "IO8"),
-        (y - 2.89, "IO9"),
-        (y - 4.16, "IO10"),
-        (y - 5.43, "GND"),
+        (u1y + 6.0, "3V3", "3V3"),
+        (u1y + 4.73, "EN", "EN"),
+        (u1y + 3.46, "IO4", "VSENSE"),
+        (u1y + 2.19, "IO5", "GPIO5"),
+        (u1y + 0.92, "IO6", "GPIO6"),
+        (u1y - 0.35, "IO7", "GPIO7"),
+        (u1y - 1.62, "IO9", "BOOT"),
+        (u1y - 2.89, "GNDL", "GND"),
     ]
     right = [
-        (y + 6.0, "IO21"),
-        (y + 4.73, "IO20"),
-        (y + 3.46, "IO18"),
-        (y + 2.19, "IO19"),
-        (y + 0.92, "IO3"),
-        (y - 0.35, "IO2"),
-        (y - 1.62, "IO1"),
-        (y - 2.89, "IO0"),
-        (y - 4.16, "GND"),
-        (y - 5.43, "VIN3"),
+        (u1y + 6.0, "IO20", "LIN_RX"),
+        (u1y + 4.73, "IO19", "USB_D+"),
+        (u1y + 3.46, "IO18", "USB_D-"),
+        (u1y + 2.19, "IO21", "IO21"),
+        (u1y + 0.92, "GNDR", "GND"),
+        (u1y - 0.35, "3V3B", "3V3"),
+        (u1y - 1.62, "IO3", "IO3"),
+        (u1y - 2.89, "GNDR2", "GND"),
     ]
-    net_of = {
-        "3V3": "3V3",
-        "EN": "EN",
-        "IO4": "VSENSE",
-        "IO5": "GPIO5",
-        "IO6": "LED_RAIL",
-        "IO7": "LED_ARM",
-        "IO8": "IO8",
-        "IO9": "BOOT",
-        "IO10": "IO10",
-        "GND": "GND",
-        "IO21": "IO21",
-        "IO20": "LIN_RX",
-        "IO18": "USB_D-",
-        "IO19": "USB_D+",
-        "IO3": "IO3",
-        "IO2": "IO2",
-        "IO1": "IO1",
-        "IO0": "IO0",
-        "VIN3": "3V3",
-    }
-    for py, name in left:
-        add_pad(ref, name, x - 5.6, py, 1.6, 0.7, net_of[name])
-    for py, name in right:
-        add_pad(ref, name, x + 5.6, py, 1.6, 0.7, net_of[name])
-    courtyards.append((x, y, 13.4, 16.8, 0, "U1 ESP32-C3-MINI-1", "#1A1C20"))
-    silk.append(Silk("text", x=x, y=y + 9.6, s="U1 ESP32-C3-MINI-1", size=0.9))
-    silk.append(Silk("text", x=x, y=y + 8.4, s="ANTENNA KEEP-OUT", size=0.7))
+    for py, name, net in left:
+        P("U1", name, u1x - 5.55, py, 1.55, 0.65, net)
+    for py, name, net in right:
+        P("U1", name, u1x + 5.55, py, 1.55, 0.65, net)
+    body(u1x, u1y, 13.2, 16.6, "U1 ESP32-C3", "#1A1C20")
+    silk.append(("t", u1x, u1y + 9.4, "ANTENNA", 0.6))
+    c0805("Cesp", u1x - 8.4, u1y + 6.0, 0, "3V3", "GND")
+    r0805("Ren", 36.5, 5.4, 0, "EN", "3V3")
+    r0805("Rboot", 51.5, 5.4, 0, "BOOT", "3V3")
+    c0805("Cen", 36.5, 3.4, 0, "EN", "GND")
 
+    # --- USB-C south, center 30 mm from west → place board so this hits the window ---
+    cx = 30.0
+    P("J3", "SH1", cx - 4.3, 3.2, 1.3, 2.0, "GND", plated=True, drill=0.9, shape="circ")
+    P("J3", "SH2", cx + 4.3, 3.2, 1.3, 2.0, "GND", plated=True, drill=0.9, shape="circ")
+    for dx, net in ((-3.2, "GND"), (-2.4, "VBUS"), (-1.6, "CC1"), (-0.8, "USB_D+"),
+                    (0.0, "USB_D-"), (0.8, "USB_D-"), (1.6, "USB_D+"), (2.4, "CC2"),
+                    (3.2, "VBUS")):
+        P("J3", net + str(dx), cx + dx, 0.9, 0.28, 1.05, net)
+    body(cx, 2.2, 9.0, 7.0, "J3 USB-C", "#C5C8CE")
+    r0805("Rcc1", 24.5, 5.4, 0, "CC1", "GND")
+    r0805("Rcc2", 35.5, 5.4, 0, "CC2", "GND")
+    sod123("Dusb", 20.5, 5.4, "VBUS", "5V")
 
-def led(ref, x, y, net):
-    add_pad(ref, "A", x - 0.85, y, 0.9, 1.2, net)
-    add_pad(ref, "K", x + 0.85, y, 0.9, 1.2, "GND")
-    courtyards.append((x, y, 2.2, 1.4, 0, ref, "#E8A317" if "RAIL" in ref else "#7DAE74"))
-    silk.append(Silk("text", x=x, y=y - 1.6, s=ref, size=0.7))
+    # --- LEDs under lid membranes (north of ESP) ---
+    P("Drail", "A", 50.5, 16.8, 0.85, 1.15, "LED_A")
+    P("Drail", "K", 52.2, 16.8, 0.85, 1.15, "GND")
+    body(51.35, 16.8, 2.2, 1.3, "Drail", "#E8A317")
+    P("Darm", "A", 50.5, 14.4, 0.85, 1.15, "LED_B")
+    P("Darm", "K", 52.2, 14.4, 0.85, 1.15, "GND")
+    body(51.35, 14.4, 2.2, 1.3, "Darm", "#7DAE74")
+    r0805("Rr", 54.5, 16.8, 90, "GPIO6", "LED_A")
+    r0805("Ra", 54.5, 14.4, 90, "GPIO7", "LED_B")
 
+    # --- Q1 + barrel east ---
+    dpak("Q1", 50.5, 22.5)
+    P("J2", "TIP", 55.4, 22.5, 3.0, 3.0, "VOUT+", plated=True, drill=1.2, shape="circ")
+    P("J2", "SL1", 55.4, 27.2, 2.2, 2.2, "VOUT-", plated=True, drill=1.0, shape="circ")
+    P("J2", "SL2", 55.4, 17.8, 2.2, 2.2, "VOUT-", plated=True, drill=1.0, shape="circ")
+    body(54.5, 22.5, 6.5, 12.0, "J2", "#2A2D32")
+    silk.append(("t", 54.5, 11.5, "J2 +", 0.8))
 
-# ---------------------------------------------------------------------------
-# Place
-# ---------------------------------------------------------------------------
-def place():
-    terminal("J1")
-    usb_c("J3", 75.2)
-    barrel("J2", 100.5, 26.4)
-
-    # Input protection west-center
-    sma("D1", 18.0, 12.0, "VIN_IN", "VIN_48")  # SS510, stripe to VIN_48
-    smb("D2", 18.0, 20.5, "VIN_48", "GND")  # SMBJ58A
-    c1210("C1", 18.0, 29.0, 0, "VIN_48", "GND")  # 10u 100V
-
-    # 5 V buck
-    soic8("U2", 34.0, 14.0, [
-        "VIN_48",  # 1 VIN
-        "VIN_48",  # 2 VIN
-        "SW",      # 3 SW
-        "GND",     # 4 GND
-        "FB",      # 5 FB
-        "EN5",     # 6 EN
-        "GND",     # 7 GND
-        "VIN_48",  # 8 VIN (XL7015-ish SOP8 — silk says XL7015)
-    ])
-    inductor("L1", 34.0, 26.5, "SW", "5V")
-    r0805("Rfb1", 40.5, 20.0, 90, "5V", "FB")
-    r0805("Rfb2", 43.5, 20.0, 90, "FB", "GND")
-    c0805("C5v", 40.5, 26.5, 0, "5V", "GND")
-    sod123("D3", 27.5, 26.5, 0, "GND", "SW")  # catch diode
-
-    # 3V3
-    sot223("U3", 34.0, 40.0, "3V3", "GND", "3V3", "5V")
-    c0805("C3v", 42.5, 40.0, 0, "3V3", "GND")
-
-    # LIN
-    soic8("U4", 52.5, 40.0, [
-        "LIN_RX",   # 1 RXD
-        "nFAULT",   # 2
-        "5V",       # 3 VSUP
-        "LIN_BUS",  # 4 LIN
-        "TXD_PU",   # 5 TXD — pulled high, NOT to MCU
-        "GND",      # 6 GND
-        "5V",       # 7 EN
-        "5V",       # 8 nWAKE
-    ])
-    r0805("Rtx", 60.0, 40.0, 0, "TXD_PU", "5V")
-    c0805("Clin", 60.0, 44.5, 0, "LIN_BUS", "GND")
-
-    # OVLO
-    soic8("U5", 52.5, 24.0, [
-        "1IN-", "1IN+", "1OUT", "GND",
-        "2OUT", "2IN-", "2IN+", "5V",
-    ])
-    sot23("U6", 63.5, 18.5, "GND", "VREF", "5V")  # TL431: 1 anode, 2 cathode=ref, 3 ref (TO-92 mapping varies)
-    # SOT-23 TL431: 1 ref, 2 anode, 3 cathode commonly (pinout-A)
-    # We'll treat n1=anode GND, n3=cathode VREF, n2=ref tied to cathode for 2.495
-    r0805("R215", 63.5, 24.0, 90, "VIN_48", "1IN-")
-    r0805("R10ov", 66.5, 24.0, 90, "1IN-", "GND")
-    r0805("Rref", 63.5, 13.5, 0, "5V", "VREF")
-    # LM393 pin2 1IN+ = VREF, pin1 1IN- = divider, pin3 1OUT = nGATE (OC)
-
-    # Sense
-    r0805("R100k", 63.5, 30.5, 90, "VIN_48", "VSENSE")
-    r0805("R10k", 66.5, 30.5, 90, "VSENSE", "GND")
-    sod123("Dz", 70.5, 30.5, 0, "GND", "VSENSE")  # 3.3 V zener
-
-    # Gate
-    r0805("R1k", 78.0, 36.0, 0, "GPIO5", "nGATE")
-    r0805("R10g", 78.0, 40.0, 0, "nGATE", "GND")
-    r0805("R47k", 84.0, 36.0, 0, "nGATE", "nGATE")  # placeholder — RC on gate
-    c0805("Cgate", 84.0, 40.0, 0, "nGATE", "GND")
-
-    # MCU + USB
-    esp32("U1", 75.0, 16.5)
-    led("Drail", 72.4, 38.4, "LED_RAIL")
-    led("Darm", 80.4, 38.4, "LED_ARM")
-    r0805("Rr", 72.4, 42.2, 0, "LED_RAIL", "GPIO6")
-    r0805("Ra", 80.4, 42.2, 0, "LED_ARM", "GPIO7")
-    r0805("Ren", 68.0, 8.5, 0, "EN", "3V3")
-    r0805("Rboot", 82.0, 8.5, 0, "BOOT", "3V3")
-    c0805("Cen", 68.0, 5.8, 0, "EN", "GND")
-    r0805("Rcc1", 70.0, 3.2, 0, "CC1", "GND")
-    r0805("Rcc2", 80.0, 3.2, 0, "CC2", "GND")
-    sod123("Dusb", 62.0, 8.5, 0, "VBUS", "5V")
-
-    # FET
-    dpak("Q1", 90.5, 26.4)
-
-    # Mounting (NPTH)
     for i, (hx, hy) in enumerate(HOLES, 1):
-        add_pad(f"H{i}", "1", hx, hy, 5.5, 5.5, "GND", plated=True, drill=3.2, shape="circ")
+        P(f"H{i}", "1", hx, hy, 5.2, 5.2, "GND", plated=True, drill=2.7, shape="circ")
 
-    # Vias to GND pour
-    gnd_vias = [
-        (12, 18), (12, 36), (25, 36), (25, 8),
-        (45, 8), (45, 48), (70, 48), (95, 8),
-        (95, 44), (88, 18), (88, 34), (55, 12),
-        (40, 48), (20, 48), (75, 28), (96, 26.4),
-    ]
-    for x, y in gnd_vias:
-        vias.append(Via(x, y, "GND"))
-    vias.append(Via(52.5, 18.0, "VREF", drill=0.3, od=0.6))
-    vias.append(Via(78.0, 32.0, "nGATE"))
-    vias.append(Via(75.0, 28.5, "LIN_RX"))
-    vias.append(Via(90.5, 32.5, "VOUT-"))
-    vias.append(Via(96.0, 20.0, "VOUT+"))
+    for ref, x, y, net in (
+        ("TP1", 18.5, 32.4, "VIN_48"),
+        ("TP2", 32.0, 32.4, "5V"),
+        ("TP3", 35.5, 32.4, "3V3"),
+        ("TP4", 47.5, 32.4, "LIN_BUS"),
+        ("TP5", 22.5, 32.4, "GND"),
+    ):
+        tp(ref, x, y, net)
+
+    # GND stitching every ~7 mm, skip 48 V island internals
+    for x in range(6, 56, 7):
+        for y in range(6, 32, 7):
+            if 10 < x < 18 and 8 < y < 26:
+                continue
+            vias.append(Via(x, y, "GND"))
+    vias.append(Via(44.0, 18.5, "LIN_RX"))
+    vias.append(Via(41.5, 22.0, "nGATE"))
+    vias.append(Via(47.0, 22.5, "GATE"))
+    vias.append(Via(53.5, 22.5, "VOUT+"))
+
+
+def pad(ref, pin):
+    for p in pads:
+        if p.ref == ref and p.pin == pin:
+            return (p.x, p.y)
+    raise KeyError(ref, pin)
 
 
 def route():
-    W, WS, WP = 0.35, 0.25, 1.2  # signal, small, power
+    WP, W, WS = 1.6, 0.4, 0.25
 
-    def pad(ref, pin):
-        for p in pads:
-            if p.ref == ref and p.pin == pin:
-                return (p.x, p.y)
-        raise KeyError(ref, pin)
+    man("VIN_IN", [pad("J1", "VIN"), pad("D1", "A")], WP)
+    man("VIN_48", [pad("D1", "K"), pad("D2", "1")], WP)
+    man("VIN_48", [pad("D1", "K"), (18.5, 10.0), (18.5, 10.5), pad("U2", "1")], WP)
+    man("VIN_48", [pad("D2", "1"), pad("C1", "1")], WP)
+    # 48 V to barrel tip along the north rail, 1.6 mm, away from SW
+    man("VOUT+", [pad("D1", "K"), (18.5, 7.2), (53.5, 7.2), (53.5, 22.5), pad("J2", "TIP")], WP)
 
-    # VIN_IN J1 → D1 anode → D1 K = VIN_48
-    manhattan("VIN_IN", [pad("J1", "VIN"), pad("D1", "A")], WP)
-    manhattan("VIN_48", [pad("D1", "K"), (18, 16), pad("D2", "1")], WP)
-    manhattan("VIN_48", [pad("D1", "K"), (24, 12), (24, 14), pad("U2", "1")], WP)
-    manhattan("VIN_48", [(24, 14), (24, 29), pad("C1", "1")], WP)
+    man("SW", [pad("U2", "2"), (24.35, 10.5), (24.35, 19.5), pad("L1", "1")], W)
+    man("5V", [pad("L1", "2"), pad("C5v", "1")], W)
+    man("5V", [pad("C5v", "1"), (33.5, 28.5), pad("U3", "3")], W)
+    man("5V", [(41.35, 28.5), pad("U4", "7")], W)
+    man("3V3", [pad("U3", "TAB"), (38.45, 28.5), (38.45, 18.2), pad("U1", "3V3")], W)
 
-    # VIN_48 → barrel tip (VOUT+)
-    manhattan("VOUT+", [pad("D1", "K"), (24, 12), (96, 12), pad("J2", "TIP")], WP)
-    manhattan("VOUT+", [pad("J2", "TIP"), (96, 20)], WP)
+    man("LIN_J", [pad("J1", "LIN"), (7.5, 22.0), pad("Rlin", "1")], WS)
+    man("LIN_BUS", [pad("Rlin", "2"), (41.35, 22.0), (41.35, 28.5), pad("U4", "6")], WS)
+    man("LIN_RX", [pad("U4", "1"), (41.35, 30.4), (49.55, 30.4), (49.55, 18.2), pad("U1", "IO20")], WS)
 
-    # Q1 drain tab → barrel sleeve
-    manhattan("VOUT-", [pad("Q1", "TAB"), (96.5, 26.4), pad("J2", "SLEEVE")], WP)
+    man("GPIO5", [pad("U1", "IO5"), (38.45, 14.39), (38.45, 22.0), pad("R1k", "1")], WS)
+    man("nGATE", [pad("R1k", "2"), pad("R47k", "1")], WS)
+    man("nGATE", [pad("U5", "3"), (16.15, 30.0), (16.15, 22.0), pad("R1k", "2")], WS)
+    man("GATE", [pad("R47k", "2"), (46.4, 22.5), pad("Q1", "G")], WS)
+    man("VOUT-", [pad("Q1", "TAB"), pad("J2", "SL1")], WP)
 
-    # 5V
-    manhattan("5V", [pad("L1", "2"), pad("C5v", "1")], W)
-    manhattan("5V", [pad("C5v", "1"), (40.5, 40), pad("U3", "3")], W)
-    manhattan("5V", [(46, 40), (46, 40), pad("U4", "3")], W)
+    man("VSENSE", [pad("R100k", "2"), (8.5, 15.66), (38.45, 15.66), pad("U1", "IO4")], WS)
+    man("VREF", [pad("U6", "3"), pad("U5", "2")], WS)
+    man("1IN-", [pad("R215", "2"), pad("U5", "1")], WS)
 
-    # SW
-    manhattan("SW", [pad("U2", "3"), (31.3, 14), (31.3, 26.5), pad("L1", "1")], W)
-
-    # 3V3 to ESP
-    manhattan("3V3", [pad("U3", "TAB"), (48, 40), (48, 22.5), pad("U1", "3V3")], W)
-
-    # LIN
-    manhattan("LIN_BUS", [pad("J1", "LIN"), (12, 26), (12, 40), (49.8, 40), pad("U4", "4")], WS)
-    manhattan("LIN_RX", [pad("U4", "1"), (49.8, 44.8), (80.6, 44.8), (80.6, 21.23), pad("U1", "IO20")], WS)
-
-    # Gate
-    manhattan("GPIO5", [pad("U1", "IO5"), (69.4, 18.69), (69.4, 36), pad("R1k", "1")], WS)
-    manhattan("nGATE", [pad("R1k", "2"), (90.5, 36), pad("Q1", "1")], WS)
-    manhattan("nGATE", [pad("U5", "3"), (52.5, 21.0), (78, 21), (78, 36), pad("R1k", "2")], WS)
-
-    # ADC
-    manhattan("VSENSE", [pad("R100k", "2"), pad("U1", "IO4")], WS)
-
-    # USB
-    manhattan("USB_D+", [pad("U1", "IO19"), (80.6, 18.69), (80.6, 4.0), (77.0, 4.0)], WS)
-    manhattan("USB_D-", [pad("U1", "IO18"), (80.6, 19.96), (86, 19.96), (86, 4.5), (74.0, 4.5)], WS)
-    manhattan("VBUS", [(78.7, 1.55), (78.7, 8.5), pad("Dusb", "A")], W)
-
-    # LEDs
-    manhattan("GPIO6", [pad("U1", "IO6"), (69.4, 17.42), (69.4, 42.2), pad("Rr", "2")], WS)
-    manhattan("GPIO7", [pad("U1", "IO7"), (69.4, 16.15), (88, 16.15), (88, 42.2), pad("Ra", "2")], WS)
-
-    # EN / boot
-    manhattan("EN", [pad("U1", "EN"), pad("Ren", "1")], WS)
-    manhattan("BOOT", [pad("U1", "IO9"), pad("Rboot", "1")], WS)
-
-    # Tie 1IN+ to VREF
-    manhattan("VREF", [pad("U6", "3"), (63.5, 21.1), pad("U5", "2")], WS)
-    manhattan("1IN-", [pad("R215", "2"), pad("U5", "1")], WS)
-
-    # GND stitches from pads that sit on top — short to nearby via
-    manhattan("GND", [pad("J1", "GND"), (12, 18)], WP)
+    man("USB_D+", [pad("U1", "IO19"), (49.55, 16.93), (49.55, 4.0), (29.2, 4.0)], WS)
+    man("USB_D-", [pad("U1", "IO18"), (49.55, 15.66), (52.0, 15.66), (52.0, 3.5), (30.0, 3.5)], WS)
+    man("VBUS", [(32.4, 0.9), (32.4, 5.4), pad("Dusb", "A")], W)
+    man("EN", [pad("U1", "EN"), pad("Ren", "1")], WS)
+    man("BOOT", [pad("U1", "IO9"), pad("Rboot", "1")], WS)
+    man("GPIO6", [pad("U1", "IO6"), (38.45, 13.12), pad("Rr", "1")], WS)
+    man("LED_A", [pad("Rr", "2"), pad("Drail", "A")], WS)
+    man("GPIO7", [pad("U1", "IO7"), (38.45, 11.85), pad("Ra", "1")], WS)
+    man("LED_B", [pad("Ra", "2"), pad("Darm", "A")], WS)
+    man("GND", [pad("J1", "GND"), (6.0, 16.0)], WP)
+    man("EN5", [pad("U2", "6"), pad("Ren5", "1")], WS)
+    man("TXD_PU", [pad("U4", "4"), pad("Rtx", "1")], WS)
+    man("FB", [pad("U2", "4"), pad("RfbL", "1")], WS)
 
 
-# ---------------------------------------------------------------------------
-# Gerber
-# ---------------------------------------------------------------------------
+# ----- Gerber / BOM / SVG (same machinery, new size) -----
 def gxy(x, y):
     return f"X{int(round(x * 1_000_000))}Y{int(round(y * 1_000_000))}"
 
 
 class Gbr:
     def __init__(self):
-        self.ap = {}  # key -> d-code
-        self.n = 10
-        self.body = []
+        self.ap, self.n, self.body = {}, 10, []
 
-    def aper(self, key, defn):
+    def sel(self, key):
         if key not in self.ap:
             self.ap[key] = self.n
             self.n += 1
-        return self.ap[key]
-
-    def sel(self, key, defn):
-        d = self.aper(key, defn)
-        self.body.append(f"D{d}*")
-        return d
+        self.body.append(f"D{self.ap[key]}*")
 
     def dumps(self, name):
-        lines = [
-            "%FSLAX36Y36*%",
-            "%MOMM*%",
-            f"G04 {name}*",
-            "%LPD*%",
-        ]
+        lines = ["%FSLAX36Y36*%", "%MOMM*%", f"G04 {name}*", "%LPD*%"]
         for key, d in sorted(self.ap.items(), key=lambda kv: kv[1]):
             if key[0] == "C":
                 lines.append(f"%ADD{d}C,{key[1:]}*%")
-            elif key[0] == "R":
+            else:
                 w, h = key[1:].split("x")
                 lines.append(f"%ADD{d}R,{w}X{h}*%")
-        lines.extend(self.body)
-        lines.append("M02*")
+        lines += self.body + ["M02*"]
         return "\n".join(lines) + "\n"
+
+
+def flash(g, p, grow=0.0):
+    if p.shape == "circ" or p.drill:
+        g.sel(f"C{p.w + grow:.3f}")
+    else:
+        g.sel(f"R{p.w + grow:.3f}x{p.h + grow:.3f}")
+    g.body.append(gxy(p.x, p.y) + "D03*")
 
 
 def emit_gerbers():
     GERBER.mkdir(parents=True, exist_ok=True)
-    layers = {
-        "GTL": Gbr(),
-        "GBL": Gbr(),
-        "GTS": Gbr(),
-        "GBS": Gbr(),
-        "GTO": Gbr(),
-        "GBO": Gbr(),
-        "GKO": Gbr(),
-        "GTP": Gbr(),
-    }
-
-    # Outline
-    ko = layers["GKO"]
-    ko.sel("C0.100", "C")
-    pts = [(0, 0), (BOARD_W, 0), (BOARD_W, BOARD_H), (0, BOARD_H), (0, 0)]
-    ko.body.append("G01*")
-    ko.body.append(gxy(*pts[0]) + "D02*")
-    for p in pts[1:]:
-        ko.body.append(gxy(*p) + "D01*")
-
-    def flash_pad(g, p, mask=False, paste=False):
-        if p.shape == "circ" or p.drill:
-            d = p.w if not mask else p.w + 0.1
-            if mask:
-                d = p.w + 0.1
-            key = f"C{d:.3f}"
-            g.sel(key, "C")
-            g.body.append(gxy(p.x, p.y) + "D03*")
-        else:
-            w, h = p.w, p.h
-            if mask:
-                w, h = w + 0.1, h + 0.1
-            if paste:
-                w, h = max(0.2, w - 0.05), max(0.2, h - 0.05)
-            key = f"R{w:.3f}x{h:.3f}"
-            g.sel(key, "R")
-            g.body.append(gxy(p.x, p.y) + "D03*")
-
-    # Bottom GND pour as a stroked outline fill (region)
-    gbl = layers["GBL"]
-    gbl.body.append("G36*")
-    gbl.body.append(gxy(EDGE, EDGE) + "D02*")
-    gbl.body.append(gxy(BOARD_W - EDGE, EDGE) + "D01*")
-    gbl.body.append(gxy(BOARD_W - EDGE, BOARD_H - EDGE) + "D01*")
-    gbl.body.append(gxy(EDGE, BOARD_H - EDGE) + "D01*")
-    gbl.body.append(gxy(EDGE, EDGE) + "D01*")
-    gbl.body.append("G37*")
-
+    L = {k: Gbr() for k in ("GTL", "GBL", "GTS", "GBS", "GTO", "GBO", "GKO", "GTP")}
+    ko = L["GKO"]
+    ko.sel("C0.120")
+    ko.body += ["G01*", gxy(0, 0) + "D02*", gxy(BOARD_W, 0) + "D01*",
+                gxy(BOARD_W, BOARD_H) + "D01*", gxy(0, BOARD_H) + "D01*", gxy(0, 0) + "D01*"]
+    gbl = L["GBL"]
+    gbl.body += ["G36*", gxy(EDGE, EDGE) + "D02*", gxy(BOARD_W - EDGE, EDGE) + "D01*",
+                 gxy(BOARD_W - EDGE, BOARD_H - EDGE) + "D01*", gxy(EDGE, BOARD_H - EDGE) + "D01*",
+                 gxy(EDGE, EDGE) + "D01*", "G37*"]
     for p in pads:
-        flash_pad(layers["GTL"], p)
-        flash_pad(layers["GTS"], p, mask=True)
+        flash(L["GTL"], p)
+        flash(L["GTS"], p, 0.1)
         if p.drill == 0:
-            flash_pad(layers["GTP"], p, paste=True)
-        # TH also on bottom
+            flash(L["GTP"], p, -0.05)
         if p.drill:
-            flash_pad(layers["GBL"], p)
-            flash_pad(layers["GBS"], p, mask=True)
-
+            flash(L["GBL"], p)
+            flash(L["GBS"], p, 0.1)
     for t in traces:
-        g = layers["GTL"] if t.layer == "F" else layers["GBL"]
-        g.sel(f"C{t.w:.3f}", "C")
-        g.body.append("G01*")
-        g.body.append(gxy(t.x1, t.y1) + "D02*")
-        g.body.append(gxy(t.x2, t.y2) + "D01*")
-
+        g = L["GTL"] if t.layer == "F" else L["GBL"]
+        g.sel(f"C{t.w:.3f}")
+        g.body += ["G01*", gxy(t.x1, t.y1) + "D02*", gxy(t.x2, t.y2) + "D01*"]
     for v in vias:
-        layers["GTL"].sel(f"C{v.od:.3f}", "C")
-        layers["GTL"].body.append(gxy(v.x, v.y) + "D03*")
-        layers["GBL"].sel(f"C{v.od:.3f}", "C")
-        layers["GBL"].body.append(gxy(v.x, v.y) + "D03*")
-        layers["GTS"].sel(f"C{v.od + 0.1:.3f}", "C")
-        layers["GTS"].body.append(gxy(v.x, v.y) + "D03*")
-        layers["GBS"].sel(f"C{v.od + 0.1:.3f}", "C")
-        layers["GBS"].body.append(gxy(v.x, v.y) + "D03*")
-
-    # Silk
-    gto = layers["GTO"]
-    gto.sel("C0.150", "C")
+        for layer, grow in (("GTL", 0), ("GBL", 0), ("GTS", 0.08), ("GBS", 0.08)):
+            L[layer].sel(f"C{v.od + grow:.3f}")
+            L[layer].body.append(gxy(v.x, v.y) + "D03*")
+    L["GTO"].sel("C0.200")
     for s in silk:
-        if s.kind == "text":
-            # draw a tiny tick so the layer is non-empty; SVG carries readable silk
-            gto.body.append(gxy(s.kw["x"], s.kw["y"]) + "D03*")
-        elif s.kind == "dot":
-            gto.sel("C0.400", "C")
-            gto.body.append(gxy(s.kw["x"], s.kw["y"]) + "D03*")
-            gto.sel("C0.150", "C")
-
-    names = {
-        "GTL": "PadTap-RevA.GTL",
-        "GBL": "PadTap-RevA.GBL",
-        "GTS": "PadTap-RevA.GTS",
-        "GBS": "PadTap-RevA.GBS",
-        "GTO": "PadTap-RevA.GTO",
-        "GBO": "PadTap-RevA.GBO",
-        "GKO": "PadTap-RevA.GKO",
-        "GTP": "PadTap-RevA.GTP",
-    }
-    for k, g in layers.items():
+        if s[0] == "t":
+            L["GTO"].body.append(gxy(s[1], s[2]) + "D03*")
+        elif s[0] == "d":
+            L["GTO"].sel("C0.400")
+            L["GTO"].body.append(gxy(s[1], s[2]) + "D03*")
+            L["GTO"].sel("C0.200")
+    names = {k: f"PadTap-RevA.{k}" for k in L}
+    for k, g in L.items():
         (GERBER / names[k]).write_text(g.dumps(k), encoding="utf-8")
 
-    # Excellon
-    pth, npth = [], []
-    tools = {}
-
-    def tool(d):
-        key = f"{d:.3f}"
-        if key not in tools:
-            tools[key] = f"T{len(tools) + 1:02d}"
-        return tools[key]
-
-    for p in pads:
-        if p.drill:
-            t = tool(p.drill)
-            (npth if not p.plated else pth).append((t, p.x, p.y, p.drill, not p.plated))
-    for v in vias:
-        t = tool(v.drill)
-        pth.append((t, v.x, v.y, v.drill, False))
-
-    def drill_file(rows, path, plated=True):
-        lines = ["M48", f";{'PTH' if plated else 'NPTH'}", "METRIC,TZ"]
-        seen = {}
-        for t, x, y, d, _ in rows:
-            if t not in seen:
-                lines.append(f"{t}C{d:.3f}")
-                seen[t] = d
+    def drill(rows, path, plated):
+        tools, lines = {}, ["M48", f";{'PTH' if plated else 'NPTH'}", "METRIC,TZ"]
+        for d, x, y in rows:
+            key = f"{d:.3f}"
+            if key not in tools:
+                tools[key] = f"T{len(tools)+1:02d}"
+                lines.append(f"{tools[key]}C{d:.3f}")
         lines.append("%")
         cur = None
-        for t, x, y, d, _ in rows:
+        for d, x, y in rows:
+            t = tools[f"{d:.3f}"]
             if t != cur:
                 lines.append(t)
                 cur = t
@@ -639,218 +432,188 @@ def emit_gerbers():
         lines.append("M30")
         path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-    # Split NPTH holes (mount) from PTH
-    pth_rows = [(t, x, y, d, n) for t, x, y, d, n in pth + [] if True]
-    # Rebuild from pads/vias
-    pth_rows, npth_rows = [], []
+    pth, npth = [], []
     for p in pads:
-        if not p.drill:
-            continue
-        t = tool(p.drill)
-        if p.ref.startswith("H"):
-            npth_rows.append((t, p.x, p.y, p.drill, True))
-        else:
-            pth_rows.append((t, p.x, p.y, p.drill, False))
+        if p.drill:
+            (npth if p.ref.startswith("H") else pth).append((p.drill, p.x, p.y))
     for v in vias:
-        t = tool(v.drill)
-        pth_rows.append((t, v.x, v.y, v.drill, False))
-    drill_file(pth_rows, GERBER / "PadTap-RevA-PTH.DRL", True)
-    drill_file(npth_rows, GERBER / "PadTap-RevA-NPTH.DRL", False)
-
-    zpath = OUT / "PadTap-RevA-gerbers.zip"
-    with zipfile.ZipFile(zpath, "w", zipfile.ZIP_DEFLATED) as z:
+        pth.append((v.drill, v.x, v.y))
+    drill(pth, GERBER / "PadTap-RevA-PTH.DRL", True)
+    drill(npth, GERBER / "PadTap-RevA-NPTH.DRL", False)
+    z = OUT / "PadTap-RevA-gerbers.zip"
+    with zipfile.ZipFile(z, "w", zipfile.ZIP_DEFLATED) as zh:
         for f in sorted(GERBER.iterdir()):
-            z.write(f, f.name)
-    return zpath
+            zh.write(f, f.name)
+    return z
 
 
-# ---------------------------------------------------------------------------
-# BOM / CPL
-# ---------------------------------------------------------------------------
 BOM = [
-    ("U1", "ESP32-C3-MINI-1-N4", "C2919203", "1", "Espressif module, 4 MB"),
-    ("U2", "XL7015E1 SOP-8", "C142613", "1", "5–80 V → 5 V buck, 0.8 A"),
+    ("U1", "ESP32-C3-MINI-1-N4", "C2919203", "1", "MCU, antenna north"),
+    ("U2", "XL7015E1 SOP-8", "C142613", "1", "5–80 V → 5 V. Pins 1 VIN, 2 SW, 3 GND, 4 FB, 5 COMP, 6 EN, 8 VIN"),
     ("U3", "AMS1117-3.3 SOT-223", "C6186", "1", "5 V → 3.3 V"),
-    ("U4", "TLIN2029DRQ1 SOIC-8", "C582774", "1", "LIN PHY, TXD not to MCU"),
-    ("U5", "LM393DR SOIC-8", "C7950", "1", "OVLO comparator"),
-    ("U6", "TL431 SOT-23", "C511218", "1", "2.495 V ref"),
-    ("Q1", "IRLR3110TRPBF DPAK", "C152302", "1", "100 V logic-level, replaces IRL540N TO-220"),
-    ("D1", "SS510 SMA", "C8678", "1", "100 V 5 A Schottky"),
-    ("D2", "SMBJ58A SMB", "C13589", "1", "58 V TVS"),
-    ("D3", "SS14 SOD-123", "C227409", "1", "Buck catch"),
-    ("Dz", "MMSZ5226B 3.3 V", "C212815", "1", "ADC clamp"),
-    ("Dusb", "1N5819 SOD-123", "C212814", "1", "USB VBUS OR"),
-    ("Drail", "0805 amber LED", "C72043", "1", "Rail present"),
-    ("Darm", "0805 green LED", "C72041", "1", "Output armed"),
-    ("L1", "220 µH 6×6 1 A", "C167254", "1", "XL7015 inductor"),
-    ("C1", "10 µF 100 V 1210", "C59419", "1", "VIN bulk"),
-    ("C5v", "10 µF 16 V 0805", "C45783", "1", "5 V bulk"),
-    ("C3v", "10 µF 10 V 0805", "C45783", "1", "3V3 bulk"),
-    ("Clin", "220 pF 50 V 0805", "C14663", "1", "LIN to GND"),
-    ("Cgate", "1 µF 25 V 0805", "C14663", "1", "Gate ramp"),
-    ("Cen", "1 µF 16 V 0805", "C14663", "1", "EN RC"),
-    ("R215", "215 k 1 % 0805", "C17521", "1", "OVLO top"),
-    ("R10ov", "10 k 1 % 0805", "C17414", "1", "OVLO bot"),
-    ("R100k", "100 k 1 % 0805", "C17407", "1", "ADC top"),
-    ("R10k", "10 k 1 % 0805", "C17414", "1", "ADC bot"),
-    ("R1k", "1 k 0805", "C17513", "1", "GPIO5 series"),
-    ("R10g", "10 k 0805", "C17414", "1", "Gate pulldown"),
-    ("R47k", "47 k 0805", "C17710", "1", "Gate ramp"),
-    ("Rfb1", "8.2 k 1 % 0805", "C17671", "1", "5 V FB"),
-    ("Rfb2", "1.5 k 1 % 0805", "C17622", "1", "5 V FB"),
-    ("Rtx", "10 k 0805", "C17414", "1", "TXD high (listen-only)"),
-    ("Ren", "10 k 0805", "C17414", "1", "EN pullup"),
-    ("Rboot", "10 k 0805", "C17414", "1", "BOOT pullup"),
-    ("Rr", "1 k 0805", "C17513", "1", "Amber LED"),
-    ("Ra", "1 k 0805", "C17513", "1", "Green LED"),
-    ("Rcc1", "5.1 k 0805", "C17610", "1", "USB CC1"),
-    ("Rcc2", "5.1 k 0805", "C17610", "1", "USB CC2"),
-    ("Rref", "10 k 0805", "C17414", "1", "TL431 bias"),
-    ("J1", "3× Ø1.3 mm pad", "—", "1", "VIN / GND / LIN, 18 AWG"),
-    ("J2", "PJ-002A 5.5×2.1", "C381065", "1", "Barrel, center +"),
-    ("J3", "USB-C 16P mid-mount", "C165948", "1", "Aligns with south window"),
+    ("U4", "TLIN2029DRQ1 SOIC-8", "C582774", "1", "1 RXD, 2 EN, 4 TXD, 5 GND, 6 LIN, 7 VSUP"),
+    ("U5", "LM393DR SOIC-8", "C7950", "1", "OVLO, OC on nGATE"),
+    ("U6", "TL431 SOT-23", "C511218", "1", "2.495 V"),
+    ("Q1", "IRLR3110TRPBF DPAK", "C152302", "1", "100 V logic-level, 9 thermal vias on tab"),
+    ("D1", "SS510 SMA", "C8678", "1", "Reverse, 100 V"),
+    ("D2", "SMBJ58A SMB", "C13589", "1", "TVS at J1, not at the barrel"),
+    ("D3", "SS14 SOD-123", "C227409", "1", "Buck catch, short SW node"),
+    ("Dz", "MMSZ5226B", "C212815", "1", "ADC 3.3 V clamp"),
+    ("Dg", "1N4148W", "C212147", "1", "Fast gate dump"),
+    ("Dusb", "1N5819WS", "C212814", "1", "USB OR into 5 V"),
+    ("Elin", "PESD1LIN", "C841366", "1", "LIN ESD"),
+    ("Drail", "0805 amber", "C72043", "1", "Rail"),
+    ("Darm", "0805 green", "C72041", "1", "Armed"),
+    ("L1", "220 µH 6×6 ≥1 A", "C167254", "1", "Next to U2 SW"),
+    ("C1", "10 µF 100 V 1210", "C59419", "1", "VIN bulk at TVS"),
+    ("Cin", "100 nF 100 V 0805", "C1463", "1", "VIN HF"),
+    ("C5v", "10 µF 16 V 0805", "C45783", "2", "5 V"),
+    ("C3v", "10 µF 10 V 0805", "C45783", "2", "3V3 + ESP"),
+    ("Clin", "220 pF 50 V", "C14663", "1", "ISO 17987"),
+    ("Cgate", "1 µF 25 V", "C14663", "1", "80 ms-class ramp with 47 k"),
+    ("Ccomp", "10 nF 50 V", "C14663", "1", "XL7015 COMP"),
+    ("Csense", "1 nF 50 V", "C14663", "1", "ADC filter"),
+    ("Cen", "1 µF 16 V", "C14663", "1", "EN RC"),
+    ("Cesp", "100 nF 16 V", "C14663", "1", "ESP 3V3"),
+    ("R215", "215 k 1 %", "C17521", "1", "OVLO top"),
+    ("R10ov", "10 k 1 %", "C17414", "1", "OVLO bot → 56.14 V"),
+    ("R100k", "100 k 1 %", "C17407", "1", "ADC"),
+    ("R10k", "10 k 1 %", "C17414", "1", "ADC"),
+    ("RfbH", "7.50 k 1 %", "C17664", "1", "5.02 V with 2.49 k"),
+    ("RfbL", "2.49 k 1 %", "C17636", "1", "FB"),
+    ("R1k", "1 k", "C17513", "1", "GPIO5 series"),
+    ("R10g", "10 k", "C17414", "1", "nGATE pd"),
+    ("R47k", "47 k", "C17710", "1", "Gate ramp"),
+    ("Rtx", "10 k", "C17414", "1", "TXD high — do not omit"),
+    ("Rrx", "4.7 k", "C17604", "1", "RXD pull-up (open-drain)"),
+    ("Rlin", "1 k", "C17513", "1", "LIN series"),
+    ("Ren", "10 k", "C17414", "1", "EN"),
+    ("Rboot", "10 k", "C17414", "1", "BOOT"),
+    ("Ren5", "100 k", "C17407", "1", "XL7015 EN to VIN"),
+    ("Rbias", "10 k", "C17414", "1", "TL431"),
+    ("Rcc1", "5.1 k", "C17610", "2", "USB CC"),
+    ("Rr", "1 k", "C17513", "1", "Amber"),
+    ("Ra", "1 k", "C17513", "1", "Green"),
+    ("J1", "3× Ø1.3 mm", "—", "1", "VIN GND LIN, 18 AWG, pigtail to comb"),
+    ("J2", "PJ-002A 5.5×2.1", "C381065", "1", "East, center +"),
+    ("J3", "USB-C 16P mid-mount", "C165948", "1", "South window"),
 ]
 
 
 def emit_bom():
-    lines = ["Designator,Comment,LCSC,Qty,Note"]
-    for row in BOM:
-        lines.append(",".join(row))
-    (OUT / "bom-jlc.csv").write_text("\n".join(lines) + "\n", encoding="utf-8")
-    cpl = ["Designator,Mid X,Mid Y,Layer,Rotation"]
-    for x, y, w, h, rot, label, _ in courtyards:
-        ref = label.split()[0]
-        cpl.append(f"{ref},{x:.3f},{y:.3f},T,{rot}")
-    (OUT / "cpl-jlc.csv").write_text("\n".join(cpl) + "\n", encoding="utf-8")
+    (OUT / "bom-jlc.csv").write_text(
+        "Designator,Comment,LCSC,Qty,Note\n" + "\n".join(",".join(r) for r in BOM) + "\n",
+        encoding="utf-8",
+    )
+    lines = ["Designator,Mid X,Mid Y,Layer,Rotation"]
+    for x, y, w, h, label, _ in bodies:
+        lines.append(f"{label.split()[0]},{x:.3f},{y:.3f},T,0")
+    (OUT / "cpl-jlc.csv").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-# ---------------------------------------------------------------------------
-# SVG (README)
-# ---------------------------------------------------------------------------
 def svg_board():
-    scale = 8  # px per mm → 838 × 422
-    m = 28
-    W, H = BOARD_W * scale + 2 * m, BOARD_H * scale + 2 * m + 36
+    sc, m = 12, 36
+    W, H = BOARD_W * sc + 2 * m, BOARD_H * sc + 2 * m + 40
 
-    def sx(x, y):
-        return (m + x * scale, m + 18 + (BOARD_H - y) * scale)
+    def S(x, y):
+        return (m + x * sc, m + 24 + (BOARD_H - y) * sc)
 
-    parts = [
+    out = [
         f'<rect width="{W}" height="{H}" fill="#0B0C0E"/>',
-        f'<text x="{m}" y="22" fill="#E8A317" font-size="13" font-family="ui-monospace,monospace">PADTAP  ·  REV A  ·  DIRECT 48 V  ·  104.8 × 52.8 mm  ·  2-LAYER</text>',
+        f'<text x="{m}" y="22" fill="#E8A317" font-size="14" font-family="ui-monospace,monospace">PADTAP REV A.1  ·  58 × 34 mm  ·  2-LAYER  ·  48 V ISLAND WEST, SWITCH EAST</text>',
     ]
-    # board
-    x0, y0 = sx(0, BOARD_H)
-    parts.append(
-        f'<rect x="{x0:.1f}" y="{y0:.1f}" width="{BOARD_W * scale:.1f}" height="{BOARD_H * scale:.1f}" rx="10" fill="#141518" stroke="#2A2D32" stroke-width="1.5"/>'
-    )
+    x0, y0 = S(0, BOARD_H)
+    out.append(f'<rect x="{x0:.1f}" y="{y0:.1f}" width="{BOARD_W*sc:.1f}" height="{BOARD_H*sc:.1f}" rx="8" fill="#121318" stroke="#3A3D42" stroke-width="1.6"/>')
+    # zone tints
+    def zone(x, y, w, h, fill, label):
+        a = S(x, y + h)
+        out.append(f'<rect x="{a[0]:.1f}" y="{a[1]:.1f}" width="{w*sc:.1f}" height="{h*sc:.1f}" fill="{fill}" opacity="0.22" rx="4"/>')
+        out.append(f'<text x="{a[0]+6:.1f}" y="{a[1]+14:.1f}" fill="#E8EAED" font-size="9" font-family="ui-monospace,monospace" opacity="0.7">{label}</text>')
 
-    # bottom pour hint
-    parts.append(
-        f'<rect x="{x0 + 4:.1f}" y="{y0 + 4:.1f}" width="{(BOARD_W * scale) - 8:.1f}" height="{(BOARD_H * scale) - 8:.1f}" rx="8" fill="#1A1C20"/>'
-    )
+    zone(0.8, 6.5, 19, 20, "#C45C4A", "48 V")
+    zone(20.5, 6.5, 16, 16, "#E8A317", "BUCK")
+    zone(6.5, 24.5, 18, 8.5, "#7DAE74", "OVLO")
+    zone(37.5, 24, 16, 9, "#6AA6C9", "LIN")
+    zone(37, 4, 16, 18, "#8B9098", "MCU")
+    zone(46, 17, 11.5, 14, "#C45C4A", "SW")
 
-    # traces
+    col = {
+        "VIN_IN": "#C45C4A", "VIN_48": "#C45C4A", "VOUT+": "#C45C4A",
+        "SW": "#E8A317", "5V": "#E8A317", "3V3": "#7DAE74",
+        "LIN_BUS": "#6AA6C9", "LIN_RX": "#6AA6C9", "LIN_J": "#6AA6C9",
+        "nGATE": "#E8A317", "GATE": "#E8A317", "GPIO5": "#E8A317",
+        "USB_D+": "#6AA6C9", "USB_D-": "#6AA6C9", "VBUS": "#7DAE74",
+    }
     for t in traces:
-        a = sx(t.x1, t.y1)
-        b = sx(t.x2, t.y2)
-        col = "#C45C4A" if t.net.startswith("VIN") or t.net == "VOUT+" else (
-            "#6AA6C9" if "LIN" in t.net or "USB" in t.net else "#E8A317" if t.net in ("nGATE", "GPIO5", "VSENSE") else "#8B9098"
+        a, b = S(t.x1, t.y1), S(t.x2, t.y2)
+        out.append(
+            f'<line x1="{a[0]:.1f}" y1="{a[1]:.1f}" x2="{b[0]:.1f}" y2="{b[1]:.1f}" '
+            f'stroke="{col.get(t.net, "#5C6068")}" stroke-width="{max(1.4, t.w*sc):.1f}" '
+            f'stroke-linecap="round" opacity="0.9"/>'
         )
-        sw = max(1.2, t.w * scale)
-        parts.append(
-            f'<line x1="{a[0]:.1f}" y1="{a[1]:.1f}" x2="{b[0]:.1f}" y2="{b[1]:.1f}" stroke="{col}" stroke-width="{sw:.1f}" stroke-linecap="round" opacity="0.85"/>'
+    for x, y, w, h, label, fill in bodies:
+        px, py = S(x, y)
+        out.append(
+            f'<rect x="{px-w*sc/2:.1f}" y="{py-h*sc/2:.1f}" width="{w*sc:.1f}" height="{h*sc:.1f}" '
+            f'rx="2" fill="{fill}" stroke="#E8EAED" stroke-width="0.7"/>'
         )
-
-    # courtyards (bodies)
-    for x, y, w, h, rot, label, fill in courtyards:
-        px, py = sx(x, y)
-        parts.append(
-            f'<rect x="{px - w * scale / 2:.1f}" y="{py - h * scale / 2:.1f}" width="{w * scale:.1f}" height="{h * scale:.1f}" rx="2" fill="{fill}" stroke="#E8EAED" stroke-width="0.6" opacity="0.95"/>'
-        )
-        if w * scale > 28:
-            parts.append(
-                f'<text x="{px:.1f}" y="{py + 3:.1f}" fill="#E8EAED" font-size="8" font-family="ui-monospace,monospace" text-anchor="middle">{label[:22]}</text>'
+        if w * sc > 36:
+            out.append(
+                f'<text x="{px:.1f}" y="{py+3:.1f}" fill="#E8EAED" font-size="8" '
+                f'font-family="ui-monospace,monospace" text-anchor="middle">{label[:18]}</text>'
             )
-
-    # pads
     for p in pads:
-        px, py = sx(p.x, p.y)
+        px, py = S(p.x, p.y)
         if p.shape == "circ" or p.drill:
-            parts.append(
-                f'<circle cx="{px:.1f}" cy="{py:.1f}" r="{max(p.w, p.h) * scale / 2:.1f}" fill="#D4AF37" stroke="#8A7410" stroke-width="0.5"/>'
-            )
+            out.append(f'<circle cx="{px:.1f}" cy="{py:.1f}" r="{max(p.w,p.h)*sc/2:.1f}" fill="#D4AF37"/>')
             if p.drill:
-                parts.append(
-                    f'<circle cx="{px:.1f}" cy="{py:.1f}" r="{p.drill * scale / 2:.1f}" fill="#0B0C0E"/>'
-                )
+                out.append(f'<circle cx="{px:.1f}" cy="{py:.1f}" r="{p.drill*sc/2:.1f}" fill="#0B0C0E"/>')
         else:
-            parts.append(
-                f'<rect x="{px - p.w * scale / 2:.1f}" y="{py - p.h * scale / 2:.1f}" width="{p.w * scale:.1f}" height="{p.h * scale:.1f}" rx="0.6" fill="#D4AF37"/>'
+            out.append(
+                f'<rect x="{px-p.w*sc/2:.1f}" y="{py-p.h*sc/2:.1f}" width="{p.w*sc:.1f}" '
+                f'height="{p.h*sc:.1f}" rx="0.5" fill="#D4AF37"/>'
             )
-
-    # vias
     for v in vias:
-        px, py = sx(v.x, v.y)
-        parts.append(f'<circle cx="{px:.1f}" cy="{py:.1f}" r="2.2" fill="#8B9098"/>')
-        parts.append(f'<circle cx="{px:.1f}" cy="{py:.1f}" r="1.0" fill="#0B0C0E"/>')
-
-    # edge labels
-    def lab(x, y, s, anchor="start"):
-        px, py = sx(x, y)
-        parts.append(
-            f'<text x="{px:.1f}" y="{py:.1f}" fill="#8B9098" font-size="9" font-family="ui-monospace,monospace" text-anchor="{anchor}">{s}</text>'
-        )
-
-    lab(2, 50.8, "WEST  J1  VIN / GND / LIN")
-    lab(102, 50.8, "EAST  J2  BARREL", "end")
-    lab(75, 1.8, "SOUTH  USB-C", "middle")
+        px, py = S(v.x, v.y)
+        out.append(f'<circle cx="{px:.1f}" cy="{py:.1f}" r="2.4" fill="#7A7E86"/>')
+        out.append(f'<circle cx="{px:.1f}" cy="{py:.1f}" r="1.0" fill="#0B0C0E"/>')
 
     svg = f'''<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="{W:.0f}" height="{H:.0f}" viewBox="0 0 {W:.0f} {H:.0f}" role="img" aria-label="PadTap Rev A PCB">
-{chr(10).join(parts)}
+<svg xmlns="http://www.w3.org/2000/svg" width="{W:.0f}" height="{H:.0f}" viewBox="0 0 {W:.0f} {H:.0f}" role="img" aria-label="PadTap Rev A.1 PCB">
+{chr(10).join(out)}
 </svg>
 '''
     (OUT / "pcb-top.svg").write_text(svg, encoding="utf-8")
     DOCS.mkdir(parents=True, exist_ok=True)
     (DOCS / "pcb-top.svg").write_text(svg, encoding="utf-8")
-    return OUT / "pcb-top.svg"
 
 
 def emit_readme():
     (OUT / "README.md").write_text(
-        """# PadTap Direct 48 V — Rev A PCB
+        f"""# PadTap Direct 48 V — Rev A.1
 
-2-layer, **104.8 × 52.8 mm**, 1.6 mm FR4. Drops into the PETG sled (inner cavity). Black mask, white silk, HASL, 1 oz.
+**{BOARD_W:.0f} × {BOARD_H:.0f} mm**, 2-layer, 1.6 mm FR4. ~45 % of the sled cavity. Sits on the floor against the south wall.
 
 ![Top](pcb-top.svg)
 
-## Edge map
-
-| Edge | What |
+| | |
 | --- | --- |
-| West | J1 VIN / GND / LIN — 18 AWG into Ø1.3 mm pads, lines up with the cable comb |
-| East | J2 5.5 mm barrel, center + |
-| South | J3 USB-C, lines up with the 9.6 × 3.8 mm window |
-| Lid | Amber + green 0805 under the membranes |
+| West | J1 VIN / GND / LIN — 18 AWG, ~40 mm pigtail to the comb |
+| East | J2 barrel through the sled hole, center + |
+| South | USB-C through the window |
+| 48 V | West island: TVS + Schottky + 10 µF/100 V. 1.6 mm rail to the barrel along the **south**, not under the MCU |
+| SW | XL7015 pin 2 to L1, catch diode on that node only |
+| OVLO | North, away from SW. LM393 OC on nGATE |
+| Q1 | IRLR3110 DPAK, 9 thermal vias on the tab, source to GND pour |
+| LIN | 1 k series + 220 pF + PESD. TXD **10 k to 5 V** (internal pulldown would dominate the bus). RXD 4.7 k to 3V3 |
 
-Fuses (MINI 3 A **58 V**) and the **10 Ω NTC** stay on the harness. This board assumes VIN is already fused.
+Fuses and the NTC stay on the harness.
 
-## Order (JLCPCB)
+## Order
 
-1. Upload [`PadTap-RevA-gerbers.zip`](PadTap-RevA-gerbers.zip)
-2. 2-layer, 1.6 mm, 1 oz, black, HASL, 100 × 50 class (board is 104.8 × 52.8)
-3. Optional SMT: [`bom-jlc.csv`](bom-jlc.csv) + [`cpl-jlc.csv`](cpl-jlc.csv). Confirm LCSC numbers before paying — they drift.
-4. Q1 is **IRLR3110TRPBF DPAK** (100 V logic-level). IRL540N TO-220 will not assemble.
+[`PadTap-RevA-gerbers.zip`](PadTap-RevA-gerbers.zip) → JLCPCB, 2-layer, 1.6 mm, black, HASL. SMT optional: `bom-jlc.csv` + `cpl-jlc.csv`. Confirm LCSC C-numbers.
 
-## Rules the layout keeps
-
-- TLIN2029 **TXD pulled high**, no track to the ESP32
-- Low-side FET on barrel **sleeve** only — WPC ground is not switched
-- OVLO (LM393 + TL431) open-collector on the gate, wins over GPIO5
-- USB-C native D+/D− on GPIO19/18; Serial is USB-CDC, LIN is Serial1 on GPIO20
-
-`python3 generate.py` regenerates Gerbers and this drawing.
+Place the board so USB-C (30 mm from the west edge) lines up with the 9.6 mm window (outer x = 72).
 """,
         encoding="utf-8",
     )
@@ -861,12 +624,10 @@ def main():
     route()
     z = emit_gerbers()
     emit_bom()
-    svg = svg_board()
+    svg_board()
     emit_readme()
-    print("board", BOARD_W, "x", BOARD_H, "mm")
-    print("pads", len(pads), "traces", len(traces), "vias", len(vias))
-    print("gerbers", z)
-    print("svg", svg)
+    print(f"{BOARD_W} x {BOARD_H} mm  pads={len(pads)} traces={len(traces)} vias={len(vias)}")
+    print(z)
 
 
 if __name__ == "__main__":
