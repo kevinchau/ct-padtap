@@ -8,15 +8,9 @@ This is **not** a Tesla-approved tap. Approved 48 V points are the roof and frun
 
 ![System](docs/diagrams/system-direct.svg)
 
-## Builds
+Direct 48 V: Mini sees the Tesla rail (typically 44–50 V). The FET opens at **56.0 V** so Tesla’s 58 V peak never reaches the barrel. Digital fuses trip on **inrush** — **10 Ω NTC** on VIN and an **80 ms FET ramp**. Do not skip the thermistor.
 
-| | **Direct 48 V** (default) | **Buck 36 V** |
-| --- | --- | --- |
-| Mini sees | Tesla rail, typically 44–50 V | Regulated 36.00 V |
-| Tesla 58 V peak | FET opens at **56.0 V** | Buck absorbs it |
-| Why | Mini hardware takes ~56 V; skip a conversion, save 4–8 W | Stay inside the printed 12–48 V rating |
-
-Digital fuses on this truck trip on **inrush**, not watts. Both builds use a **10 Ω NTC** on VIN and an **80 ms FET ramp**. Do not skip the thermistor.
+The old 36 V buck build is **deprecated**. It does not fit the 15 mm sled. Archive: [hardware/schematic.md](hardware/schematic.md).
 
 ## Connector
 
@@ -55,8 +49,6 @@ Direct 48 V (`pio run -e direct`):
 - LM393 + TL431 OVLO, trips **56.14 V**
 - Littelfuse **0997003.WXN** MINI 3 A **58 V** in and out — not a 32 V blade
 - NTC + 80 ms ramp on the harness, outside the box
-
-Buck 36 V is the same Y and sled plus a ≤12 mm 60 V→36 V module. See [hardware/schematic.md](hardware/schematic.md).
 
 ```
 cd firmware/padtap

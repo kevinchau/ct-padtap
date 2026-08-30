@@ -37,7 +37,7 @@ Tesla 48 V **digital fuses** trip on capacitor inrush. The NTC (VIN, on the harn
 | Direct OVLO clear | 54.0 | Hysteresis |
 | Tesla accessory max | 58 | DIY 48 V power-feed document |
 
-If the LV bus ever sits at 58 V, Direct turns Starlink off. That is rare (nominal 44–50 V). If you need the Mini up during a 58 V excursion, build [schematic.md](schematic.md) (buck 36 V) instead.
+If the LV bus ever sits at 58 V, Direct turns Starlink off. That is rare (nominal 44–50 V).
 
 Do **not** put a 54 V TVS across the barrel. Tesla is allowed to run at 50 V; a 54 V clamp would dump the truck’s rail into the diode. Disconnect, don’t clamp.
 

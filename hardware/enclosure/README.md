@@ -24,7 +24,7 @@ Bosses match the PCB holes at (3, 3), (55, 3), (3, 31), (55, 31).
 
 ## Height
 
-Assembled drop **15 mm**. Internal 12.1 mm — enough for the DPAK FET, ESP32-C3-MINI-1, and XL7015. The 36 V tower buck from the other build does **not** fit; Direct 48 V only.
+Assembled drop **15 mm**. Internal 12.1 mm — enough for the DPAK FET, ESP32-C3-MINI-1, and XL7015. Direct 48 V only.
 
 Fuses and the 10 Ω NTC stay on the harness.
 

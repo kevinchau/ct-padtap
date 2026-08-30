@@ -80,7 +80,7 @@ That is why Direct 48 V is viable on a Cybertruck: nominal 44–50 V is inside b
 
 CTOC: people have run Mini on the **roof/frunk 48 V feeds** successfully at nominal voltage. Direct on the pad tap is the same rail, plus a disconnect for the 58 V tail.
 
-Buck 36 V remains the conservative build if you want the Mini to stay inside the printed 12–48 V rating even during a 58 V excursion.
+The 36 V buck path is **deprecated** and does not fit the 15 mm sled.
 
 ## Wiring guide
 

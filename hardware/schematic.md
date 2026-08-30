@@ -1,4 +1,14 @@
-# PadTap controller
+# DEPRECATED — Buck 36 V
+
+**Do not build this.** PadTap is Direct 48 V. The 64 × 40 × 15 mm sled cannot fit a 36 V module. Firmware `env:buck` is gone.
+
+Use **[schematic-direct.md](schematic-direct.md)**.
+
+The rest of this page is an archive of the old conservative path (60 V → 36 V module, Mini stays inside the printed 12–48 V rating).
+
+---
+
+# PadTap controller (archive)
 
 Two builds, one Y-harness, one sled.
 

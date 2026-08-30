@@ -4,10 +4,8 @@
 // PadTap — Cybertruck WPC tap → Starlink Mini
 // LIN is listen-only. Do not wire TLIN2029 TXD.
 //
-// Direct 48 V (default, -DPADTAP_DIRECT=1): switched raw Tesla rail.
+// Direct 48 V: switched raw Tesla rail.
 //   Hardware LM393 + firmware latch kill the FET at 56.0 V.
-// Buck 36 V (-DPADTAP_DIRECT=0): 36 V module is the Mini's supply;
-//   OVLO still trips so a mis-set pot cannot pass 58 V.
 //
 // Tesla 48 V uses digital / solid-state fuses. They trip on capacitor
 // inrush, not RMS. Do not slam a buck or the Mini's input caps onto
