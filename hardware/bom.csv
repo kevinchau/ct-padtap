@@ -16,7 +16,7 @@ Board,Gate soft-start 47k + 1uF + 1N4148,47k+1uF+1N4148,1,Digi-Key,$1,80 ms FET 
 Board,TVS 58 V,SMBJ58A,1,Digi-Key,$1,VIN clamp,all
 Board,Schottky 100 V 5 A,SS510,1,Digi-Key,$1,Reverse protect,all
 Board,Barrel 5.5x2.1 center +,DC5521 male,1,Amazon / Starlink DC extension,$9,Confirm polarity on official PSU,all
-Board,Divider 100k/10k 1%,0805,1,Digi-Key,$1,VIN sense into ESP32 ADC,all
+Board,Divider 215k/10k 1%,0805,1,Digi-Key,$1,VIN sense into ESP32 ADC — 56 V → 2.49 V (100k/10k would clip at the zener),all
 Board,3.3 V zener + gate R,MMSZ5226B,1,Digi-Key,$2,ADC clamp,all
 Board,LEDs amber/green,3mm,2,Digi-Key,$1,Status through lid membranes,all
 Direct 48 V,Logic-level N-FET 100 V,IRL540NPBF,1,Digi-Key,$3,FQP13N10L is obsolete. 100 V logic-level low-side. Lay TO-220 flat,direct
@@ -27,7 +27,7 @@ Buck 36 V,Low-profile 60 V 3 A buck set to 36 V,60Vin 36Vout 3A slim ≤10mm,1,A
 Buck 36 V,Logic-level N-FET 60 V,FQP30N06L,1,Digi-Key 671-FQP30N06L,$2,Low-side Starlink switch on 36 V — lay TO-220 flat,buck
 Buck 36 V,TVS 40 V,SMBJ40A,1,Digi-Key,$1,V36 clamp,buck
 Case,Printed under-panel sled PETG,hardware/enclosure/,1,Print the STLs / OpenSCAD,~$2 filament,64x40x15 mm VHB lid,all
-Case,M2.5 x 8 mm + heat-set inserts,M2.5,4,Amazon,$4,Lid screws into base bosses,all
+Case,M2.5 x 6 mm + heat-set inserts,M2.5,4,Amazon,$4,Lid screws into base bosses — 8 mm bottoms out in the 3.8 mm insert pocket,all
 Case,3M VHB 5952 12 mm squares,5952,4,Amazon,$8,Lid bed face to panel underside,all
 Tools,Torx T20,T20,1,any,$8,5 N·m WPC screws,all
 Tools,Plastic pry set,—,1,any,$10,Console panel,all

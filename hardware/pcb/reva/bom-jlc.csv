@@ -28,7 +28,7 @@ Cen,1 µF 16 V,C14663,1,EN RC
 Cesp,100 nF 16 V,C14663,1,ESP 3V3
 R215,215 k 1 %,C17521,1,OVLO top
 R10ov,10 k 1 %,C17414,1,OVLO bot → 56.14 V
-R100k,100 k 1 %,C17407,1,ADC
+Rsns,215 k 1 %,C17521,1,ADC sense — 56 V → 2.49 V (100 k clips at Dz)
 R10k,10 k 1 %,C17414,1,ADC
 RfbH,7.50 k 1 %,C17664,1,5.02 V with 2.49 k
 RfbL,2.49 k 1 %,C17636,1,FB

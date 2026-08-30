@@ -183,12 +183,13 @@ def place():
     sod123("Elin", 39.0, 25.5, "GND", "LIN_BUS")      # PESD1LIN (bidirectional treated as SOD)
 
     # --- OVLO, north of analog, away from SW ---
-    soic8("U5", 13.5, 30.0, ["1IN-", "VREF", "nGATE", "GND", "NC2", "NC3", "NC4", "5V"])
+    # LM393: 1 OUT1, 2 IN1-, 3 IN1+, 4 GND, 5 IN2+, 6 IN2-, 7 OUT2, 8 VCC
+    soic8("U5", 13.5, 30.0, ["nGATE", "1IN-", "VREF", "GND", "NC5", "NC6", "NC7", "5V"])
     sot23("U6", 21.0, 30.0, "GND", "VREF", "VREF")    # TL431 anode / ref=cathode
     r0805("R215", 8.5, 28.0, 90, "VIN_48", "1IN-")
     r0805("R10ov", 8.5, 24.5, 90, "1IN-", "GND")
     r0805("Rbias", 21.0, 26.5, 0, "5V", "VREF")
-    r0805("R100k", 8.5, 21.0, 90, "VIN_48", "VSENSE")
+    r0805("Rsns", 8.5, 21.0, 90, "VIN_48", "VSENSE")  # 215 k — 100 k clips at Dz
     r0805("R10k", 8.5, 17.5, 90, "VSENSE", "GND")
     c0805("Csense", 5.5, 19.2, 0, "VSENSE", "GND")    # 1 nF
     sod123("Dz", 5.5, 26.5, "GND", "VSENSE")
@@ -317,13 +318,13 @@ def route():
 
     man("GPIO5", [pad("U1", "IO5"), (38.45, 14.39), (38.45, 22.0), pad("R1k", "1")], WS)
     man("nGATE", [pad("R1k", "2"), pad("R47k", "1")], WS)
-    man("nGATE", [pad("U5", "3"), (16.15, 30.0), (16.15, 22.0), pad("R1k", "2")], WS)
+    man("nGATE", [pad("U5", "1"), (16.15, 30.0), (16.15, 22.0), pad("R1k", "2")], WS)
     man("GATE", [pad("R47k", "2"), (46.4, 22.5), pad("Q1", "G")], WS)
     man("VOUT-", [pad("Q1", "TAB"), pad("J2", "SL1")], WP)
 
-    man("VSENSE", [pad("R100k", "2"), (8.5, 15.66), (38.45, 15.66), pad("U1", "IO4")], WS)
-    man("VREF", [pad("U6", "3"), pad("U5", "2")], WS)
-    man("1IN-", [pad("R215", "2"), pad("U5", "1")], WS)
+    man("VSENSE", [pad("Rsns", "2"), (8.5, 15.66), (38.45, 15.66), pad("U1", "IO4")], WS)
+    man("VREF", [pad("U6", "3"), pad("U5", "3")], WS)
+    man("1IN-", [pad("R215", "2"), pad("U5", "2")], WS)
 
     man("USB_D+", [pad("U1", "IO19"), (49.55, 16.93), (49.55, 4.0), (29.2, 4.0)], WS)
     man("USB_D-", [pad("U1", "IO18"), (49.55, 15.66), (52.0, 15.66), (52.0, 3.5), (30.0, 3.5)], WS)
@@ -477,7 +478,7 @@ BOM = [
     ("Cesp", "100 nF 16 V", "C14663", "1", "ESP 3V3"),
     ("R215", "215 k 1 %", "C17521", "1", "OVLO top"),
     ("R10ov", "10 k 1 %", "C17414", "1", "OVLO bot → 56.14 V"),
-    ("R100k", "100 k 1 %", "C17407", "1", "ADC"),
+    ("Rsns", "215 k 1 %", "C17521", "1", "ADC sense — 56 V → 2.49 V (100 k clips at Dz)"),
     ("R10k", "10 k 1 %", "C17414", "1", "ADC"),
     ("RfbH", "7.50 k 1 %", "C17664", "1", "5.02 V with 2.49 k"),
     ("RfbL", "2.49 k 1 %", "C17636", "1", "FB"),

@@ -11,7 +11,7 @@ VIN_48 ── MINI 3 A 58 V ── NTC 10 Ω ── Schottky SS510 ──┬─�
                                       │
                                       ├── 5 V buck (7–60 V) ── ESP32-C3 + TLIN2029 VSUP
                                       │
-                                      ├── 100 k / 10 k ── ADC GPIO4 + 3.3 V zener
+                                      ├── 215 k / 10 k ── ADC GPIO4 + 3.3 V zener
                                       │         │
                                       │         └── 215 k / 10 k ── LM393 IN−
                                       │                              IN+ = 2.495 V (TL431)
@@ -49,9 +49,10 @@ LM393, 5 V VCC, open-collector to the FET gate.
 - IN− = VIN × 10 k / (215 k + 10 k)
 - Trip: 2.495 × 225 / 10 = **56.14 V** (215 k 1 %)
 - When VIN > 56 V, OC conducts, gate = 0, FET off — even if the ESP32 is wedged
-- 1 k between GPIO5 and gate so a fight is 3.3 mA, not 33 mA
+- 1 k between GPIO5 and the OC node so a fight is 3.3 mA, not 33 mA
+- After the OC node: 47 k series + 1 µF gate–source smooth the 20 kHz ramp PWM into a gate ramp; 1N4148 across the 47 k dumps the gate fast when the OC (or GPIO) falls
 
-Firmware is the second gate: latches `ov` at 56.0 V, clears at 54.0 V, serial `ov reset` to force.
+Firmware is the second gate: latches `ov` at 56.0 V, clears at 54.0 V, serial `ov reset` to force. Its VSENSE divider is **215 k / 10 k** (same values as the comparator's) — a 100 k / 10 k divider would clip at the 3.3 V zener around 36 V and the firmware latch could never see 56 V.
 
 ## Nets
 
@@ -64,8 +65,8 @@ Firmware is the second gate: latches `ov` at 56.0 V, clears at 54.0 V, serial `o
 | V5 | 5 V buck | ESP32 5V, TLIN VSUP, LM393 VCC, TL431 bias |
 | VOUT+ | F2 3 A after VIN | Barrel center + (unswitched) |
 | VOUT− | Barrel sleeve | Q1 drain (switched low-side) |
-| VSENSE | 100 k / 10 k on VIN_48 | ESP32 ADC, 3.3 V zener |
-| nGATE | ESP32 GPIO5 + 1 k, LM393 OC | IRL540NPBF gate, 10 k pulldown |
+| VSENSE | 215 k / 10 k on VIN_48 (56 V → 2.49 V) | ESP32 ADC, 3.3 V zener backstop |
+| nGATE | ESP32 GPIO5 + 1 k, 10 k pulldown, LM393 OC | 47 k + 1 µF RC → IRL540NPBF gate, 1N4148 across the 47 k for fast turn-off |
 
 ## GPIO
 
@@ -85,7 +86,7 @@ Same map as the 36 V build.
 - Same 3 A 58 V on barrel (Starlink 60 W / 48 V ≈ 1.25 A; 60 W / 28 V ≈ 2.1 A)
 - SMBJ58A on VIN_48 only
 - Series Schottky 100 V 5 A reverse protection
-- 3.3 V zener on ADC node
+- 3.3 V zener on ADC node (backstop — the 215 k / 10 k divider stays under 2.6 V even at 58 V)
 - LM393 OVLO + firmware latch at 56.0 V
 - 100 V logic-level FET (**IRL540NPBF**) — FQP13N10L is obsolete; 60 V FQP30N06L is too close to Tesla max
 
