@@ -8,6 +8,8 @@ Board,ESP32-C3 SuperMini,ESP32-C3-FH4,1,LCSC / Amazon,$8,MCU,all
 Board,LIN transceiver,TLIN2029A-Q1,1,Mouser,$6,Listen-only PHY,all
 Board,7-60 V to 5 V 2 A buck,XL7015 class,1,Amazon,$8,MCU rail — not MP1584,all
 Board,Mini blade fuse holder + 3 A,ATC-3,2,Waytek,$8,In and out — stay on harness outside box,all
+Board,NTC inrush limiter 10 ohm ≥3 A,B57237S0100M000 / MF72-10D13,1,Digi-Key / Amazon,$2,Tesla digital fuses trip on buck inrush — series on VIN after F1 on the harness not in the sled,all
+Board,Gate soft-start 47k + 1uF + 1N4148,47k+1uF+1N4148,1,Digi-Key,$1,80 ms FET ramp so Mini input caps do not dump the pad circuit,all
 Board,TVS 58 V,SMBJ58A,1,Digi-Key,$1,VIN clamp,all
 Board,Schottky 100 V 5 A,SS510,1,Digi-Key,$1,Reverse protect,all
 Board,Barrel 5.5x2.1 center +,DC5521 male,1,Amazon / Starlink DC extension,$9,Confirm polarity on official PSU,all

@@ -9,7 +9,7 @@ python3 generate.py
 | File | |
 | --- | --- |
 | `system-direct.svg` / `system-buck.svg` | Block architecture |
-| `schematic-direct.svg` / `schematic-buck.svg` | Controller schematics |
+| `schematic-direct.svg` / `schematic-buck.svg` | Controller schematics (NTC on VIN, 80 ms FET ramp) |
 | `ovlo.svg` | LM393 56.14 V trip |
 | `harness.svg` / `pin-map.svg` | Y-harness and hypothesized 4-pin face |
 | `enclosure-iso.svg` | Exploded 108 × 56 × 18 mm sled |

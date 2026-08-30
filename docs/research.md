@@ -15,6 +15,19 @@ Tesla public DIY: [Connecting Accessories to the 48V Power Feeds](https://servic
 
 Real-world bus sits in the nominal band. 58 V is the design maximum of the HV→LV converter, not the everyday voltage. Direct 48 V still treats 58 V as a disconnect, not an operating point.
 
+Tesla: the 400 W feeds “stop providing power when current that exceeds the listed specifications is detected” and reset from Controls → Outlets & Mods → Reset. Those are **solid-state / digital fuses**, not slow blade fuses. The wireless-pad circuit is a smaller body-controller channel with the same kind of protection.
+
+### Inrush / NTC
+
+A buck converter’s input capacitors look like a short for microseconds. On Cybertruck 48 V that spike trips the digital fuse even when steady-state watts are fine — this is the known failure of a raw 48 V → 12 V module on the frunk tap. The fix that works in the truck is an **NTC inrush current limiter** in series with VIN (10 Ω cold, ≥3 A, e.g. EPCOS B57237S0100M000 / MF72-10D13). After it warms it drops to a few tenths of an ohm.
+
+PadTap:
+
+- **NTC on VIN**, after F1, on the harness next to the fuse holders (the disc does not fit the 14.6 mm sled). Covers the 5 V MCU buck and the optional 36 V buck.
+- **80 ms FET ramp** (firmware PWM + 47 k / 1 µF on the gate) so Starlink Mini’s own input caps don’t dump the same spike when the pad toggle arms the output. An NTC on VIN is already warm by then (ESP32 is up) so it cannot save the Mini turn-on — the ramp has to.
+
+Do not substitute a signal thermistor (10 k NTC). It has to be a power ICL.
+
 ## Wireless charger
 
 - Tesla PN **1877045-00-A / 00-C** Gen 5.0, dual 15 W Qi, center console

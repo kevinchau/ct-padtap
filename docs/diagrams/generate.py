@@ -198,15 +198,16 @@ def schematic_direct():
         r(24, 80, 130, 70, fill=PANEL2, stroke=AMBER),
         t(89, 108, "TESLA 48 V", anchor="middle", fill=AMBER, size=12, family=MONO),
         t(89, 128, "28–58 V", anchor="middle", fill=MUTED, size=11),
-        line(154, 115, 200, 115),
-        # F1
-        r(200, 98, 70, 34, fill=PANEL2, stroke=STEEL, rx=4),
-        t(235, 120, "F1 3 A", anchor="middle", fill=TEXT, size=12, family=MONO),
-        line(270, 115, 310, 115),
-        # D1 Schottky
-        r(310, 98, 90, 34, fill=PANEL2, stroke=STEEL, rx=4),
-        t(355, 120, "D1 SS510", anchor="middle", fill=TEXT, size=12, family=MONO),
-        line(400, 115, 455, 115),
+        line(154, 115, 190, 115),
+        r(190, 98, 58, 34, fill=PANEL2, stroke=STEEL, rx=4),
+        t(219, 120, "F1 3A", anchor="middle", fill=TEXT, size=11, family=MONO),
+        line(248, 115, 262, 115),
+        r(262, 98, 70, 34, fill=PANEL2, stroke=AMBER, rx=4),
+        t(297, 120, "NTC 10Ω", anchor="middle", fill=AMBER, size=11, family=MONO),
+        line(332, 115, 346, 115),
+        r(346, 98, 72, 34, fill=PANEL2, stroke=STEEL, rx=4),
+        t(382, 120, "D1 SS510", anchor="middle", fill=TEXT, size=11, family=MONO),
+        line(418, 115, 455, 115),
         circ(455, 115, 4, fill=AMBER, stroke=AMBER),
         t(455, 90, "VIN_48", fill=AMBER, size=11, family=MONO, anchor="middle"),
         # TVS down
@@ -259,7 +260,7 @@ def schematic_direct():
         t(130, 636, "GND", fill=MUTED, size=11, family=MONO),
         # Gate from ESP32
         path("M760 158 H700 V560 H200", stroke=BLUE, sw=1.5),
-        t(430, 548, "nGATE  GPIO5 + 1 k  ·  LM393 OC", fill=BLUE, size=11, family=MONO, anchor="middle"),
+        t(430, 548, "nGATE  80 ms ramp + LM393 OC", fill=BLUE, size=11, family=MONO, anchor="middle"),
         # OVLO block
         r(280, 390, 280, 210, fill=PANEL2, stroke=AMBER),
         t(420, 418, "OVLO  ·  U1 LM393", anchor="middle", fill=AMBER, size=13, family=MONO),
@@ -272,8 +273,8 @@ def schematic_direct():
         t(420, 580, "Do not clamp Tesla rail with 54 V TVS", anchor="middle", fill=DANGER, size=11),
         # ADC divider note
         t(560, 200, "R1/R2 100k/10k → GPIO4 + 3.3 V zener", fill=MUTED, size=11, family=MONO),
-        t(24, 690, "Low-side switch: barrel sleeve is opened. Do not low-side the WPC ground. LIN TX stays off.", fill=MUTED, size=12),
-        t(24, 710, "Starlink Mini  25–40 W typ / 60 W pk   ·   ~0.83 A @ 48 V   ·   3 A fuse still the ceiling", fill=STEEL, size=12),
+        t(24, 690, "NTC on VIN (harness) stops buck inrush into Tesla digital fuses. 80 ms FET ramp stops Mini input-cap dump. Do not skip either.", fill=AMBER, size=12),
+        t(24, 710, "Low-side switch: barrel sleeve is opened. Do not low-side the WPC ground. LIN TX stays off.", fill=MUTED, size=12),
     ]
     (OUT / "schematic-direct.svg").write_text(svg(w, h, "\n".join(parts), "Direct 48 V schematic"), encoding="utf-8")
 
@@ -285,13 +286,16 @@ def schematic_buck():
         r(24, 80, 130, 70, fill=PANEL2, stroke=AMBER),
         t(89, 108, "TESLA 48 V", anchor="middle", fill=AMBER, size=12, family=MONO),
         t(89, 128, "28–58 V", anchor="middle", fill=MUTED, size=11),
-        line(154, 115, 200, 115),
-        r(200, 98, 70, 34, fill=PANEL2, stroke=STEEL, rx=4),
-        t(235, 120, "F1 3 A", anchor="middle", fill=TEXT, size=12, family=MONO),
-        line(270, 115, 310, 115),
-        r(310, 98, 90, 34, fill=PANEL2, stroke=STEEL, rx=4),
-        t(355, 120, "D1 SS510", anchor="middle", fill=TEXT, size=12, family=MONO),
-        line(400, 115, 455, 115),
+        line(154, 115, 190, 115),
+        r(190, 98, 58, 34, fill=PANEL2, stroke=STEEL, rx=4),
+        t(219, 120, "F1 3A", anchor="middle", fill=TEXT, size=11, family=MONO),
+        line(248, 115, 262, 115),
+        r(262, 98, 70, 34, fill=PANEL2, stroke=AMBER, rx=4),
+        t(297, 120, "NTC 10Ω", anchor="middle", fill=AMBER, size=11, family=MONO),
+        line(332, 115, 346, 115),
+        r(346, 98, 72, 34, fill=PANEL2, stroke=STEEL, rx=4),
+        t(382, 120, "D1 SS510", anchor="middle", fill=TEXT, size=11, family=MONO),
+        line(418, 115, 455, 115),
         circ(455, 115, 4, fill=AMBER, stroke=AMBER),
         t(455, 90, "VIN_48", fill=AMBER, size=11, family=MONO, anchor="middle"),
         line(455, 115, 455, 170, stroke=STEEL),
@@ -328,8 +332,8 @@ def schematic_buck():
         t(660, 352, "OVLO still in firmware", anchor="middle", fill=AMBER, size=12),
         t(660, 374, "mis-set pot cannot pass 58 V", anchor="middle", fill=MUTED, size=11),
         t(660, 396, "pio run -e buck", anchor="middle", fill=STEEL, size=12, family=MONO),
-        t(24, 500, "Use this build if you want the Mini inside its printed 12–48 V rating during a 58 V Tesla peak.", fill=MUTED, size=13),
-        t(24, 524, "Same Y-harness, same sled, same modes. Extra parts: 36 V module, FQP30N06L, SMBJ40A.", fill=MUTED, size=13),
+        t(24, 500, "NTC on VIN is not optional. Tesla digital fuses trip on the 36 V module’s input caps — same failure as a raw buck on the frunk tap.", fill=AMBER, size=13),
+        t(24, 524, "Same Y-harness, same sled, same 80 ms FET ramp. Extra parts: 36 V module, FQP30N06L, SMBJ40A.", fill=MUTED, size=13),
         t(24, 560, "Forbidden: LM2596 (40 V), MP1584 (28 V), driving LIN TX, low-siding the WPC ground.", fill=DANGER, size=13),
     ]
     (OUT / "schematic-buck.svg").write_text(svg(w, h, "\n".join(parts), "Buck 36 V schematic"), encoding="utf-8")

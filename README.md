@@ -80,6 +80,7 @@ Three facts get in the way:
 1. **Unplugging the pad kills NFC.** Same module. The tap must be a pass-through Y.
 2. **The screen toggle is almost certainly LIN**, not a power cut. Tesla would not drop 48 V to this module just to disable Qi — that would kill the key card. Predecessor Model Y pads already talk LIN (NXP TJA1021). Firmware still auto-detects if Tesla *does* cut 48 V (Mode A).
 3. **Raw Cybertruck 48 V can be 58 V.** Mini is printed 12–48 V. Teardown: 100 V input FETs, 60 V TVS — hardware takes ~56 V. Direct 48 V passes the nominal 44–50 V rail and **kills the FET at 56.0 V**. Buck 36 V if you want zero overvoltage risk.
+4. **Tesla 48 V digital fuses trip on buck inrush, not watts.** A raw converter on the frunk tap does this. PadTap puts a **10 Ω NTC ICL on VIN** (harness, with the fuses) and **ramps the load FET 80 ms**. Do not skip the thermistor.
 
 ## What’s in this repo
 
@@ -131,6 +132,8 @@ Measure idle WPC current. If Tesla’s fuse cannot take pad + 60 W, **stop** and
 - 7–60 V → 5 V 2 A buck (not LM2596, not MP1584)
 - **FQP13N10L** 100 V logic-level, laid flat (not the 60 V FQP30N06L)
 - LM393 + TL431 OVLO at 56.14 V, open-collector on the gate
+- **NTC 10 Ω ≥3 A ICL on VIN** (harness, next to the fuses — Tesla digital fuses trip on buck inrush; this is what stops a frunk 48 V tap from erroring)
+- **80 ms FET ramp** (firmware PWM + 47 k / 1 µF) so Mini input caps don’t dump the pad circuit
 - ATC 3 A in and out (on the harness, outside the box), SMBJ58A on VIN only
 
 **Buck 36 V** (`pio run -e buck`)

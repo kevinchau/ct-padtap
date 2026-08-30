@@ -7,7 +7,7 @@ Tesla’s published accessory range is **28 V min / 44–50 V nominal / 58 V max
 Double-converting (our buck, then Mini’s buck) wastes 4–8 W at cruise. Direct FET loss at 40 W / 48 V is ~0.2 W.
 
 ```
-VIN_48 ── ATC 3 A ── Schottky SS510 ──┬── SMBJ58A ── GND
+VIN_48 ── ATC 3 A ── NTC 10 Ω ── Schottky SS510 ──┬── SMBJ58A ── GND
                                       │
                                       ├── 5 V buck (7–60 V) ── ESP32-C3 + TLIN2029 VSUP
                                       │
@@ -24,6 +24,8 @@ VIN_48 ── ATC 3 A ── Schottky SS510 ──┬── SMBJ58A ── GND
 ```
 
 Low-side switch on the Mini return, same as the 36 V build. Do **not** low-side the WPC ground.
+
+Tesla 48 V **digital fuses** trip on capacitor inrush. The NTC (VIN, on the harness) is what stops a buck from killing the channel — same as a frunk 48 V tap. The 80 ms FET ramp is what stops Mini’s input caps from doing it when the pad toggle arms the output. The NTC is already warm by then (ESP32 is up) so it cannot save Mini turn-on.
 
 ## Why 56.0 V, not 58 V
 
@@ -55,7 +57,7 @@ Firmware is the second gate: latches `ov` at 56.0 V, clears at 54.0 V, serial `o
 
 | Net | From | To |
 | --- | --- | --- |
-| VIN_48 | Y-harness 48 V+ via 3 A fuse | Schottky → SMBJ58A → 5 V buck + barrel center via F2 |
+| VIN_48 | Y-harness 48 V+ via 3 A fuse | NTC 10 Ω → Schottky → SMBJ58A → 5 V buck + barrel center via F2 |
 | GND | Y-harness GND | Board GND, Q1 source |
 | LIN_BUS | Y-harness LIN (parallel) | TLIN2029 LIN pin |
 | LIN_RX | TLIN2029 RXD | ESP32 GPIO20 |

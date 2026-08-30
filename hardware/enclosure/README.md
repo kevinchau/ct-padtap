@@ -30,7 +30,7 @@ Internal 14.6 mm.
 - **Direct 48 V:** ESP32 SuperMini, 5 V buck, LIN module, LM393, FET laid flat. Plenty of room.
 - **Buck 36 V:** same, plus a **low-profile 60 V 3 A buck ≤ 12 mm tall**. Skip the 5 A tower heatsink. If your 36 V module is taller than 12 mm, raise `base_h` in the SCAD.
 
-Inline ATC fuses stay on the harness, outside the box.
+Inline ATC fuses and the **10 Ω NTC inrush limiter** stay on the harness, outside the box. The NTC disc is ~15 mm and dissipates heat while it warms — it will not fit the 14.6 mm cavity and should not be sealed in.
 
 ## Print
 

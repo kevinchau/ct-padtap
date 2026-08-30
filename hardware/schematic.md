@@ -10,7 +10,9 @@ Two builds, one Y-harness, one sled.
 | Overvoltage | LM393 + firmware kill FET at **56.0 V** | Buck absorbs Tesla’s 58 V peak |
 | Use when | You want the efficiency; Mini hardware takes ~56 V | You want to stay inside the printed 12–48 V rating |
 
-Shared front end: 48 V in (Tesla 28–58 V) → fused → reverse Schottky → TVS.
+Shared front end: 48 V in (Tesla 28–58 V) → fused → **NTC 10 Ω ICL** → reverse Schottky → TVS.
+
+Tesla 48 V digital fuses trip on buck input-cap inrush. The NTC is not optional on the 36 V build — that is the exact failure of a raw converter on the frunk tap. Direct still needs it for the 5 V MCU buck, plus an 80 ms FET ramp for Mini’s own caps.
 
 - **5 V buck** (7–60 V in): ESP32-C3 + TLIN2029A-Q1 VSUP
 - **LIN RX only** — TX pin not wired
@@ -26,7 +28,7 @@ Shared front end: 48 V in (Tesla 28–58 V) → fused → reverse Schottky → T
 
 | Net | From | To |
 | --- | --- | --- |
-| VIN_48 | Y-harness 48 V+ via 3 A fuse | Schottky → SMBJ58A → both bucks |
+| VIN_48 | Y-harness 48 V+ via 3 A fuse | NTC 10 Ω → Schottky → SMBJ58A → both bucks |
 | GND | Y-harness GND | Board GND, FET source, barrel sleeve |
 | LIN_BUS | Y-harness LIN (parallel) | TLIN2029 LIN pin |
 | LIN_RX | TLIN2029 RXD | ESP32 GPIO20 |
