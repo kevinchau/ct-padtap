@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="720" height="280" viewBox="0 0 720 280" role="img" aria-label="Enclosure section">
 <rect width="720" height="280" fill="#0B0C0E"/>
-<text x="360" y="22" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">SECTION  ·  STUCK UNDER THE PANEL  ·  18 mm DROP</text>
+<text x="360" y="22" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">SECTION  ·  STUCK UNDER THE PANEL  ·  15 mm DROP</text>
 <rect x="80" y="44" width="560" height="28" rx="2" fill="#1C1E22" stroke="#C5C8CE" stroke-width="1.5"/>
 <text x="360" y="63" fill="#C5C8CE" font-size="12" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">Console panel underside</text>
 <rect x="140" y="72" width="36" height="8" fill="#E8A317" opacity="0.7"/>
@@ -18,11 +18,11 @@
 <text x="415" y="142" fill="#C5C8CE" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">ESP32</text>
 <rect x="480" y="118" width="70" height="38" rx="3" fill="#1C1E22" stroke="#2A2D32" stroke-width="1.5"/>
 <text x="515" y="142" fill="#C5C8CE" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">LIN</text>
-<text x="360" y="188" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">14.6 mm internal — TO-220 laid flat</text>
+<text x="360" y="188" fill="#8B9098" font-size="11" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="500" text-anchor="middle">12.1 mm internal — DPAK FET</text>
 <rect x="100" y="204" width="520" height="14" rx="1" fill="#141518" stroke="#C5C8CE" stroke-width="1.5"/>
 <text x="360" y="215" fill="#C5C8CE" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">BASE FLOOR</text>
 <line x1="640" y1="80" x2="640" y2="218" stroke="#E8A317" stroke-width="2"/>
-<text x="652" y="156" fill="#E8A317" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">18 mm</text>
+<text x="652" y="156" fill="#E8A317" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">15 mm</text>
 <text x="120" y="250" fill="#E8A317" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">← comb (drop-in)</text>
 <text x="600" y="250" fill="#E8A317" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="end">barrel →</text>
 </svg>

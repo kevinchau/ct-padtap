@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="720" height="400" viewBox="0 0 720 400" role="img" aria-label="Enclosure exploded">
 <rect width="720" height="400" fill="#0B0C0E"/>
-<text x="360" y="28" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">ENCLOSURE  ·  EXPLODED  ·  108 × 56 × 18 mm  ·  LID STICKS TO PANEL</text>
+<text x="360" y="28" fill="#E8A317" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">ENCLOSURE  ·  EXPLODED  ·  64 × 40 × 15 mm  ·  LID STICKS TO PANEL</text>
 <path d="M250 86 L470 86 L510 62 L290 62 Z" fill="#1C1E22" stroke="#E8A317" stroke-width="1.5"/>
 <path d="M470 86 L510 62 L510 74 L470 98 Z" fill="#141518" stroke="#2A2D32" stroke-width="2"/>
 <path d="M250 86 L470 86 L470 98 L250 98 Z" fill="#141518" stroke="#2A2D32" stroke-width="2"/>
@@ -25,9 +25,9 @@
 <text x="498" y="248" fill="#E8A317" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">Ø8.2 BARREL</text>
 <rect x="380" y="278" width="28" height="6" rx="1" fill="#0B0C0E" stroke="#E8A317" stroke-width="1.5"/>
 <text x="394" y="304" fill="#E8A317" font-size="10" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">USB-C</text>
-<text x="370" y="204" fill="#C5C8CE" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">BASE  ·  16.2 mm</text>
-<text x="80" y="380" fill="#8B9098" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">108 mm</text>
-<text x="600" y="250" fill="#8B9098" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">56 mm</text>
-<text x="600" y="190" fill="#8B9098" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">18 mm drop</text>
+<text x="370" y="204" fill="#C5C8CE" font-size="11" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="middle">BASE  ·  13.6 mm</text>
+<text x="80" y="380" fill="#8B9098" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">64 mm</text>
+<text x="600" y="250" fill="#8B9098" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">40 mm</text>
+<text x="600" y="190" fill="#8B9098" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="500" text-anchor="start">15 mm drop</text>
 <line x1="220" y1="360" x2="520" y2="360" stroke="#2A2D32" stroke-width="2"/>
 </svg>

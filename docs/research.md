@@ -23,7 +23,7 @@ A buck converter’s input capacitors look like a short for microseconds. On Cyb
 
 PadTap:
 
-- **NTC on VIN**, after F1, on the harness next to the fuse holders (the disc does not fit the 14.6 mm sled). Covers the 5 V MCU buck and the optional 36 V buck.
+- **NTC on VIN**, after F1, on the harness next to the fuse holders (the disc does not fit the 12.1 mm sled). Covers the 5 V MCU buck and the optional 36 V buck.
 - **80 ms FET ramp** (firmware PWM + 47 k / 1 µF on the gate) so Starlink Mini’s own input caps don’t dump the same spike when the pad toggle arms the output. An NTC on VIN is already warm by then (ESP32 is up) so it cannot save the Mini turn-on — the ramp has to.
 
 Do not substitute a signal thermistor (10 k NTC). It has to be a power ICL.

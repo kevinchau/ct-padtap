@@ -14,5 +14,5 @@ python3 generate.py
 | `mating.svg` | 5718 onto 6210 |
 | `schematic-direct.svg` / `schematic-buck.svg` | Controller |
 | `ovlo.svg` | 56.14 V trip |
-| `enclosure-iso.svg` / `enclosure-section.svg` / `enclosure-pack-*.svg` | 108 × 56 × 18 mm sled |
+| `enclosure-iso.svg` / `enclosure-section.svg` / `enclosure-pack-*.svg` | 64 × 40 × 15 mm sled |
 | `pcb-top.svg` | Rev A.1 board, 58 × 34 mm |

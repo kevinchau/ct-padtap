@@ -21,7 +21,7 @@ Tesla 48 V digital fuses trip on buck input-cap inrush. The NTC is not optional 
 
 48 V in → fused → reverse Schottky → TVS → two bucks.
 
-- **36 V buck** (8–60 V in, 3 A, ≤12 mm tall): Starlink Mini sweet spot. Must fit the 14.6 mm sled cavity.
+- **36 V buck** (8–60 V in, 3 A, ≤10 mm tall): Starlink Mini sweet spot. The 12.1 mm Direct sled does **not** fit a 12 mm tower — use a SIP or skip this build.
 - **FQP30N06L** low-side switch on Starlink return (36 V, 60 V FET is enough here)
 
 ## Nets (buck)

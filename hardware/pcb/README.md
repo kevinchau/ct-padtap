@@ -6,4 +6,4 @@
 - [`reva/pcb-top.svg`](reva/pcb-top.svg)
 - `python3 reva/generate.py` regenerates
 
-Sits on the sled floor against the south wall. J1 pigtail to the comb. Fuses and NTC are not on this board.
+Sits on the sled floor against the south wall. J1 at the comb. Fuses and NTC are not on this board.

@@ -77,7 +77,7 @@ OVLO wins: VIN ≥ 56.0 V → FET off.
 
 ## PCB — Rev A.1
 
-**58 × 34 mm**, 2-layer — about 45 % of the sled floor. USB-C on the south window, barrel on the east hole, 40 mm pigtail from J1 to the comb.
+**58 × 34 mm**, 2-layer. USB-C on the south window, barrel on the east hole, J1 on the west comb.
 
 ![PadTap Rev A.1](docs/diagrams/pcb-top.svg)
 
@@ -93,7 +93,7 @@ Gerbers: [hardware/pcb/reva/PadTap-RevA-gerbers.zip](hardware/pcb/reva/PadTap-Re
 
 ## Case
 
-108 × 56 × 18 mm PETG. VHB the lid under a console panel. Comb west, barrel east, USB-C south. Print [hardware/enclosure](hardware/enclosure) (0.2 mm, 4 perimeters). Confirm 18 mm of clearance.
+**64 × 40 × 15 mm** PETG, sized to the 58 × 34 mm board. VHB the lid under a console panel. Comb west (at J1), barrel east, USB-C south. Print [hardware/enclosure](hardware/enclosure). Confirm **15 mm** of clearance.
 
 ![Section](docs/diagrams/enclosure-section.svg)
 

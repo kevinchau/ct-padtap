@@ -12,16 +12,18 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 PUBLIC = HERE.parents[1] / "public" / "enclosure"
 
-L, W = 108.0, 56.0
-BASE_H, LID_T, LIP_H, WALL, FLOOR = 16.2, 1.8, 1.4, 1.6, 1.6
-COMB_W, COMB_GAP, COMB_SADDLE, COMB_N, COMB_Y0 = 4.4, 8.0, 4.2, 3, 11.6
-BARREL_D, BARREL_Z = 8.2, 6.5
-USB_W, USB_H, USB_X, USB_Z = 9.6, 3.8, 72.0, 4.2
-VENT_W, VENT_H, VENT_Z, VENT_XS = 10.0, 2.2, 6.0, (18.0, 40.0, 62.0)
-BOSS_INSET, BOSS, INSERT, INSERT_H = 5.5, 6.2, 3.6, 4.2
-LED_XS, LED_Y, LED_D, MEMBRANE = (74.0, 82.0), 40.0, 3.2, 0.4
-VHB, VHB_T = 12.0, 0.35
-SCREW = 2.8
+L, W = 64.0, 40.0
+BASE_H, LID_T, LIP_H, WALL, FLOOR = 13.6, 1.6, 1.2, 1.5, 1.5
+COMB_W, COMB_GAP, COMB_SADDLE, COMB_N, COMB_Y0 = 4.0, 6.0, 3.6, 3, 11.0
+BARREL_D, BARREL_Z, BARREL_Y = 8.2, 6.0, 25.5
+USB_W, USB_H, USB_X, USB_Z = 9.6, 3.6, 27.2, 2.2
+VENT_W, VENT_H, VENT_Z, VENT_XS = 8.0, 2.0, 5.2, (14.0, 38.0)
+BOSS_XY = ((5.0, 6.0), (57.0, 6.0), (5.0, 34.0), (57.0, 34.0))
+BOSS, INSERT, INSERT_H = 5.5, 3.4, 3.8
+LED_POS = ((53.4, 19.8), (53.4, 17.4))
+LED_D, MEMBRANE = 2.8, 0.4
+VHB, VHB_T = 10.0, 0.35
+SCREW = 2.7
 
 
 class Mesh:
@@ -131,7 +133,7 @@ def base() -> Mesh:
 
     # East wall + barrel (square of the circle diameter — jack still fits).
     br = BARREL_D
-    by = W / 2 - br / 2
+    by = BARREL_Y - br / 2
     bz = FLOOR + BARREL_Z - br / 2
     m.box(L - WALL, 0, FLOOR, WALL, by, wall_h)
     m.box(L - WALL, by + br, FLOOR, WALL, W - (by + br), wall_h)
@@ -159,8 +161,7 @@ def base() -> Mesh:
     m.box(cursor, W - WALL, FLOOR, L - cursor, WALL, wall_h)
 
     # Corner bosses with square insert wells (heat-set from inside). SCAD uses round.
-    for x in (BOSS_INSET, L - BOSS_INSET):
-        for y in (BOSS_INSET, W - BOSS_INSET):
+    for x, y in BOSS_XY:
             bx, by_ = x - BOSS / 2, y - BOSS / 2
             bh = wall_h - 0.6
             well = bh - INSERT_H
@@ -181,16 +182,15 @@ def base() -> Mesh:
 def lid() -> Mesh:
     m = Mesh("padtap_lid")
     vhb_holes = []
-    for x in (12.0, L - 12.0 - VHB):
-        for y in (8.0, W - 8.0 - VHB):
+    for x in (8.0, L - 8.0 - VHB):
+        for y in (6.0, W - 6.0 - VHB):
             vhb_holes.append((x, y, VHB, VHB))
     m.plate(0, 0, 0, L, W, MEMBRANE, vhb_holes)
 
     screw_holes = []
-    for x in (BOSS_INSET, L - BOSS_INSET):
-        for y in (BOSS_INSET, W - BOSS_INSET):
-            screw_holes.append((x - SCREW / 2, y - SCREW / 2, SCREW, SCREW))
-    led_holes = [(x - LED_D / 2, LED_Y - LED_D / 2, LED_D, LED_D) for x in LED_XS]
+    for x, y in BOSS_XY:
+        screw_holes.append((x - SCREW / 2, y - SCREW / 2, SCREW, SCREW))
+    led_holes = [(x - LED_D / 2, y - LED_D / 2, LED_D, LED_D) for x, y in LED_POS]
     m.plate(0, 0, MEMBRANE, L, W, LID_T - MEMBRANE, screw_holes + led_holes)
 
     lip_x = WALL / 2 + 0.2

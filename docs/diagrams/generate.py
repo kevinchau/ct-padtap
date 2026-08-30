@@ -428,7 +428,7 @@ def gpio():
 
 def enclosure_iso():
     parts = [
-        t(360, 28, "ENCLOSURE  ·  EXPLODED  ·  108 × 56 × 18 mm  ·  LID STICKS TO PANEL", fill=AMBER, size=12, family=MONO, anchor="middle"),
+        t(360, 28, "ENCLOSURE  ·  EXPLODED  ·  64 × 40 × 15 mm  ·  LID STICKS TO PANEL", fill=AMBER, size=12, family=MONO, anchor="middle"),
         # lid
         path("M250 86 L470 86 L510 62 L290 62 Z", fill=PANEL2, stroke=AMBER, sw=1.5),
         path("M470 86 L510 62 L510 74 L470 98 Z", fill=PANEL, stroke=LINE),
@@ -454,10 +454,10 @@ def enclosure_iso():
         t(498, 248, "Ø8.2 BARREL", fill=AMBER, size=10, family=MONO),
         r(380, 278, 28, 6, fill=BG, stroke=AMBER, rx=1),
         t(394, 304, "USB-C", fill=AMBER, size=10, family=MONO, anchor="middle"),
-        t(370, 204, "BASE  ·  16.2 mm", fill=STEEL, size=11, family=MONO, anchor="middle"),
-        t(80, 380, "108 mm", fill=MUTED, size=12, family=MONO),
-        t(600, 250, "56 mm", fill=MUTED, size=12, family=MONO),
-        t(600, 190, "18 mm drop", fill=MUTED, size=12, family=MONO),
+        t(370, 204, "BASE  ·  13.6 mm", fill=STEEL, size=11, family=MONO, anchor="middle"),
+        t(80, 380, "64 mm", fill=MUTED, size=12, family=MONO),
+        t(600, 250, "40 mm", fill=MUTED, size=12, family=MONO),
+        t(600, 190, "15 mm drop", fill=MUTED, size=12, family=MONO),
         line(220, 360, 520, 360, stroke=LINE),
     ]
     (OUT / "enclosure-iso.svg").write_text(svg(720, 400, "\n".join(parts), "Enclosure exploded"), encoding="utf-8")
@@ -468,7 +468,7 @@ def enclosure_pack(direct=True):
     sub = "LM393 + TL431 + 215 k" if direct else "50 × 25 · 60 V in"
     fet = "100 V" if direct else "flat"
     parts = [
-        t(360, 22, f"TOP  ·  LID OFF  ·  {'DIRECT 48 V' if direct else 'BUCK 36 V'}  ·  104.8 × 52.8 × 14.6 mm",
+        t(360, 22, f"TOP  ·  LID OFF  ·  {'DIRECT 48 V' if direct else 'BUCK 36 V'}  ·  58 × 34 mm BOARD IN 64 × 40 mm SLED",
           fill=AMBER, size=12, family=MONO, anchor="middle"),
         r(48, 48, 624, 248, fill=PANEL, stroke=STEEL, rx=10),
     ]
@@ -502,7 +502,7 @@ def enclosure_pack(direct=True):
 
 def enclosure_section():
     parts = [
-        t(360, 22, "SECTION  ·  STUCK UNDER THE PANEL  ·  18 mm DROP", fill=AMBER, size=12, family=MONO, anchor="middle"),
+        t(360, 22, "SECTION  ·  STUCK UNDER THE PANEL  ·  15 mm DROP", fill=AMBER, size=12, family=MONO, anchor="middle"),
         r(80, 44, 560, 28, fill=PANEL2, stroke=STEEL, rx=2),
         t(360, 63, "Console panel underside", fill=STEEL, size=12, anchor="middle"),
     ]
@@ -519,11 +519,11 @@ def enclosure_section():
         t(415, 142, "ESP32", fill=STEEL, size=11, family=MONO, anchor="middle"),
         r(480, 118, 70, 38, fill=PANEL2, rx=3),
         t(515, 142, "LIN", fill=STEEL, size=11, family=MONO, anchor="middle"),
-        t(360, 188, "14.6 mm internal — TO-220 laid flat", fill=MUTED, size=11, anchor="middle"),
+        t(360, 188, "12.1 mm internal — DPAK FET", fill=MUTED, size=11, anchor="middle"),
         r(100, 204, 520, 14, fill=PANEL, stroke=STEEL, rx=1),
         t(360, 215, "BASE FLOOR", fill=STEEL, size=11, family=MONO, anchor="middle"),
         line(640, 80, 640, 218),
-        t(652, 156, "18 mm", fill=AMBER, size=11, family=MONO),
+        t(652, 156, "15 mm", fill=AMBER, size=11, family=MONO),
         t(120, 250, "← comb (drop-in)", fill=AMBER, size=11, family=MONO),
         t(600, 250, "barrel →", fill=AMBER, size=11, family=MONO, anchor="end"),
     ]
